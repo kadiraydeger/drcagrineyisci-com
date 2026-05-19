@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Çağrı Neyişci | Ortopedi ve Travmatoloji Uzmanı</title>
+<meta name="description" content="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı. Diz protezi, menisküs, ACL, omuz ve kalça ameliyatları. Randevu için hemen ulaşın.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#0F2744;background:#fff;overflow-x:hidden;}
+
+/* NAV */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:200;transition:transform 0.3s ease;}
+.nav-wrap.nav-hidden{transform:translateY(-100%);}
+.nav{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:2px solid #1A6FA8;box-shadow:0 1px 8px rgba(15,39,68,0.07);}
+.nav-logo-name{font-size:16px;font-weight:700;color:#0F2744;}
+.nav-logo-sub{font-size:9px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;}
+.nav-links{display:flex;gap:22px;}
+.nav-links a{font-size:13px;color:#526070;text-decoration:none;padding-bottom:2px;border-bottom:2px solid transparent;transition:all .2s;}
+.nav-links a:hover,.nav-links a.active{color:#1A6FA8;border-bottom-color:#1A6FA8;}
+.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:#1A6FA8;color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+.nav-cta:hover{background:#155d8f;}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.nav-hamburger span{width:22px;height:2px;background:#0F2744;border-radius:2px;display:block;}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:500px;max-height:700px;overflow:hidden;background:#0a1628;margin-top:56px;}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;animation:panImg 20s ease-in-out infinite alternate;}
+@keyframes panImg{0%{transform:scale(1.08) translateX(0)}100%{transform:scale(1.08) translateX(-3%)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,40,0.90) 0%,rgba(10,22,40,0.55) 55%,rgba(10,22,40,0.2) 100%);}
+.vid-corner{position:absolute;width:20px;height:20px;border-color:rgba(255,255,255,0.3);border-style:solid;z-index:2;}
+.vid-corner.tl{top:16px;left:16px;border-width:2px 0 0 2px;}
+.vid-corner.tr{top:16px;right:60px;border-width:2px 2px 0 0;}
+.vid-corner.bl{bottom:16px;left:16px;border-width:0 0 2px 2px;}
+.vid-corner.br{bottom:16px;right:60px;border-width:0 2px 2px 0;}
+.slide-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);border:none;cursor:pointer;padding:0;transition:all .3s;}
+.dot.active{background:#fff;width:20px;border-radius:4px;}
+.play-btn{position:absolute;z-index:3;right:30%;top:50%;transform:translate(50%,-50%);display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;}
+.play-circle{width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;}
+.play-circle:hover{background:rgba(255,255,255,0.2);}
+.play-pulse{position:absolute;width:80px;height:80px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);animation:pp 2.2s infinite;}
+@keyframes pp{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+.play-tri{width:0;height:0;border-style:solid;border-width:9px 0 9px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;}
+.play-lbl{font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;}
+.hero-text{position:absolute;left:32px;top:50%;transform:translateY(-50%);z-index:3;max-width:400px;}
+.hero-eye{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.hero-eye-line{width:22px;height:1px;background:#1A6FA8;}
+.hero-eye-txt{font-size:10px;color:#6BB8E8;letter-spacing:2.5px;text-transform:uppercase;}
+.hero-title{font-size:36px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:12px;}
+.hero-title span{color:#6BB8E8;}
+.hero-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.75;}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #E2EAF0;background:#fff;}
+.stat-item{padding:18px;text-align:center;border-right:1px solid #E2EAF0;}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-size:24px;font-weight:700;color:#1A6FA8;}
+.stat-lbl{font-size:11px;color:#526070;margin-top:3px;}
+
+/* SECTIONS */
+.sw{padding:36px 32px 0;}
+.slbl{font-size:9.5px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.slbl::before{content:'';width:18px;height:1px;background:#1A6FA8;}
+.stitle{font-size:22px;font-weight:700;color:#0F2744;margin-bottom:4px;}
+.ssub{font-size:13px;color:#526070;margin-bottom:20px;}
+
+/* DOKTOR */
+.doc-grid{display:grid;grid-template-columns:240px 1fr;border-radius:12px;border:1px solid #E2EAF0;overflow:hidden;}
+.doc-photo{background:linear-gradient(160deg,#0F2744,#1A6FA8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;position:relative;min-height:280px;overflow:hidden;}
+.doc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
+.doc-badge{position:relative;z-index:2;background:rgba(15,39,68,0.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 12px;text-align:center;width:100%;}
+.doc-badge-name{font-size:13px;font-weight:700;color:#fff;}
+.doc-badge-title{font-size:9.5px;color:rgba(255,255,255,0.55);margin-top:2px;}
+.doc-info{padding:28px 32px;background:#fff;}
+.dtitle{font-size:18px;font-weight:700;color:#0F2744;margin-bottom:10px;}
+.dbody{font-size:13px;color:#526070;line-height:1.85;margin-bottom:14px;}
+.dmission{background:#F0F4F8;border-left:3px solid #1A6FA8;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;}
+.dmission-lbl{font-size:9px;color:#1A6FA8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
+.dmission-txt{font-size:12.5px;color:#0F2744;line-height:1.75;font-style:italic;}
+.certs{display:flex;gap:6px;flex-wrap:wrap;}
+.cert{font-size:11px;padding:4px 10px;border-radius:20px;background:#E8F2FA;color:#1A6FA8;border:.5px solid #B5D4F4;}
+
+/* UZMANLIKLAR */
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.exp-card{background:#fff;border:1px solid #E2EAF0;border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;text-decoration:none;display:block;}
+.exp-card:hover{border-color:#1A6FA8;box-shadow:0 6px 20px rgba(26,111,168,0.12);transform:translateY(-3px);}
+.exp-img{height:96px;display:flex;align-items:center;justify-content:center;position:relative;font-size:32px;}
+.exp-img-lbl{position:absolute;bottom:7px;left:10px;font-size:8.5px;color:rgba(255,255,255,0.5);letter-spacing:1.2px;text-transform:uppercase;}
+.exp-body{padding:13px 14px;}
+.exp-name{font-size:13px;font-weight:700;color:#0F2744;margin-bottom:4px;}
+.exp-desc{font-size:11.5px;color:#526070;line-height:1.6;margin-bottom:10px;}
+.exp-link{font-size:11px;color:#1A6FA8;font-weight:600;}
+
+/* SSS */
+.faq-list{display:flex;flex-direction:column;gap:7px;}
+.faq-item{border:1px solid #E2EAF0;border-radius:9px;overflow:hidden;background:#fff;}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:none;border:none;cursor:pointer;text-align:left;font-size:13px;color:#0F2744;font-weight:600;transition:background .15s;}
+.faq-q:hover{background:#F7F9FC;}
+.faq-icon{font-size:14px;color:#1A6FA8;transition:transform .25s;flex-shrink:0;margin-left:10px;}
+.faq-icon.open{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a.open{max-height:200px;}
+.faq-a-inner{padding:0 16px 13px;font-size:12.5px;color:#526070;line-height:1.75;}
+
+/* İLETİŞİM */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.contact-left{display:flex;flex-direction:column;gap:9px;}
+.ccard{background:#fff;border:1px solid #E2EAF0;border-radius:10px;padding:15px 17px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s;}
+.ccard:hover{border-color:#1A6FA8;}
+.cico{width:38px;height:38px;border-radius:8px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+.cico.wa{background:#E8FBF0;}
+.ctitle{font-size:12px;font-weight:700;color:#0F2744;margin-bottom:3px;}
+.cval{font-size:12px;color:#526070;}
+.clink{font-size:11px;color:#1A6FA8;margin-top:4px;font-weight:600;}
+.map-box{background:linear-gradient(135deg,#E8F2FA,#F0F7FF);border:1px solid #E2EAF0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:220px;}
+.map-icon{font-size:40px;}
+.map-lbl{font-size:13px;color:#526070;font-weight:600;}
+.map-sub{font-size:11px;color:#B5D4F4;}
+
+/* FOOTER */
+footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.fbrand-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.fbrand-sub{font-size:9px;color:#6BB8E8;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.fbrand-desc{font-size:11px;color:rgba(255,255,255,0.38);line-height:1.75;}
+.fcol-title{font-size:10px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.flinks{display:flex;flex-direction:column;gap:6px;}
+.flinks a{font-size:11px;color:rgba(255,255,255,0.38);text-decoration:none;transition:color .15s;}
+.flinks a:hover{color:#6BB8E8;}
+.footer-bottom{padding:14px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.fcopy{font-size:10px;color:rgba(255,255,255,0.25);}
+.flegal{display:flex;gap:14px;}
+.flegal a{font-size:10px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color .15s;}
+.flegal a:hover{color:#6BB8E8;}
+.kvkk-bar{background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.06);padding:10px 32px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.kvkk-txt{font-size:10px;color:rgba(255,255,255,0.28);line-height:1.6;max-width:560px;}
+.kvkk-btn{font-size:10px;padding:5px 14px;border-radius:5px;background:rgba(26,111,168,0.25);border:.5px solid rgba(26,111,168,0.4);color:#6BB8E8;cursor:pointer;flex-shrink:0;white-space:nowrap;}
+
+/* SAĞ PANEL — fixed */
+.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:2px;}
+.s-btn{display:flex;align-items:center;overflow:hidden;background:#fff;border:none;border-left:3px solid #1A6FA8;cursor:pointer;box-shadow:-2px 2px 12px rgba(15,39,68,0.1);text-decoration:none;width:46px;transition:width .28s ease,background .15s;}
+.s-btn:hover{width:160px;background:#F0F4F8;}
+.s-btn.wa{border-left-color:#25D366;}
+.s-btn-ico{width:46px;min-width:46px;height:46px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:19px;}
+.s-btn-lbl{font-size:11px;color:#0F2744;font-weight:600;white-space:nowrap;padding-right:14px;opacity:0;transition:opacity .15s .08s;}
+.s-btn:hover .s-btn-lbl{opacity:1;}
+
+/* POPUP */
+.popup-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.45);z-index:999;display:none;align-items:center;justify-content:center;}
+.popup-overlay.show{display:flex;}
+.popup{background:#fff;border-radius:14px;padding:28px;width:320px;position:relative;box-shadow:0 20px 60px rgba(15,39,68,0.2);}
+.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#8FA3B1;font-size:18px;line-height:1;}
+.popup-icon{width:52px;height:52px;border-radius:12px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;}
+.popup-title{font-size:16px;font-weight:700;color:#0F2744;text-align:center;margin-bottom:6px;}
+.popup-sub{font-size:12px;color:#526070;text-align:center;line-height:1.65;margin-bottom:18px;}
+.popup-btns{display:flex;flex-direction:column;gap:8px;}
+.pbtn-main{padding:11px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;border:none;cursor:pointer;font-weight:600;}
+.pbtn-main:hover{background:#155d8f;}
+.pbtn-wa{padding:11px;border-radius:8px;background:#E8FBF0;color:#25D366;font-size:13px;border:1px solid rgba(37,211,102,0.25);cursor:pointer;font-weight:600;}
+.pbtn-later{padding:7px;background:transparent;color:#8FA3B1;font-size:11px;border:none;cursor:pointer;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .hero{height:60vw;min-height:320px;}
+  .hero-title{font-size:22px;}
+  .play-btn{display:none;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .sw{padding:24px 16px 0;}
+  .doc-grid{grid-template-columns:1fr;}
+  .doc-photo{min-height:200px;}
+  .exp-grid{grid-template-columns:repeat(2,1fr);}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .side-panel{display:none;}
+  .vid-corner.tr,.vid-corner.br{right:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-wrap" id="navWrap">
+  <nav class="nav" role="navigation" aria-label="Ana menü">
+    <div>
+      <div class="nav-logo-name">Dr. Çağrı Neyişci</div>
+      <div class="nav-logo-sub">Ortopedi & Travmatoloji</div>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active">Ana Sayfa</a>
+      <a href="#hakkimda">Hakkımda</a>
+      <a href="#uzmanlik">Uzmanlık</a>
+      <a href="#sss">SSS</a>
+      <a href="#iletisim">İletişim</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('popup').classList.add('show')">📅 Randevu Al</button>
+    <button class="nav-hamburger" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero" aria-label="Klinik tanıtım">
+  <div class="img-pan" style="position:absolute;inset:0;">
+    <img class="hero-img" src="assets/images/klinik.jpg" alt="Dr. Çağrı Neyişci Ortopedi Kliniği — Modern ve steril ameliyathane ortamı">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="vid-corner tl"></div><div class="vid-corner tr"></div>
+  <div class="vid-corner bl"></div><div class="vid-corner br"></div>
+  <div class="slide-dots" aria-hidden="true">
+    <button class="dot active" aria-label="Slayt 1"></button>
+    <button class="dot" aria-label="Slayt 2"></button>
+    <button class="dot" aria-label="Slayt 3"></button>
+  </div>
+  <div class="play-btn" role="button" aria-label="Videoları izle" tabindex="0">
+    <div class="play-circle"><div class="play-pulse"></div><div class="play-tri"></div></div>
+    <span class="play-lbl">Videoları İzle</span>
+  </div>
+  <div class="hero-text">
+    <div class="hero-eye" aria-hidden="true"><div class="hero-eye-line"></div><span class="hero-eye-txt">Uzman Ortopedi & Travmatoloji</span></div>
+    <h1 class="hero-title">Hareketin<br><span>En İyi Versiyonuna</span><br>Kavuş</h1>
+    <p class="hero-desc">Minimal invaziv teknikler ve kişiye özel tedavi protokolleriyle daha hızlı iyileşme.</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar" aria-label="İstatistikler">
+  <div class="stat-item"><div class="stat-num">2500+</div><div class="stat-lbl">Başarılı Ameliyat</div></div>
+  <div class="stat-item"><div class="stat-num">15+</div><div class="stat-lbl">Yıl Deneyim</div></div>
+  <div class="stat-item"><div class="stat-num">%98</div><div class="stat-lbl">Hasta Memnuniyeti</div></div>
+  <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Uzmanlık Alanı</div></div>
+</section>
+
+<!-- DOKTOR -->
+<section id="hakkimda" class="sw" aria-label="Hakkımda">
+  <div class="slbl">Hakkımda</div>
+  <div class="doc-grid">
+    <div class="doc-photo">
+      <img src="assets/images/doktor.jpg" alt="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı">
+      <div class="doc-badge">
+        <div class="doc-badge-name">Dr. Çağrı Neyişci</div>
+        <div class="doc-badge-title">Ortopedi & Travmatoloji Uzmanı</div>
+      </div>
+    </div>
+    <div class="doc-info">
+      <div class="dtitle">Sağlıklı Hareketi Yeniden Kazandırmak İçin Buradayım</div>
+      <p class="dbody">15 yılı aşkın cerrahi deneyimle diz, omuz, kalça ve omurga patolojilerinde minimal invaziv yaklaşımları benimsiyorum. Her hastamı bireysel değerlendiriyor, en uygun tedavi protokolünü birlikte planlıyoruz.</p>
+      <div class="dmission">
+        <div class="dmission-lbl">Misyonum</div>
+        <div class="dmission-txt">"Hastalarımı ameliyat masasına değil, aktif yaşama döndürmek önceliğimdir. Teknoloji ve deneyimi birleştirerek her bireye özel çözümler sunuyorum."</div>
+      </div>
+      <div class="certs">
+        <span class="cert">TOTEK Üyesi</span>
+        <span class="cert">EFORT Üyesi</span>
+        <span class="cert">Tıp Dr. Uzman</span>
+        <span class="cert">2500+ Ameliyat</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UZMANLIKLAR -->
+<section id="uzmanlik" class="sw" aria-label="Uzmanlık Alanları">
+  <div class="slbl">Uzmanlık Alanları</div>
+  <div class="stitle">Tedavi Ettiğim Durumlar</div>
+  <div class="ssub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</div>
+  <div class="exp-grid">
+    <a href="tedaviler/diz-protezi.html" class="exp-card" aria-label="Diz Protezi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5F96);">🦴<span class="exp-img-lbl">Artroskopi · Protez</span></div>
+      <div class="exp-body"><div class="exp-name">Diz Protezi</div><div class="exp-desc">Total ve parsiyel diz protezi. Kireçlenme ve ileri evre diz hasarlarında kalıcı çözüm.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+    <a href="tedaviler/meniskus.html" class="exp-card" aria-label="Menisküs Tedavisi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">🏃<span class="exp-img-lbl">Artroskopi · Onarım</span></div>
+      <div class="exp-body"><div class="exp-name">Menisküs Tedavisi</div><div class="exp-desc">Artroskopik menisküs onarımı. Spor yaralanmalarında hızlı iyileşme protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+    <a href="tedaviler/on-capraz-bag.html" class="exp-card" aria-label="Ön Çapraz Bağ tedavisi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">⚡<span class="exp-img-lbl">ACL · Rekonstrüksiyon</span></div>
+      <div class="exp-body"><div class="exp-name">Ön Çapraz Bağ (ACL)</div><div class="exp-desc">ACL rekonstrüksiyonu ve sporcu rehabilitasyonu. Spora erken dönüş protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+    <a href="tedaviler/omuz-artroskopi.html" class="exp-card" aria-label="Omuz Artroskopi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">💉<span class="exp-img-lbl">Rotator Manşet</span></div>
+      <div class="exp-body"><div class="exp-name">Omuz Artroskopi</div><div class="exp-desc">Rotator manşet tamiri, omuz sıkışma sendromu ve SLAP lezyonu tedavisi.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+    <a href="tedaviler/kalca-protezi.html" class="exp-card" aria-label="Kalça Protezi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5580);">🏥<span class="exp-img-lbl">Minimal İnvaziv</span></div>
+      <div class="exp-body"><div class="exp-name">Kalça Protezi</div><div class="exp-desc">Minimal invaziv kalça protezi. Daha az ağrı, daha kısa hastanede kalış süresi.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+    <a href="tedaviler/omurga.html" class="exp-card" aria-label="Omurga Cerrahisi hakkında bilgi al">
+      <div class="exp-img" style="background:linear-gradient(135deg,#0a2240,#1A6080);">🔬<span class="exp-img-lbl">Disk · Stabilizasyon</span></div>
+      <div class="exp-body"><div class="exp-name">Omurga Cerrahisi</div><div class="exp-desc">Bel fıtığı, boyun fıtığı ve omurga stabilizasyon ameliyatları.</div><div class="exp-link">→ Detayları İncele</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- SSS -->
+<section id="sss" class="sw" aria-label="Sıkça Sorulan Sorular">
+  <div class="slbl">SSS</div>
+  <div class="stitle">Sıkça Sorulan Sorular</div>
+  <div class="ssub">Hastalarımızın en çok merak ettiği konular</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        <span>Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</span>
+        <span class="faq-icon">▾</span>
+      </button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçları en az 5 gün önceden kesilmelidir. Ayrıntılı liste muayene sırasında tarafınıza iletilir.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        <span>Diz protezi sonrası ne zaman yürüyebilirim?</span>
+        <span class="faq-icon">▾</span>
+      </button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir. Tam iyileşme 6–12 hafta arasında tamamlanır.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        <span>Menisküs ameliyatı şart mı, alternatif tedavi var mı?</span>
+        <span class="faq-icon">▾</span>
+      </button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir. Ameliyat büyük yırtık veya mekanik kilitlenme durumunda önerilir.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        <span>Yurt dışından randevu alabilir miyim?</span>
+        <span class="faq-icon">▾</span>
+      </button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">Evet, WhatsApp ve e-posta üzerinden online konsültasyon yapılmaktadır. MR görüntülerinizi dijital olarak iletmeniz yeterlidir. Tercüman desteği de sağlanmaktadır.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        <span>Hangi sigorta kurumlarıyla anlaşmanız var?</span>
+        <span class="faq-icon">▾</span>
+      </button>
+      <div class="faq-a" role="region"><div class="faq-a-inner">SGK ve özel sağlık sigortalarıyla anlaşmamız mevcuttur. Güncel liste için kliniğimizi arayabilirsiniz.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- İLETİŞİM -->
+<section id="iletisim" class="sw" aria-label="İletişim">
+  <div class="slbl">İletişim & Konum</div>
+  <div class="stitle">Bize Ulaşın</div>
+  <div class="ssub">Randevu ve bilgi için aşağıdaki kanallardan ulaşın</div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <a href="https://wa.me/90XXXXXXXXXX" class="ccard" style="text-decoration:none;" target="_blank" rel="noopener">
+        <div class="cico wa">💬</div>
+        <div><div class="ctitle">WhatsApp</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Mesaj Gönder</div></div>
+      </a>
+      <a href="tel:+90XXXXXXXXXX" class="ccard" style="text-decoration:none;">
+        <div class="cico">📞</div>
+        <div><div class="ctitle">Telefon</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Hemen Ara</div></div>
+      </a>
+      <a href="mailto:info@drcagrineyisci.com" class="ccard" style="text-decoration:none;">
+        <div class="cico">✉️</div>
+        <div><div class="ctitle">E-posta</div><div class="cval">info@drcagrineyisci.com</div><div class="clink">→ E-posta Gönder</div></div>
+      </a>
+      <div class="ccard">
+        <div class="cico">🕐</div>
+        <div><div class="ctitle">Çalışma Saatleri</div><div class="cval">Pzt–Cum: 09:00–18:00</div><div class="cval">Cmt: 09:00–13:00</div></div>
+      </div>
+    </div>
+    <div class="map-box" aria-label="Klinik konumu">
+      <span class="map-icon">🗺️</span>
+      <div class="map-lbl">Klinik Konumu</div>
+      <div class="map-sub">Google Haritalar buraya eklenecek</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <div class="fbrand-name">Dr. Çağrı Neyişci</div>
+      <div class="fbrand-sub">Ortopedi & Travmatoloji</div>
+      <div class="fbrand-desc">Minimal invaziv ameliyat teknikleri ve kişiye özel tedavi protokolleriyle hastalarımı aktif yaşama döndürüyorum. Bu site bilgilendirme amaçlıdır, tıbbi tavsiye yerine geçmez.</div>
+    </div>
+    <div>
+      <div class="fcol-title">Hızlı Erişim</div>
+      <div class="flinks">
+        <a href="#">Ana Sayfa</a>
+        <a href="#hakkimda">Hakkımda</a>
+        <a href="#uzmanlik">Uzmanlık Alanları</a>
+        <a href="#sss">Sıkça Sorulan Sorular</a>
+        <a href="#iletisim">İletişim</a>
+      </div>
+    </div>
+    <div>
+      <div class="fcol-title">Yasal</div>
+      <div class="flinks">
+        <a href="kvkk.html">KVKK Aydınlatma Metni</a>
+        <a href="gizlilik.html">Gizlilik Politikası</a>
+        <a href="cerez.html">Çerez Politikası</a>
+        <a href="kullanim.html">Kullanım Koşulları</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="fcopy">© 2024 Dr. Çağrı Neyişci. Tüm hakları saklıdır.</div>
+    <div class="flegal">
+      <a href="kvkk.html">KVKK</a>
+      <a href="gizlilik.html">Gizlilik</a>
+      <a href="cerez.html">Çerezler</a>
+    </div>
+  </div>
+  <div class="kvkk-bar" id="kvkkBar">
+    <div class="kvkk-txt">Bu site çerez kullanmaktadır. KVKK Aydınlatma Metni ve Çerez Politikamızı kabul ederek devam edebilirsiniz. Kişisel verileriniz 6698 sayılı Kanun kapsamında işlenmektedir.</div>
+    <button class="kvkk-btn" onclick="document.getElementById('kvkkBar').style.display='none';localStorage.setItem('kvkk','1')">Kabul Et</button>
+  </div>
+</footer>
+
+<!-- SAĞ PANEL -->
+<aside class="side-panel" aria-label="Hızlı iletişim">
+  <a href="https://wa.me/90XXXXXXXXXX" class="s-btn wa" target="_blank" rel="noopener" aria-label="WhatsApp ile iletişim">
+    <div class="s-btn-ico">💬</div><span class="s-btn-lbl">WhatsApp</span>
+  </a>
+  <a href="#iletisim" class="s-btn" aria-label="Bize ulaşın">
+    <div class="s-btn-ico">✉️</div><span class="s-btn-lbl">Bize Ulaşın</span>
+  </a>
+  <a href="#" class="s-btn" onclick="document.getElementById('popup').classList.add('show');return false;" aria-label="Randevu al">
+    <div class="s-btn-ico">📅</div><span class="s-btn-lbl">Randevu Al</span>
+  </a>
+  <a href="#iletisim" class="s-btn" aria-label="Konumumuz">
+    <div class="s-btn-ico">📍</div><span class="s-btn-lbl">Konum</span>
+  </a>
+</aside>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup">
+    <button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')" aria-label="Kapat">✕</button>
+    <div class="popup-icon">📅</div>
+    <div class="popup-title" id="popupTitle">Randevu Almak İster misiniz?</div>
+    <div class="popup-sub">Dr. Çağrı Neyişci ile görüşmek için hemen randevu oluşturabilirsiniz.</div>
+    <div class="popup-btns">
+      <button class="pbtn-main" onclick="window.location.href='#iletisim'">Randevu Formu</button>
+      <button class="pbtn-wa" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
+      <button class="pbtn-later" onclick="document.getElementById('popup').classList.remove('show')">Şimdi değil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV scroll
+const nav=document.getElementById('navWrap');
+let last=0;
+window.addEventListener('scroll',function(){
+  const curr=window.scrollY;
+  if(curr>80){nav.classList.toggle('nav-hidden',curr>last);}
+  else{nav.classList.remove('nav-hidden');}
+  last=curr;
+},{passive:true});
+
+// FAQ accordion
+function toggleFaq(btn){
+  const a=btn.nextElementSibling;
+  const ico=btn.querySelector('.faq-icon');
+  const open=a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.faq-icon').forEach(x=>{x.classList.remove('open');x.textContent='▾';});
+  document.querySelectorAll('.faq-q').forEach(x=>x.setAttribute('aria-expanded','false'));
+  if(!open){a.classList.add('open');ico.classList.add('open');ico.textContent='▴';btn.setAttribute('aria-expanded','true');}
+}
+
+// Dot slider
+let dotIdx=0;
+const dots=document.querySelectorAll('.dot');
+setInterval(()=>{
+  dots.forEach(d=>d.classList.remove('active'));
+  dotIdx=(dotIdx+1)%dots.length;
+  dots[dotIdx].classList.add('active');
+},3500);
+
+// KVKK kontrol
+if(localStorage.getItem('kvkk')==='1'){
+  const kb=document.getElementById('kvkkBar');
+  if(kb)kb.style.display='none';
+}
+
+// Popup — 30 saniye
+setTimeout(()=>document.getElementById('popup').classList.add('show'),30000);
+</script>
+</body>
+</html>
