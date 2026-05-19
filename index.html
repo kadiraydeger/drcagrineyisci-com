@@ -5,187 +5,281 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dr. Çağrı Neyişci | Ortopedi ve Travmatoloji Uzmanı</title>
 <meta name="description" content="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı. Diz protezi, menisküs, ACL, omuz ve kalça ameliyatları. Randevu için hemen ulaşın.">
+<meta property="og:title" content="Dr. Çağrı Neyişci | Ortopedi ve Travmatoloji Uzmanı">
+<meta property="og:description" content="Diz protezi, menisküs, ACL, omuz ve kalça ameliyatları. Online randevu alın.">
+<meta property="og:url" content="https://drcagrineyisci.com">
+<link rel="canonical" href="https://drcagrineyisci.com">
 <style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;font-size:16px;}
 body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#0F2744;background:#fff;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
 
-/* NAV */
-.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:200;transition:transform 0.3s ease;}
+/* ============================================================
+   NAV — sticky, scroll ile gizlenir/gösterilir
+   ============================================================ */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:500;transition:transform 0.32s ease;background:#fff;}
 .nav-wrap.nav-hidden{transform:translateY(-100%);}
-.nav{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:2px solid #1A6FA8;box-shadow:0 1px 8px rgba(15,39,68,0.07);}
-.nav-logo-name{font-size:16px;font-weight:700;color:#0F2744;}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;border-bottom:2px solid #1A6FA8;box-shadow:0 1px 8px rgba(15,39,68,0.07);}
+.nav-logo{line-height:1.2;}
+.nav-logo-name{font-size:15px;font-weight:700;color:#0F2744;}
 .nav-logo-sub{font-size:9px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;}
-.nav-links{display:flex;gap:22px;}
-.nav-links a{font-size:13px;color:#526070;text-decoration:none;padding-bottom:2px;border-bottom:2px solid transparent;transition:all .2s;}
-.nav-links a:hover,.nav-links a.active{color:#1A6FA8;border-bottom-color:#1A6FA8;}
-.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:#1A6FA8;color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+.nav-links{display:flex;gap:4px;}
+.nav-links a{font-size:13px;color:#526070;padding:6px 10px;border-radius:5px;transition:all .18s;border-bottom:2px solid transparent;}
+.nav-links a:hover,.nav-links a.active{color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:#1A6FA8;color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;}
 .nav-cta:hover{background:#155d8f;}
-.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
-.nav-hamburger span{width:22px;height:2px;background:#0F2744;border-radius:2px;display:block;}
+/* Hamburger */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+.nav-hamburger span{width:22px;height:2px;background:#0F2744;border-radius:2px;display:block;transition:all .25s;}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+/* Mobile menu */
+.mobile-menu{display:none;position:fixed;top:58px;left:0;right:0;background:#fff;border-bottom:2px solid #1A6FA8;padding:16px 20px;z-index:490;flex-direction:column;gap:4px;box-shadow:0 6px 20px rgba(15,39,68,0.1);}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-size:14px;color:#526070;padding:10px 12px;border-radius:6px;transition:background .15s;}
+.mobile-menu a:hover{background:#F0F7FF;color:#1A6FA8;}
+.mobile-menu .m-cta{margin-top:6px;background:#1A6FA8;color:#fff;text-align:center;border-radius:7px;padding:11px;font-weight:600;}
 
-/* HERO */
-.hero{position:relative;height:100vh;min-height:500px;max-height:700px;overflow:hidden;background:#0a1628;margin-top:56px;}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;animation:panImg 20s ease-in-out infinite alternate;}
-@keyframes panImg{0%{transform:scale(1.08) translateX(0)}100%{transform:scale(1.08) translateX(-3%)}}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,40,0.90) 0%,rgba(10,22,40,0.55) 55%,rgba(10,22,40,0.2) 100%);}
-.vid-corner{position:absolute;width:20px;height:20px;border-color:rgba(255,255,255,0.3);border-style:solid;z-index:2;}
-.vid-corner.tl{top:16px;left:16px;border-width:2px 0 0 2px;}
-.vid-corner.tr{top:16px;right:60px;border-width:2px 2px 0 0;}
-.vid-corner.bl{bottom:16px;left:16px;border-width:0 0 2px 2px;}
-.vid-corner.br{bottom:16px;right:60px;border-width:0 2px 2px 0;}
-.slide-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3;}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);border:none;cursor:pointer;padding:0;transition:all .3s;}
-.dot.active{background:#fff;width:20px;border-radius:4px;}
-.play-btn{position:absolute;z-index:3;right:30%;top:50%;transform:translate(50%,-50%);display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;}
-.play-circle{width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;position:relative;transition:all .2s;}
-.play-circle:hover{background:rgba(255,255,255,0.2);}
-.play-pulse{position:absolute;width:80px;height:80px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);animation:pp 2.2s infinite;}
-@keyframes pp{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
-.play-tri{width:0;height:0;border-style:solid;border-width:9px 0 9px 16px;border-color:transparent transparent transparent #fff;margin-left:4px;}
-.play-lbl{font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;}
-.hero-text{position:absolute;left:32px;top:50%;transform:translateY(-50%);z-index:3;max-width:400px;}
+/* ============================================================
+   HERO — VIDEO ARKA PLAN
+   ============================================================ */
+.hero{position:relative;height:100vh;min-height:520px;max-height:780px;overflow:hidden;background:#0a1628;margin-top:58px;}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+/* Video yoksa fallback fotoğraf */
+.hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;animation:panImg 22s ease-in-out infinite alternate;}
+@keyframes panImg{0%{transform:scale(1.07) translateX(0)}100%{transform:scale(1.07) translateX(-3%)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,40,0.88) 0%,rgba(10,22,40,0.5) 55%,rgba(10,22,40,0.18) 100%);z-index:1;}
+/* Köşe dekorasyon */
+.vid-corner{position:absolute;width:22px;height:22px;border-color:rgba(255,255,255,0.28);border-style:solid;z-index:2;}
+.vid-corner.tl{top:18px;left:18px;border-width:2px 0 0 2px;}
+.vid-corner.tr{top:18px;right:18px;border-width:2px 2px 0 0;}
+.vid-corner.bl{bottom:18px;left:18px;border-width:0 0 2px 2px;}
+.vid-corner.br{bottom:18px;right:18px;border-width:0 2px 2px 0;}
+/* Slider noktalar */
+.slide-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);border:none;cursor:pointer;padding:0;transition:all .35s;}
+.dot.active{background:#fff;width:22px;border-radius:4px;}
+/* Hero metin */
+.hero-text{position:absolute;left:clamp(20px,5vw,48px);top:50%;transform:translateY(-50%);z-index:3;max-width:min(420px,90vw);}
 .hero-eye{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.hero-eye-line{width:22px;height:1px;background:#1A6FA8;}
+.hero-eye-line{width:22px;height:1px;background:#1A6FA8;flex-shrink:0;}
 .hero-eye-txt{font-size:10px;color:#6BB8E8;letter-spacing:2.5px;text-transform:uppercase;}
-.hero-title{font-size:36px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:12px;}
+.hero-title{font-size:clamp(24px,4vw,40px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:12px;}
 .hero-title span{color:#6BB8E8;}
-.hero-desc{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.75;}
+.hero-desc{font-size:clamp(12px,1.5vw,14px);color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:22px;}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-btn-main{padding:11px 22px;border-radius:7px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+.hero-btn-main:hover{background:#155d8f;}
+.hero-btn-outline{padding:11px 22px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.35);color:#fff;font-size:13px;font-weight:500;background:transparent;cursor:pointer;transition:background .2s;}
+.hero-btn-outline:hover{background:rgba(255,255,255,0.1);}
 
-/* STATS */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #E2EAF0;background:#fff;}
-.stat-item{padding:18px;text-align:center;border-right:1px solid #E2EAF0;}
+/* ============================================================
+   STATS
+   ============================================================ */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-bottom:1px solid #E2EAF0;}
+.stat-item{padding:20px 16px;text-align:center;border-right:1px solid #E2EAF0;}
 .stat-item:last-child{border-right:none;}
-.stat-num{font-size:24px;font-weight:700;color:#1A6FA8;}
-.stat-lbl{font-size:11px;color:#526070;margin-top:3px;}
+.stat-num{font-size:26px;font-weight:700;color:#1A6FA8;}
+.stat-lbl{font-size:11px;color:#526070;margin-top:4px;}
 
-/* SECTIONS */
-.sw{padding:36px 32px 0;}
-.slbl{font-size:9.5px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.slbl::before{content:'';width:18px;height:1px;background:#1A6FA8;}
-.stitle{font-size:22px;font-weight:700;color:#0F2744;margin-bottom:4px;}
-.ssub{font-size:13px;color:#526070;margin-bottom:20px;}
+/* ============================================================
+   SECTION HELPERS
+   ============================================================ */
+.sw{padding:44px clamp(16px,4vw,40px) 0;}
+.slbl{font-size:10px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.slbl::before{content:'';width:18px;height:1px;background:#1A6FA8;flex-shrink:0;}
+.stitle{font-size:clamp(18px,3vw,24px);font-weight:700;color:#0F2744;margin-bottom:5px;}
+.ssub{font-size:13px;color:#526070;margin-bottom:22px;}
 
-/* DOKTOR */
-.doc-grid{display:grid;grid-template-columns:240px 1fr;border-radius:12px;border:1px solid #E2EAF0;overflow:hidden;}
-.doc-photo{background:linear-gradient(160deg,#0F2744,#1A6FA8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;position:relative;min-height:280px;overflow:hidden;}
+/* ============================================================
+   DOKTOR
+   ============================================================ */
+.doc-grid{display:grid;grid-template-columns:clamp(180px,25%,260px) 1fr;border-radius:12px;border:1px solid #E2EAF0;overflow:hidden;}
+.doc-photo{background:linear-gradient(160deg,#0F2744,#1A6FA8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;position:relative;min-height:300px;overflow:hidden;}
 .doc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
-.doc-badge{position:relative;z-index:2;background:rgba(15,39,68,0.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 12px;text-align:center;width:100%;}
+.doc-badge{position:relative;z-index:2;background:rgba(15,39,68,0.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.15);border-radius:9px;padding:10px 14px;text-align:center;width:100%;}
 .doc-badge-name{font-size:13px;font-weight:700;color:#fff;}
 .doc-badge-title{font-size:9.5px;color:rgba(255,255,255,0.55);margin-top:2px;}
-.doc-info{padding:28px 32px;background:#fff;}
-.dtitle{font-size:18px;font-weight:700;color:#0F2744;margin-bottom:10px;}
+.doc-info{padding:clamp(18px,3vw,32px);background:#fff;}
+.dtitle{font-size:clamp(15px,2vw,19px);font-weight:700;color:#0F2744;margin-bottom:10px;}
 .dbody{font-size:13px;color:#526070;line-height:1.85;margin-bottom:14px;}
-.dmission{background:#F0F4F8;border-left:3px solid #1A6FA8;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;}
+.dmission{background:#F0F4F8;border-left:3px solid #1A6FA8;padding:13px 17px;border-radius:0 9px 9px 0;margin-bottom:18px;}
 .dmission-lbl{font-size:9px;color:#1A6FA8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
-.dmission-txt{font-size:12.5px;color:#0F2744;line-height:1.75;font-style:italic;}
+.dmission-txt{font-size:13px;color:#0F2744;line-height:1.8;font-style:italic;}
 .certs{display:flex;gap:6px;flex-wrap:wrap;}
-.cert{font-size:11px;padding:4px 10px;border-radius:20px;background:#E8F2FA;color:#1A6FA8;border:.5px solid #B5D4F4;}
+.cert{font-size:11px;padding:4px 11px;border-radius:20px;background:#E8F2FA;color:#1A6FA8;border:.5px solid #B5D4F4;}
 
-/* UZMANLIKLAR */
-.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.exp-card{background:#fff;border:1px solid #E2EAF0;border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;text-decoration:none;display:block;}
-.exp-card:hover{border-color:#1A6FA8;box-shadow:0 6px 20px rgba(26,111,168,0.12);transform:translateY(-3px);}
-.exp-img{height:96px;display:flex;align-items:center;justify-content:center;position:relative;font-size:32px;}
+/* ============================================================
+   UZMANLIKLAR GRID
+   ============================================================ */
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.exp-card{background:#fff;border:1px solid #E2EAF0;border-radius:11px;overflow:hidden;transition:all .22s;text-decoration:none;display:block;}
+.exp-card:hover{border-color:#1A6FA8;box-shadow:0 8px 24px rgba(26,111,168,0.12);transform:translateY(-3px);}
+.exp-img{height:100px;display:flex;align-items:center;justify-content:center;position:relative;font-size:36px;}
 .exp-img-lbl{position:absolute;bottom:7px;left:10px;font-size:8.5px;color:rgba(255,255,255,0.5);letter-spacing:1.2px;text-transform:uppercase;}
-.exp-body{padding:13px 14px;}
-.exp-name{font-size:13px;font-weight:700;color:#0F2744;margin-bottom:4px;}
-.exp-desc{font-size:11.5px;color:#526070;line-height:1.6;margin-bottom:10px;}
-.exp-link{font-size:11px;color:#1A6FA8;font-weight:600;}
+.exp-body{padding:14px 15px;}
+.exp-name{font-size:13.5px;font-weight:700;color:#0F2744;margin-bottom:5px;}
+.exp-desc{font-size:11.5px;color:#526070;line-height:1.62;margin-bottom:11px;}
+.exp-link{font-size:11px;color:#1A6FA8;font-weight:600;display:flex;align-items:center;gap:4px;}
 
-/* SSS */
-.faq-list{display:flex;flex-direction:column;gap:7px;}
+/* ============================================================
+   SSS
+   ============================================================ */
+.faq-list{display:flex;flex-direction:column;gap:8px;}
 .faq-item{border:1px solid #E2EAF0;border-radius:9px;overflow:hidden;background:#fff;}
-.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:none;border:none;cursor:pointer;text-align:left;font-size:13px;color:#0F2744;font-weight:600;transition:background .15s;}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 17px;background:none;border:none;cursor:pointer;text-align:left;font-size:13px;color:#0F2744;font-weight:600;transition:background .15s;gap:12px;}
 .faq-q:hover{background:#F7F9FC;}
-.faq-icon{font-size:14px;color:#1A6FA8;transition:transform .25s;flex-shrink:0;margin-left:10px;}
+.faq-icon{font-size:16px;color:#1A6FA8;transition:transform .28s;flex-shrink:0;}
 .faq-icon.open{transform:rotate(180deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
-.faq-a.open{max-height:200px;}
-.faq-a-inner{padding:0 16px 13px;font-size:12.5px;color:#526070;line-height:1.75;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .38s ease;}
+.faq-a.open{max-height:240px;}
+.faq-a-inner{padding:0 17px 14px;font-size:13px;color:#526070;line-height:1.8;}
 
-/* İLETİŞİM */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.contact-left{display:flex;flex-direction:column;gap:9px;}
-.ccard{background:#fff;border:1px solid #E2EAF0;border-radius:10px;padding:15px 17px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s;}
+/* ============================================================
+   İLETİŞİM
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.contact-left{display:flex;flex-direction:column;gap:10px;}
+.ccard{background:#fff;border:1px solid #E2EAF0;border-radius:10px;padding:15px 18px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s;cursor:pointer;}
 .ccard:hover{border-color:#1A6FA8;}
-.cico{width:38px;height:38px;border-radius:8px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+.cico{width:40px;height:40px;border-radius:9px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
 .cico.wa{background:#E8FBF0;}
 .ctitle{font-size:12px;font-weight:700;color:#0F2744;margin-bottom:3px;}
 .cval{font-size:12px;color:#526070;}
 .clink{font-size:11px;color:#1A6FA8;margin-top:4px;font-weight:600;}
-.map-box{background:linear-gradient(135deg,#E8F2FA,#F0F7FF);border:1px solid #E2EAF0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:220px;}
-.map-icon{font-size:40px;}
-.map-lbl{font-size:13px;color:#526070;font-weight:600;}
+.map-box{background:linear-gradient(135deg,#E8F2FA,#F0F7FF);border:1px solid #E2EAF0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:230px;}
+.map-icon{font-size:44px;}
+.map-lbl{font-size:14px;color:#526070;font-weight:600;}
 .map-sub{font-size:11px;color:#B5D4F4;}
 
-/* FOOTER */
-footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:28px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.08);}
 .fbrand-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
 .fbrand-sub{font-size:9px;color:#6BB8E8;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .fbrand-desc{font-size:11px;color:rgba(255,255,255,0.38);line-height:1.75;}
-.fcol-title{font-size:10px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
-.flinks{display:flex;flex-direction:column;gap:6px;}
-.flinks a{font-size:11px;color:rgba(255,255,255,0.38);text-decoration:none;transition:color .15s;}
+.fcol-title{font-size:10px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:11px;}
+.flinks{display:flex;flex-direction:column;gap:7px;}
+.flinks a{font-size:11px;color:rgba(255,255,255,0.38);transition:color .15s;}
 .flinks a:hover{color:#6BB8E8;}
 .footer-bottom{padding:14px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
 .fcopy{font-size:10px;color:rgba(255,255,255,0.25);}
 .flegal{display:flex;gap:14px;}
-.flegal a{font-size:10px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color .15s;}
+.flegal a{font-size:10px;color:rgba(255,255,255,0.25);transition:color .15s;}
 .flegal a:hover{color:#6BB8E8;}
-.kvkk-bar{background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.06);padding:10px 32px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.kvkk-bar{background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.06);padding:10px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
 .kvkk-txt{font-size:10px;color:rgba(255,255,255,0.28);line-height:1.6;max-width:560px;}
-.kvkk-btn{font-size:10px;padding:5px 14px;border-radius:5px;background:rgba(26,111,168,0.25);border:.5px solid rgba(26,111,168,0.4);color:#6BB8E8;cursor:pointer;flex-shrink:0;white-space:nowrap;}
+.kvkk-btn{font-size:10px;padding:5px 14px;border-radius:5px;background:rgba(26,111,168,0.25);border:.5px solid rgba(26,111,168,0.4);color:#6BB8E8;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 
-/* SAĞ PANEL — fixed */
-.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:2px;}
+/* ============================================================
+   SAĞ PANEL — fixed, her zaman görünür
+   ============================================================ */
+.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;gap:2px;}
 .s-btn{display:flex;align-items:center;overflow:hidden;background:#fff;border:none;border-left:3px solid #1A6FA8;cursor:pointer;box-shadow:-2px 2px 12px rgba(15,39,68,0.1);text-decoration:none;width:46px;transition:width .28s ease,background .15s;}
-.s-btn:hover{width:160px;background:#F0F4F8;}
+.s-btn:hover{width:162px;background:#F0F4F8;}
 .s-btn.wa{border-left-color:#25D366;}
-.s-btn-ico{width:46px;min-width:46px;height:46px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:19px;}
-.s-btn-lbl{font-size:11px;color:#0F2744;font-weight:600;white-space:nowrap;padding-right:14px;opacity:0;transition:opacity .15s .08s;}
+.s-btn-ico{width:46px;min-width:46px;height:46px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
+.s-btn-lbl{font-size:11px;color:#0F2744;font-weight:600;white-space:nowrap;padding-right:14px;opacity:0;transition:opacity .15s .07s;}
 .s-btn:hover .s-btn-lbl{opacity:1;}
 
-/* POPUP */
-.popup-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.45);z-index:999;display:none;align-items:center;justify-content:center;}
-.popup-overlay.show{display:flex;}
-.popup{background:#fff;border-radius:14px;padding:28px;width:320px;position:relative;box-shadow:0 20px 60px rgba(15,39,68,0.2);}
-.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#8FA3B1;font-size:18px;line-height:1;}
-.popup-icon{width:52px;height:52px;border-radius:12px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;}
-.popup-title{font-size:16px;font-weight:700;color:#0F2744;text-align:center;margin-bottom:6px;}
-.popup-sub{font-size:12px;color:#526070;text-align:center;line-height:1.65;margin-bottom:18px;}
-.popup-btns{display:flex;flex-direction:column;gap:8px;}
-.pbtn-main{padding:11px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;border:none;cursor:pointer;font-weight:600;}
-.pbtn-main:hover{background:#155d8f;}
-.pbtn-wa{padding:11px;border-radius:8px;background:#E8FBF0;color:#25D366;font-size:13px;border:1px solid rgba(37,211,102,0.25);cursor:pointer;font-weight:600;}
-.pbtn-later{padding:7px;background:transparent;color:#8FA3B1;font-size:11px;border:none;cursor:pointer;}
+/* ============================================================
+   RANDEVU MODAL — takvim ile
+   ============================================================ */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.48);z-index:600;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.show{display:flex;}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(15,39,68,0.22);}
+.modal-header{padding:22px 24px 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:18px;font-weight:700;color:#0F2744;}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:#8FA3B1;padding:4px;border-radius:6px;transition:background .15s;}
+.modal-close:hover{background:#F0F4F8;}
+.modal-body{padding:20px 24px 24px;}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:12px;font-weight:600;color:#0F2744;margin-bottom:5px;}
+.form-input{width:100%;padding:10px 13px;border:1.5px solid #E2EAF0;border-radius:8px;font-size:13px;color:#0F2744;outline:none;transition:border-color .2s;font-family:inherit;}
+.form-input:focus{border-color:#1A6FA8;}
+.form-select{width:100%;padding:10px 13px;border:1.5px solid #E2EAF0;border-radius:8px;font-size:13px;color:#0F2744;outline:none;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23526070' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;cursor:pointer;font-family:inherit;}
+.form-select:focus{border-color:#1A6FA8;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+/* Takvim */
+.cal-wrap{border:1.5px solid #E2EAF0;border-radius:10px;overflow:hidden;}
+.cal-header{background:#1A6FA8;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.cal-nav{background:none;border:none;color:#fff;cursor:pointer;font-size:18px;padding:2px 8px;border-radius:4px;transition:background .15s;}
+.cal-nav:hover{background:rgba(255,255,255,0.15);}
+.cal-month{font-size:14px;font-weight:700;color:#fff;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-day-name{padding:8px 4px;text-align:center;font-size:10px;font-weight:600;color:#8FA3B1;background:#F7F9FC;}
+.cal-day{padding:9px 4px;text-align:center;font-size:12px;color:#0F2744;cursor:pointer;transition:all .15s;border:1px solid transparent;}
+.cal-day:hover:not(.cal-day-empty):not(.cal-day-past){background:#E8F2FA;color:#1A6FA8;border-radius:6px;}
+.cal-day.selected{background:#1A6FA8;color:#fff;border-radius:6px;font-weight:700;}
+.cal-day-empty,.cal-day-past{color:#C8D5DF;cursor:default;}
+.cal-day-today{font-weight:700;color:#1A6FA8;}
+.selected-date{margin-top:8px;padding:8px 12px;background:#E8F2FA;border-radius:7px;font-size:12px;color:#1A6FA8;font-weight:600;min-height:32px;}
+.form-submit{width:100%;padding:13px;border-radius:9px;background:#1A6FA8;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:background .2s;margin-top:6px;}
+.form-submit:hover{background:#155d8f;}
+.form-wa-alt{width:100%;padding:11px;border-radius:9px;background:#E8FBF0;color:#25D366;font-size:13px;font-weight:600;border:1px solid rgba(37,211,102,0.25);cursor:pointer;margin-top:8px;}
 
-/* MOBILE */
-@media(max-width:768px){
+/* ============================================================
+   POPUP (30sn)
+   ============================================================ */
+.popup-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.45);z-index:700;display:none;align-items:center;justify-content:center;padding:16px;}
+.popup-overlay.show{display:flex;}
+.popup{background:#fff;border-radius:14px;padding:28px;width:100%;max-width:310px;position:relative;box-shadow:0 20px 60px rgba(15,39,68,0.2);}
+.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#8FA3B1;font-size:18px;}
+.popup-icon{font-size:32px;text-align:center;margin-bottom:12px;}
+.popup-title{font-size:16px;font-weight:700;color:#0F2744;text-align:center;margin-bottom:5px;}
+.popup-sub{font-size:12px;color:#526070;text-align:center;line-height:1.65;margin-bottom:16px;}
+.pbtn-main{width:100%;padding:11px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;margin-bottom:8px;}
+.pbtn-wa{width:100%;padding:11px;border-radius:8px;background:#E8FBF0;color:#25D366;font-size:13px;font-weight:600;border:1px solid rgba(37,211,102,0.22);cursor:pointer;margin-bottom:6px;}
+.pbtn-later{width:100%;padding:7px;background:transparent;color:#8FA3B1;font-size:11px;border:none;cursor:pointer;}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:900px){
   .nav-links{display:none;}
   .nav-hamburger{display:flex;}
-  .hero{height:60vw;min-height:320px;}
-  .hero-title{font-size:22px;}
-  .play-btn{display:none;}
-  .stats-bar{grid-template-columns:repeat(2,1fr);}
-  .sw{padding:24px 16px 0;}
+  .hero{max-height:600px;}
   .doc-grid{grid-template-columns:1fr;}
-  .doc-photo{min-height:200px;}
-  .exp-grid{grid-template-columns:repeat(2,1fr);}
+  .doc-photo{min-height:220px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .nav{padding:0 16px;}
+  .hero{height:72vw;min-height:300px;max-height:480px;}
+  .hero-title{font-size:22px;}
+  .hero-btn-outline{display:none;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .stat-item{padding:14px 8px;}
+  .stat-num{font-size:20px;}
+  .exp-grid{grid-template-columns:1fr 1fr;}
   .contact-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
   .side-panel{display:none;}
-  .vid-corner.tr,.vid-corner.br{right:16px;}
+  .vid-corner{display:none;}
+}
+@media(max-width:400px){
+  .exp-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ============================================================
+     NAV
+     ============================================================ -->
 <div class="nav-wrap" id="navWrap">
   <nav class="nav" role="navigation" aria-label="Ana menü">
-    <div>
+    <div class="nav-logo">
       <div class="nav-logo-name">Dr. Çağrı Neyişci</div>
       <div class="nav-logo-sub">Ortopedi & Travmatoloji</div>
     </div>
@@ -196,38 +290,60 @@ footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
       <a href="#sss">SSS</a>
       <a href="#iletisim">İletişim</a>
     </div>
-    <button class="nav-cta" onclick="document.getElementById('popup').classList.add('show')">📅 Randevu Al</button>
-    <button class="nav-hamburger" aria-label="Menüyü aç">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <button class="nav-cta" onclick="openModal()" aria-label="Randevu al">📅 Randevu Al</button>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menüyü aç/kapat" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 </div>
 
-<!-- HERO -->
+<!-- Mobile menü -->
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobil menü">
+  <a href="#" onclick="closeMenu()">Ana Sayfa</a>
+  <a href="#hakkimda" onclick="closeMenu()">Hakkımda</a>
+  <a href="#uzmanlik" onclick="closeMenu()">Uzmanlık Alanları</a>
+  <a href="#sss" onclick="closeMenu()">SSS</a>
+  <a href="#iletisim" onclick="closeMenu()">İletişim</a>
+  <a href="#" class="m-cta" onclick="closeMenu();openModal();">📅 Randevu Al</a>
+</div>
+
+<!-- ============================================================
+     HERO — Video
+     ============================================================ -->
 <section class="hero" aria-label="Klinik tanıtım">
-  <div class="img-pan" style="position:absolute;inset:0;">
-    <img class="hero-img" src="assets/images/klinik.jpg" alt="Dr. Çağrı Neyişci Ortopedi Kliniği — Modern ve steril ameliyathane ortamı">
-  </div>
+  <!-- Video — assets/videos/klinik.mp4 dosyasını buraya koyun -->
+  <video autoplay muted loop playsinline poster="assets/images/klinik.jpg" aria-hidden="true">
+    <source src="assets/videos/klinik.mp4" type="video/mp4">
+  </video>
+  <!-- Fotoğraf fallback (video yoksa gösterilir) -->
+  <img class="hero-fallback" src="assets/images/klinik.jpg" alt="Klinik" aria-hidden="true">
   <div class="hero-overlay"></div>
   <div class="vid-corner tl"></div><div class="vid-corner tr"></div>
   <div class="vid-corner bl"></div><div class="vid-corner br"></div>
   <div class="slide-dots" aria-hidden="true">
-    <button class="dot active" aria-label="Slayt 1"></button>
-    <button class="dot" aria-label="Slayt 2"></button>
-    <button class="dot" aria-label="Slayt 3"></button>
-  </div>
-  <div class="play-btn" role="button" aria-label="Videoları izle" tabindex="0">
-    <div class="play-circle"><div class="play-pulse"></div><div class="play-tri"></div></div>
-    <span class="play-lbl">Videoları İzle</span>
+    <button class="dot active"></button>
+    <button class="dot"></button>
+    <button class="dot"></button>
   </div>
   <div class="hero-text">
-    <div class="hero-eye" aria-hidden="true"><div class="hero-eye-line"></div><span class="hero-eye-txt">Uzman Ortopedi & Travmatoloji</span></div>
+    <div class="hero-eye" aria-hidden="true">
+      <div class="hero-eye-line"></div>
+      <span class="hero-eye-txt">Uzman Ortopedi & Travmatoloji</span>
+    </div>
     <h1 class="hero-title">Hareketin<br><span>En İyi Versiyonuna</span><br>Kavuş</h1>
     <p class="hero-desc">Minimal invaziv teknikler ve kişiye özel tedavi protokolleriyle daha hızlı iyileşme.</p>
+    <div class="hero-btns">
+      <button class="hero-btn-main" onclick="openModal()">📅 Randevu Al</button>
+      <button class="hero-btn-outline" onclick="document.getElementById('uzmanlik').scrollIntoView({behavior:'smooth'})">Uzmanlıklarımız</button>
+    </div>
   </div>
 </section>
 
-<!-- STATS -->
+<!-- ============================================================
+     STATS
+     ============================================================ -->
 <section class="stats-bar" aria-label="İstatistikler">
   <div class="stat-item"><div class="stat-num">2500+</div><div class="stat-lbl">Başarılı Ameliyat</div></div>
   <div class="stat-item"><div class="stat-num">15+</div><div class="stat-lbl">Yıl Deneyim</div></div>
@@ -235,12 +351,14 @@ footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
   <div class="stat-item"><div class="stat-num">12</div><div class="stat-lbl">Uzmanlık Alanı</div></div>
 </section>
 
-<!-- DOKTOR -->
+<!-- ============================================================
+     DOKTOR
+     ============================================================ -->
 <section id="hakkimda" class="sw" aria-label="Hakkımda">
   <div class="slbl">Hakkımda</div>
   <div class="doc-grid">
     <div class="doc-photo">
-      <img src="assets/images/doktor.jpg" alt="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı">
+      <img src="assets/images/doktor.jpg" alt="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı" loading="lazy">
       <div class="doc-badge">
         <div class="doc-badge-name">Dr. Çağrı Neyişci</div>
         <div class="doc-badge-title">Ortopedi & Travmatoloji Uzmanı</div>
@@ -263,99 +381,90 @@ footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
   </div>
 </section>
 
-<!-- UZMANLIKLAR -->
+<!-- ============================================================
+     UZMANLIKLAR
+     ============================================================ -->
 <section id="uzmanlik" class="sw" aria-label="Uzmanlık Alanları">
   <div class="slbl">Uzmanlık Alanları</div>
   <div class="stitle">Tedavi Ettiğim Durumlar</div>
   <div class="ssub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</div>
   <div class="exp-grid">
-    <a href="tedaviler/diz-protezi.html" class="exp-card" aria-label="Diz Protezi hakkında bilgi al">
+    <a href="uzmanlik/diz-protezi.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5F96);">🦴<span class="exp-img-lbl">Artroskopi · Protez</span></div>
       <div class="exp-body"><div class="exp-name">Diz Protezi</div><div class="exp-desc">Total ve parsiyel diz protezi. Kireçlenme ve ileri evre diz hasarlarında kalıcı çözüm.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
-    <a href="tedaviler/meniskus.html" class="exp-card" aria-label="Menisküs Tedavisi hakkında bilgi al">
+    <a href="uzmanlik/meniskus.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">🏃<span class="exp-img-lbl">Artroskopi · Onarım</span></div>
       <div class="exp-body"><div class="exp-name">Menisküs Tedavisi</div><div class="exp-desc">Artroskopik menisküs onarımı. Spor yaralanmalarında hızlı iyileşme protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
-    <a href="tedaviler/on-capraz-bag.html" class="exp-card" aria-label="Ön Çapraz Bağ tedavisi hakkında bilgi al">
+    <a href="uzmanlik/on-capraz-bag.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">⚡<span class="exp-img-lbl">ACL · Rekonstrüksiyon</span></div>
       <div class="exp-body"><div class="exp-name">Ön Çapraz Bağ (ACL)</div><div class="exp-desc">ACL rekonstrüksiyonu ve sporcu rehabilitasyonu. Spora erken dönüş protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
-    <a href="tedaviler/omuz-artroskopi.html" class="exp-card" aria-label="Omuz Artroskopi hakkında bilgi al">
+    <a href="uzmanlik/omuz-artroskopi.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">💉<span class="exp-img-lbl">Rotator Manşet</span></div>
       <div class="exp-body"><div class="exp-name">Omuz Artroskopi</div><div class="exp-desc">Rotator manşet tamiri, omuz sıkışma sendromu ve SLAP lezyonu tedavisi.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
-    <a href="tedaviler/kalca-protezi.html" class="exp-card" aria-label="Kalça Protezi hakkında bilgi al">
+    <a href="uzmanlik/kalca-protezi.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5580);">🏥<span class="exp-img-lbl">Minimal İnvaziv</span></div>
       <div class="exp-body"><div class="exp-name">Kalça Protezi</div><div class="exp-desc">Minimal invaziv kalça protezi. Daha az ağrı, daha kısa hastanede kalış süresi.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
-    <a href="tedaviler/omurga.html" class="exp-card" aria-label="Omurga Cerrahisi hakkında bilgi al">
+    <a href="uzmanlik/omurga.html" class="exp-card">
       <div class="exp-img" style="background:linear-gradient(135deg,#0a2240,#1A6080);">🔬<span class="exp-img-lbl">Disk · Stabilizasyon</span></div>
       <div class="exp-body"><div class="exp-name">Omurga Cerrahisi</div><div class="exp-desc">Bel fıtığı, boyun fıtığı ve omurga stabilizasyon ameliyatları.</div><div class="exp-link">→ Detayları İncele</div></div>
     </a>
   </div>
 </section>
 
-<!-- SSS -->
+<!-- ============================================================
+     SSS
+     ============================================================ -->
 <section id="sss" class="sw" aria-label="Sıkça Sorulan Sorular">
   <div class="slbl">SSS</div>
   <div class="stitle">Sıkça Sorulan Sorular</div>
   <div class="ssub">Hastalarımızın en çok merak ettiği konular</div>
   <div class="faq-list">
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-        <span>Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</span>
-        <span class="faq-icon">▾</span>
-      </button>
-      <div class="faq-a" role="region"><div class="faq-a-inner">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçları en az 5 gün önceden kesilmelidir. Ayrıntılı liste muayene sırasında tarafınıza iletilir.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</span><span class="faq-icon">▾</span></button>
+      <div class="faq-a"><div class="faq-a-inner">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçlar en az 5 gün önceden kesilmelidir. Ayrıntılı liste muayene sırasında tarafınıza iletilir.</div></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-        <span>Diz protezi sonrası ne zaman yürüyebilirim?</span>
-        <span class="faq-icon">▾</span>
-      </button>
-      <div class="faq-a" role="region"><div class="faq-a-inner">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir. Tam iyileşme 6–12 hafta arasında tamamlanır.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Diz protezi sonrası ne zaman yürüyebilirim?</span><span class="faq-icon">▾</span></button>
+      <div class="faq-a"><div class="faq-a-inner">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir. Tam iyileşme 6–12 hafta arasında tamamlanır.</div></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-        <span>Menisküs ameliyatı şart mı, alternatif tedavi var mı?</span>
-        <span class="faq-icon">▾</span>
-      </button>
-      <div class="faq-a" role="region"><div class="faq-a-inner">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir. Ameliyat büyük yırtık veya mekanik kilitlenme durumunda önerilir.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Menisküs ameliyatı şart mı, alternatif tedavi var mı?</span><span class="faq-icon">▾</span></button>
+      <div class="faq-a"><div class="faq-a-inner">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir. Ameliyat büyük yırtık veya mekanik kilitlenme durumunda önerilir.</div></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-        <span>Yurt dışından randevu alabilir miyim?</span>
-        <span class="faq-icon">▾</span>
-      </button>
-      <div class="faq-a" role="region"><div class="faq-a-inner">Evet, WhatsApp ve e-posta üzerinden online konsültasyon yapılmaktadır. MR görüntülerinizi dijital olarak iletmeniz yeterlidir. Tercüman desteği de sağlanmaktadır.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Yurt dışından randevu alabilir miyim?</span><span class="faq-icon">▾</span></button>
+      <div class="faq-a"><div class="faq-a-inner">Evet, WhatsApp ve e-posta üzerinden online konsültasyon yapılmaktadır. MR görüntülerinizi dijital olarak iletmeniz yeterlidir. Tercüman desteği de sağlanmaktadır.</div></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-        <span>Hangi sigorta kurumlarıyla anlaşmanız var?</span>
-        <span class="faq-icon">▾</span>
-      </button>
-      <div class="faq-a" role="region"><div class="faq-a-inner">SGK ve özel sağlık sigortalarıyla anlaşmamız mevcuttur. Güncel liste için kliniğimizi arayabilirsiniz.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Hangi sigorta kurumlarıyla anlaşmanız var?</span><span class="faq-icon">▾</span></button>
+      <div class="faq-a"><div class="faq-a-inner">SGK ve özel sağlık sigortalarıyla anlaşmamız mevcuttur. Güncel liste için kliniğimizi arayabilirsiniz.</div></div>
     </div>
   </div>
 </section>
 
-<!-- İLETİŞİM -->
-<section id="iletisim" class="sw" aria-label="İletişim">
+<!-- ============================================================
+     İLETİŞİM
+     ============================================================ -->
+<section id="iletisim" class="sw" aria-label="İletişim ve Konum">
   <div class="slbl">İletişim & Konum</div>
   <div class="stitle">Bize Ulaşın</div>
   <div class="ssub">Randevu ve bilgi için aşağıdaki kanallardan ulaşın</div>
   <div class="contact-grid">
     <div class="contact-left">
-      <a href="https://wa.me/90XXXXXXXXXX" class="ccard" style="text-decoration:none;" target="_blank" rel="noopener">
+      <a href="https://wa.me/90XXXXXXXXXX" class="ccard" target="_blank" rel="noopener">
         <div class="cico wa">💬</div>
         <div><div class="ctitle">WhatsApp</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Mesaj Gönder</div></div>
       </a>
-      <a href="tel:+90XXXXXXXXXX" class="ccard" style="text-decoration:none;">
+      <a href="tel:+90XXXXXXXXXX" class="ccard">
         <div class="cico">📞</div>
         <div><div class="ctitle">Telefon</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Hemen Ara</div></div>
       </a>
-      <a href="mailto:info@drcagrineyisci.com" class="ccard" style="text-decoration:none;">
+      <a href="mailto:info@drcagrineyisci.com" class="ccard">
         <div class="cico">✉️</div>
         <div><div class="ctitle">E-posta</div><div class="cval">info@drcagrineyisci.com</div><div class="clink">→ E-posta Gönder</div></div>
       </a>
@@ -364,15 +473,17 @@ footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
         <div><div class="ctitle">Çalışma Saatleri</div><div class="cval">Pzt–Cum: 09:00–18:00</div><div class="cval">Cmt: 09:00–13:00</div></div>
       </div>
     </div>
-    <div class="map-box" aria-label="Klinik konumu">
+    <div class="map-box">
       <span class="map-icon">🗺️</span>
       <div class="map-lbl">Klinik Konumu</div>
-      <div class="map-sub">Google Haritalar buraya eklenecek</div>
+      <div class="map-sub">Google Haritalar eklenecek</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer role="contentinfo">
   <div class="footer-grid">
     <div>
@@ -414,76 +525,224 @@ footer{background:#0F2744;margin-top:36px;padding:32px 32px 0;}
   </div>
 </footer>
 
-<!-- SAĞ PANEL -->
+<!-- ============================================================
+     SAĞ PANEL
+     ============================================================ -->
 <aside class="side-panel" aria-label="Hızlı iletişim">
-  <a href="https://wa.me/90XXXXXXXXXX" class="s-btn wa" target="_blank" rel="noopener" aria-label="WhatsApp ile iletişim">
+  <a href="https://wa.me/90XXXXXXXXXX" class="s-btn wa" target="_blank" rel="noopener" aria-label="WhatsApp">
     <div class="s-btn-ico">💬</div><span class="s-btn-lbl">WhatsApp</span>
   </a>
   <a href="#iletisim" class="s-btn" aria-label="Bize ulaşın">
     <div class="s-btn-ico">✉️</div><span class="s-btn-lbl">Bize Ulaşın</span>
   </a>
-  <a href="#" class="s-btn" onclick="document.getElementById('popup').classList.add('show');return false;" aria-label="Randevu al">
+  <a href="#" class="s-btn" onclick="openModal();return false;" aria-label="Randevu al">
     <div class="s-btn-ico">📅</div><span class="s-btn-lbl">Randevu Al</span>
   </a>
-  <a href="#iletisim" class="s-btn" aria-label="Konumumuz">
+  <a href="#iletisim" class="s-btn" aria-label="Konum">
     <div class="s-btn-ico">📍</div><span class="s-btn-lbl">Konum</span>
   </a>
 </aside>
 
-<!-- POPUP -->
-<div class="popup-overlay" id="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')" aria-label="Kapat">✕</button>
-    <div class="popup-icon">📅</div>
-    <div class="popup-title" id="popupTitle">Randevu Almak İster misiniz?</div>
-    <div class="popup-sub">Dr. Çağrı Neyişci ile görüşmek için hemen randevu oluşturabilirsiniz.</div>
-    <div class="popup-btns">
-      <button class="pbtn-main" onclick="window.location.href='#iletisim'">Randevu Formu</button>
-      <button class="pbtn-wa" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
-      <button class="pbtn-later" onclick="document.getElementById('popup').classList.remove('show')">Şimdi değil</button>
+<!-- ============================================================
+     RANDEVU MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="randevuModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">📅 Randevu Al</div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Kapat">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="ad">Ad Soyad *</label>
+          <input class="form-input" type="text" id="ad" placeholder="Ad Soyad" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tel">Telefon *</label>
+          <input class="form-input" type="tel" id="tel" placeholder="+90 5xx xxx xx xx" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="uzmanlik_sec">Uzmanlık Alanı</label>
+        <select class="form-select" id="uzmanlik_sec">
+          <option value="">Seçiniz...</option>
+          <option>Diz Protezi</option>
+          <option>Menisküs Tedavisi</option>
+          <option>Ön Çapraz Bağ (ACL)</option>
+          <option>Omuz Artroskopi</option>
+          <option>Kalça Protezi</option>
+          <option>Omurga Cerrahisi</option>
+          <option>Genel Muayene</option>
+        </select>
+      </div>
+      <!-- TAKVİM -->
+      <div class="form-group">
+        <label class="form-label">Tarih Seçin *</label>
+        <div class="cal-wrap">
+          <div class="cal-header">
+            <button class="cal-nav" onclick="changeMonth(-1)" aria-label="Önceki ay">‹</button>
+            <span class="cal-month" id="calMonth"></span>
+            <button class="cal-nav" onclick="changeMonth(1)" aria-label="Sonraki ay">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div class="selected-date" id="selectedDate">Lütfen bir tarih seçin</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="mesaj">Notunuz</label>
+        <textarea class="form-input" id="mesaj" rows="2" placeholder="Şikayetiniz veya notunuz..." style="resize:vertical;"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Randevu Talebini Gönder</button>
+      <button class="form-wa-alt" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
     </div>
   </div>
 </div>
 
+<!-- ============================================================
+     30 SANİYE POPUP
+     ============================================================ -->
+<div class="popup-overlay" id="popup" role="dialog" aria-modal="true">
+  <div class="popup">
+    <button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')" aria-label="Kapat">✕</button>
+    <div class="popup-icon">📅</div>
+    <div class="popup-title">Randevu Almak İster misiniz?</div>
+    <div class="popup-sub">Dr. Çağrı Neyişci ile görüşmek için hemen randevu oluşturabilirsiniz.</div>
+    <button class="pbtn-main" onclick="document.getElementById('popup').classList.remove('show');openModal();">Randevu Al</button>
+    <button class="pbtn-wa" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
+    <button class="pbtn-later" onclick="document.getElementById('popup').classList.remove('show')">Şimdi değil</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
 <script>
-// NAV scroll
-const nav=document.getElementById('navWrap');
-let last=0;
-window.addEventListener('scroll',function(){
-  const curr=window.scrollY;
-  if(curr>80){nav.classList.toggle('nav-hidden',curr>last);}
-  else{nav.classList.remove('nav-hidden');}
-  last=curr;
-},{passive:true});
+/* ---------- NAV scroll ---------- */
+const navWrap = document.getElementById('navWrap');
+let lastY = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navWrap.classList.toggle('nav-hidden', y > lastY && y > 80);
+  lastY = y;
+}, {passive: true});
 
-// FAQ accordion
-function toggleFaq(btn){
-  const a=btn.nextElementSibling;
-  const ico=btn.querySelector('.faq-icon');
-  const open=a.classList.contains('open');
-  document.querySelectorAll('.faq-a').forEach(x=>x.classList.remove('open'));
-  document.querySelectorAll('.faq-icon').forEach(x=>{x.classList.remove('open');x.textContent='▾';});
-  document.querySelectorAll('.faq-q').forEach(x=>x.setAttribute('aria-expanded','false'));
-  if(!open){a.classList.add('open');ico.classList.add('open');ico.textContent='▴';btn.setAttribute('aria-expanded','true');}
+/* ---------- Hamburger ---------- */
+function toggleMenu() {
+  const m = document.getElementById('mobileMenu');
+  const h = document.getElementById('hamburger');
+  const open = m.classList.toggle('open');
+  h.classList.toggle('open', open);
+  h.setAttribute('aria-expanded', open);
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
 }
 
-// Dot slider
-let dotIdx=0;
-const dots=document.querySelectorAll('.dot');
-setInterval(()=>{
-  dots.forEach(d=>d.classList.remove('active'));
-  dotIdx=(dotIdx+1)%dots.length;
+/* ---------- FAQ ---------- */
+function toggleFaq(btn) {
+  const a = btn.nextElementSibling;
+  const ico = btn.querySelector('.faq-icon');
+  const open = a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(x => x.classList.remove('open'));
+  document.querySelectorAll('.faq-icon').forEach(x => { x.classList.remove('open'); x.textContent = '▾'; });
+  document.querySelectorAll('.faq-q').forEach(x => x.setAttribute('aria-expanded', 'false'));
+  if (!open) { a.classList.add('open'); ico.classList.add('open'); ico.textContent = '▴'; btn.setAttribute('aria-expanded', 'true'); }
+}
+
+/* ---------- Takvim ---------- */
+const TR_MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const TR_DAYS   = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+let calDate = new Date();
+let selectedDay = null;
+
+function renderCal() {
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  document.getElementById('calMonth').textContent = TR_MONTHS[m] + ' ' + y;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  TR_DAYS.forEach(d => { const el = document.createElement('div'); el.className = 'cal-day-name'; el.textContent = d; grid.appendChild(el); });
+  const first = new Date(y, m, 1);
+  // Pazartesi başlangıç offset
+  let offset = first.getDay() - 1; if (offset < 0) offset = 6;
+  for (let i = 0; i < offset; i++) { const el = document.createElement('div'); el.className = 'cal-day cal-day-empty'; grid.appendChild(el); }
+  const days = new Date(y, m + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  for (let d = 1; d <= days; d++) {
+    const el = document.createElement('div');
+    const thisDate = new Date(y, m, d);
+    const isToday = thisDate.getTime() === today.getTime();
+    const isPast  = thisDate < today;
+    const isSel   = selectedDay && thisDate.toDateString() === selectedDay.toDateString();
+    el.className = 'cal-day' + (isPast ? ' cal-day-past' : '') + (isToday ? ' cal-day-today' : '') + (isSel ? ' selected' : '');
+    el.textContent = d;
+    if (!isPast) el.onclick = () => selectDay(new Date(y, m, d));
+    grid.appendChild(el);
+  }
+}
+
+function selectDay(date) {
+  selectedDay = date;
+  const opts = {day:'numeric', month:'long', year:'numeric', weekday:'long'};
+  document.getElementById('selectedDate').textContent = '✅ ' + date.toLocaleDateString('tr-TR', opts);
+  renderCal();
+}
+
+function changeMonth(dir) {
+  calDate.setMonth(calDate.getMonth() + dir);
+  if (calDate < new Date(new Date().getFullYear(), new Date().getMonth(), 1)) {
+    calDate = new Date();
+  }
+  renderCal();
+}
+
+/* ---------- Modal ---------- */
+function openModal() {
+  document.getElementById('randevuModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  renderCal();
+}
+function closeModal() {
+  document.getElementById('randevuModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.getElementById('randevuModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('randevuModal')) closeModal();
+});
+
+function submitForm() {
+  const ad = document.getElementById('ad').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+  if (!ad || !tel) { alert('Lütfen ad soyad ve telefon bilgisini doldurun.'); return; }
+  if (!selectedDay) { alert('Lütfen bir tarih seçin.'); return; }
+  const uzmanlik = document.getElementById('uzmanlik_sec').value || 'Belirtilmedi';
+  const tarih = selectedDay.toLocaleDateString('tr-TR', {day:'numeric',month:'long',year:'numeric'});
+  const mesaj = document.getElementById('mesaj').value.trim();
+  const waMsg = encodeURIComponent(
+    `Randevu Talebi\nAd: ${ad}\nTelefon: ${tel}\nUzmanlık: ${uzmanlik}\nTarih: ${tarih}${mesaj ? '\nNot: ' + mesaj : ''}`
+  );
+  window.open('https://wa.me/90XXXXXXXXXX?text=' + waMsg, '_blank');
+  closeModal();
+}
+
+/* ---------- Dot slider ---------- */
+let dotIdx = 0;
+const dots = document.querySelectorAll('.dot');
+setInterval(() => {
+  dots.forEach(d => d.classList.remove('active'));
+  dotIdx = (dotIdx + 1) % dots.length;
   dots[dotIdx].classList.add('active');
-},3500);
+}, 3500);
 
-// KVKK kontrol
-if(localStorage.getItem('kvkk')==='1'){
-  const kb=document.getElementById('kvkkBar');
-  if(kb)kb.style.display='none';
+/* ---------- KVKK ---------- */
+if (localStorage.getItem('kvkk') === '1') {
+  const kb = document.getElementById('kvkkBar');
+  if (kb) kb.style.display = 'none';
 }
 
-// Popup — 30 saniye
-setTimeout(()=>document.getElementById('popup').classList.add('show'),30000);
+/* ---------- 30 sn popup ---------- */
+setTimeout(() => document.getElementById('popup').classList.add('show'), 30000);
 </script>
 </body>
 </html>
