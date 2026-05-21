@@ -117,17 +117,105 @@ a{text-decoration:none;color:inherit;}
 .cert{font-size:11px;padding:4px 11px;border-radius:20px;background:#E8F2FA;color:#1A6FA8;border:.5px solid #B5D4F4;}
 
 /* ============================================================
-   UZMANLIKLAR GRID
+   UZMANLIKLAR GRID — Premium Tasarım
    ============================================================ */
-.exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
-.exp-card{background:#fff;border:1px solid #E2EAF0;border-radius:11px;overflow:hidden;transition:all .22s;text-decoration:none;display:block;}
-.exp-card:hover{border-color:#1A6FA8;box-shadow:0 8px 24px rgba(26,111,168,0.12);transform:translateY(-3px);}
-.exp-img{height:100px;display:flex;align-items:center;justify-content:center;position:relative;font-size:36px;}
-.exp-img-lbl{position:absolute;bottom:7px;left:10px;font-size:8.5px;color:rgba(255,255,255,0.5);letter-spacing:1.2px;text-transform:uppercase;}
-.exp-body{padding:14px 15px;}
-.exp-name{font-size:13.5px;font-weight:700;color:#0F2744;margin-bottom:5px;}
-.exp-desc{font-size:11.5px;color:#526070;line-height:1.62;margin-bottom:11px;}
-.exp-link{font-size:11px;color:#1A6FA8;font-weight:600;display:flex;align-items:center;gap:4px;}
+.exp-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border:1px solid #E2EAF0;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 24px rgba(15,39,68,.06);
+}
+.exp-card{
+  background:#fff;
+  border:none;
+  border-right:1px solid #E2EAF0;
+  border-bottom:1px solid #E2EAF0;
+  transition:all .25s;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+/* Son sütun sağ border yok */
+.exp-card:nth-child(3n),.exp-card:nth-child(6n){border-right:none;}
+/* Son satır alt border yok */
+.exp-card:nth-last-child(-n+3){border-bottom:none;}
+
+.exp-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(26,111,168,.04),transparent 60%);
+  opacity:0;
+  transition:opacity .25s;
+}
+.exp-card:hover{
+  z-index:2;
+  box-shadow:inset 0 0 0 2px #1A6FA8,0 12px 32px rgba(26,111,168,.12);
+  transform:translateY(-2px) scale(1.01);
+}
+.exp-card:hover::before{opacity:1;}
+
+/* Görsel alanı — gerçek fotoğraf veya gradient */
+.exp-img{
+  height:160px;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.exp-img img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .4s ease;
+}
+.exp-card:hover .exp-img img{transform:scale(1.05);}
+/* Fotoğraf yokken gradient+ikon fallback */
+.exp-img-fallback{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;
+}
+.exp-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(10,22,40,.65) 100%);
+}
+.exp-img-badge{
+  position:absolute;
+  bottom:10px;left:12px;
+  font-size:9px;color:rgba(255,255,255,.7);
+  letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(15,39,68,.5);
+  padding:3px 8px;border-radius:10px;
+  backdrop-filter:blur(4px);
+}
+
+/* Kart gövdesi */
+.exp-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;}
+.exp-name{font-size:14px;font-weight:700;color:#0F2744;margin-bottom:7px;line-height:1.3;}
+.exp-desc{font-size:12px;color:#6B7F96;line-height:1.7;margin-bottom:14px;flex:1;}
+
+/* Alt bilgi satırı */
+.exp-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;
+  border-top:1px solid #F0F4F8;
+}
+.exp-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.exp-tag{
+  font-size:9.5px;padding:3px 8px;border-radius:10px;
+  background:#E8F2FA;color:#1A6FA8;font-weight:600;
+  white-space:nowrap;
+}
+.exp-link{
+  font-size:11px;color:#1A6FA8;font-weight:700;
+  display:flex;align-items:center;gap:5px;
+  white-space:nowrap;transition:gap .2s;
+}
+.exp-card:hover .exp-link{gap:8px;}
 
 /* ============================================================
    SSS
@@ -267,8 +355,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
   .side-panel{display:none;}
   .vid-corner{display:none;}
 }
-@media(max-width:400px){
+@media(max-width:900px){
+  .exp-grid{grid-template-columns:1fr 1fr;}
+  .exp-card:nth-child(3n),.exp-card:nth-child(6n){border-right:1px solid #E2EAF0;}
+  .exp-card:nth-child(2n){border-right:none;}
+}
+@media(max-width:480px){
   .exp-grid{grid-template-columns:1fr;}
+  .exp-card{border-right:none!important;}
+  .exp-card:not(:last-child){border-bottom:1px solid #E2EAF0!important;}
+  .exp-card:last-child{border-bottom:none!important;}
 }
 </style>
 </head>
@@ -310,23 +406,58 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 </div>
 
 <!-- ============================================================
-     HERO — Video
+     HERO — Video / Fotoğraf Arka Plan
      ============================================================ -->
 <section class="hero" aria-label="Klinik tanıtım">
-  <!-- Video — assets/videos/klinik.mp4 dosyasını buraya koyun -->
-  <video autoplay muted loop playsinline poster="assets/images/klinik.jpg" aria-hidden="true">
+  <!--
+    VİDEO KLASÖR YAPISI:
+    ─────────────────────────────────────────────────────
+    Yerel bilgisayarınızda dosyayı şu konuma kopyalayın:
+      drcagrineyisci-com/
+        assets/
+          videos/
+            klinik.mp4   ← videoyu buraya koyun
+          images/
+            klinik.jpg   ← fallback fotoğraf
+
+    GitHub'a yüklemek için:
+    1. GitHub reponuzda "assets/videos/" klasörü oluşturun
+    2. "Add file → Upload files" ile klinik.mp4 yükleyin
+    3. Commit edin — src="assets/videos/klinik.mp4" zaten doğru
+    ─────────────────────────────────────────────────────
+  -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    poster="assets/images/klinik.jpg"
+    aria-hidden="true"
+    id="heroVideo">
     <source src="assets/videos/klinik.mp4" type="video/mp4">
+    <!-- Video yüklenemezse fotoğraf gösterilir (aşağıda) -->
   </video>
-  <!-- Fotoğraf fallback (video yoksa gösterilir) -->
-  <img class="hero-fallback" src="assets/images/klinik.jpg" alt="Klinik" aria-hidden="true">
+
+  <!-- Fallback: video yokken veya yüklenemezse görünür -->
+  <img
+    class="hero-fallback"
+    src="assets/images/klinik.jpg"
+    alt=""
+    aria-hidden="true"
+    id="heroFallback">
+
   <div class="hero-overlay"></div>
-  <div class="vid-corner tl"></div><div class="vid-corner tr"></div>
-  <div class="vid-corner bl"></div><div class="vid-corner br"></div>
+  <div class="vid-corner tl"></div>
+  <div class="vid-corner tr"></div>
+  <div class="vid-corner bl"></div>
+  <div class="vid-corner br"></div>
+
   <div class="slide-dots" aria-hidden="true">
     <button class="dot active"></button>
     <button class="dot"></button>
     <button class="dot"></button>
   </div>
+
   <div class="hero-text">
     <div class="hero-eye" aria-hidden="true">
       <div class="hero-eye-line"></div>
@@ -389,29 +520,101 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
   <div class="stitle">Tedavi Ettiğim Durumlar</div>
   <div class="ssub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</div>
   <div class="exp-grid">
+    <!-- Diz Protezi -->
     <a href="uzmanlik/diz-protezi.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5F96);">🦴<span class="exp-img-lbl">Artroskopi · Protez</span></div>
-      <div class="exp-body"><div class="exp-name">Diz Protezi</div><div class="exp-desc">Total ve parsiyel diz protezi. Kireçlenme ve ileri evre diz hasarlarında kalıcı çözüm.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1A5F96);">🦴</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">Artroskopi · Protez</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Diz Protezi Ameliyatı</div>
+        <div class="exp-desc">Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez seçenekleri.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">90 dk</span><span class="exp-tag">2–3 gün</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
+    <!-- Menisküs -->
     <a href="uzmanlik/meniskus.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">🏃<span class="exp-img-lbl">Artroskopi · Onarım</span></div>
-      <div class="exp-body"><div class="exp-name">Menisküs Tedavisi</div><div class="exp-desc">Artroskopik menisküs onarımı. Spor yaralanmalarında hızlı iyileşme protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">🏃</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">Artroskopi · Onarım</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Menisküs Tedavisi</div>
+        <div class="exp-desc">Artroskopik onarım ile spor yaralanmalarında spora hızlı dönüş ve fonksiyon kazanımı.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">45 dk</span><span class="exp-tag">Günübirlik</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
+    <!-- ACL -->
     <a href="uzmanlik/on-capraz-bag.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">⚡<span class="exp-img-lbl">ACL · Rekonstrüksiyon</span></div>
-      <div class="exp-body"><div class="exp-name">Ön Çapraz Bağ (ACL)</div><div class="exp-desc">ACL rekonstrüksiyonu ve sporcu rehabilitasyonu. Spora erken dönüş protokolleri.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">⚡</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">ACL · Rekonstrüksiyon</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Ön Çapraz Bağ (ACL)</div>
+        <div class="exp-desc">Sporcu odaklı artroskopik rekonstrüksiyon. 9–12 ayda tam kontakt spora dönüş protokolü.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">60 dk</span><span class="exp-tag">1–2 gün</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
+    <!-- Omuz -->
     <a href="uzmanlik/omuz-artroskopi.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">💉<span class="exp-img-lbl">Rotator Manşet</span></div>
-      <div class="exp-body"><div class="exp-name">Omuz Artroskopi</div><div class="exp-desc">Rotator manşet tamiri, omuz sıkışma sendromu ve SLAP lezyonu tedavisi.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">💉</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">Rotator Manşet</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Omuz Artroskopi</div>
+        <div class="exp-desc">Rotator manşet yırtığı, SLAP lezyonu ve omuz sıkışma sendromunun minimal invaziv tedavisi.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">60–90 dk</span><span class="exp-tag">Günübirlik</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
+    <!-- Kalça -->
     <a href="uzmanlik/kalca-protezi.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0F2744,#1A5580);">🏥<span class="exp-img-lbl">Minimal İnvaziv</span></div>
-      <div class="exp-body"><div class="exp-name">Kalça Protezi</div><div class="exp-desc">Minimal invaziv kalça protezi. Daha az ağrı, daha kısa hastanede kalış süresi.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1A5580);">🏥</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">Minimal İnvaziv</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Kalça Protezi</div>
+        <div class="exp-desc">Küçük kesili minimal invaziv teknikle daha az kas hasarı, daha hızlı iyileşme ve dönüş.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">90 dk</span><span class="exp-tag">3–4 gün</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
+    <!-- Omurga -->
     <a href="uzmanlik/omurga.html" class="exp-card">
-      <div class="exp-img" style="background:linear-gradient(135deg,#0a2240,#1A6080);">🔬<span class="exp-img-lbl">Disk · Stabilizasyon</span></div>
-      <div class="exp-body"><div class="exp-name">Omurga Cerrahisi</div><div class="exp-desc">Bel fıtığı, boyun fıtığı ve omurga stabilizasyon ameliyatları.</div><div class="exp-link">→ Detayları İncele</div></div>
+      <div class="exp-img">
+        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0a2240,#1A6080);">🔬</div>
+        <div class="exp-img-overlay"></div>
+        <span class="exp-img-badge">Disk · Stabilizasyon</span>
+      </div>
+      <div class="exp-body">
+        <div class="exp-name">Omurga Cerrahisi</div>
+        <div class="exp-desc">Bel ve boyun fıtığı, spinal stenoz, omurga kayması için mikrodiskektomi ve stabilizasyon.</div>
+        <div class="exp-foot">
+          <div class="exp-tags"><span class="exp-tag">60–120 dk</span><span class="exp-tag">2–4 gün</span></div>
+          <span class="exp-link">İncele →</span>
+        </div>
+      </div>
     </a>
   </div>
 </section>
@@ -507,7 +710,6 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
         <a href="kvkk.html">KVKK Aydınlatma Metni</a>
         <a href="gizlilik.html">Gizlilik Politikası</a>
         <a href="cerez.html">Çerez Politikası</a>
-        <a href="kullanim.html">Kullanım Koşulları</a>
       </div>
     </div>
   </div>
@@ -618,6 +820,22 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
      JAVASCRIPT
      ============================================================ -->
 <script>
+/* ---------- Video fallback ---------- */
+(function(){
+  const vid = document.getElementById('heroVideo');
+  const fallback = document.getElementById('heroFallback');
+  if(!vid) return;
+  // Eğer video yüklenemezse fallback fotoğrafı göster
+  vid.addEventListener('error', function(){
+    vid.style.display = 'none';
+    if(fallback) fallback.style.zIndex = '1';
+  });
+  // Video başarıyla oynarsa fallback'i gizle
+  vid.addEventListener('playing', function(){
+    if(fallback) fallback.style.opacity = '0';
+  });
+})();
+
 /* ---------- NAV scroll ---------- */
 const navWrap = document.getElementById('navWrap');
 let lastY = 0;
