@@ -22,72 +22,119 @@ a{text-decoration:none;color:inherit;}
 /* ============================================================
    NAV — sticky, scroll ile gizlenir/gösterilir
    ============================================================ */
-.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:500;transition:transform 0.32s ease;background:#fff;}
+.nav-wrap{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  transition:transform 0.32s ease, background 0.3s ease, box-shadow 0.3s ease;
+  background:transparent;  /* başlangıçta saydam */
+}
 .nav-wrap.nav-hidden{transform:translateY(-100%);}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;border-bottom:2px solid #1A6FA8;box-shadow:0 1px 8px rgba(15,39,68,0.07);}
-.nav-logo{line-height:1.2;}
-.nav-logo-name{font-size:15px;font-weight:700;color:#0F2744;}
-.nav-logo-sub{font-size:9px;color:#1A6FA8;letter-spacing:2.5px;text-transform:uppercase;}
+.nav-wrap.nav-scrolled{
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 1px 12px rgba(15,39,68,0.09);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.nav-wrap.nav-scrolled .nav{border-bottom-color:#E2EAF0;}
+.nav-logo-name{font-size:15px;font-weight:700;color:#fff;transition:color .3s;}
+.nav-logo-sub{font-size:9px;color:rgba(107,184,232,0.8);letter-spacing:2.5px;text-transform:uppercase;transition:color .3s;}
+.nav-wrap.nav-scrolled .nav-logo-name{color:#0F2744;}
+.nav-wrap.nav-scrolled .nav-logo-sub{color:#1A6FA8;}
 .nav-links{display:flex;gap:4px;}
-.nav-links a{font-size:13px;color:#526070;padding:6px 10px;border-radius:5px;transition:all .18s;border-bottom:2px solid transparent;}
-.nav-links a:hover,.nav-links a.active{color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;}
+.nav-links a{font-size:13px;color:rgba(255,255,255,0.75);padding:6px 10px;border-radius:5px;transition:all .18s;border-bottom:2px solid transparent;}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,0.12);border-bottom-color:rgba(107,184,232,0.7);}
+.nav-wrap.nav-scrolled .nav-links a{color:#526070;}
+.nav-wrap.nav-scrolled .nav-links a:hover,.nav-wrap.nav-scrolled .nav-links a.active{color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:#1A6FA8;color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;}
-.nav-cta:hover{background:#155d8f;}
+.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:rgba(26,111,168,0.85);color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;backdrop-filter:blur(4px);}
+.nav-cta:hover{background:#1A6FA8;}
+.nav-wrap.nav-scrolled .nav-cta{background:#1A6FA8;}
 /* Hamburger */
 .nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
-.nav-hamburger span{width:22px;height:2px;background:#0F2744;border-radius:2px;display:block;transition:all .25s;}
+.nav-hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .25s;}
+.nav-wrap.nav-scrolled .nav-hamburger span{background:#0F2744;}
 .nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
 .nav-hamburger.open span:nth-child(2){opacity:0;}
 .nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
 /* Mobile menu */
-.mobile-menu{display:none;position:fixed;top:58px;left:0;right:0;background:#fff;border-bottom:2px solid #1A6FA8;padding:16px 20px;z-index:490;flex-direction:column;gap:4px;box-shadow:0 6px 20px rgba(15,39,68,0.1);}
+.mobile-menu{display:none;position:fixed;top:58px;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:2px solid #1A6FA8;padding:16px 20px;z-index:490;flex-direction:column;gap:4px;box-shadow:0 6px 20px rgba(15,39,68,0.1);}
 .mobile-menu.open{display:flex;}
 .mobile-menu a{font-size:14px;color:#526070;padding:10px 12px;border-radius:6px;transition:background .15s;}
 .mobile-menu a:hover{background:#F0F7FF;color:#1A6FA8;}
 .mobile-menu .m-cta{margin-top:6px;background:#1A6FA8;color:#fff;text-align:center;border-radius:7px;padding:11px;font-weight:600;}
 
 /* ============================================================
-   HERO — VIDEO ARKA PLAN
+   HERO — Nav arkasında tam ekran video
    ============================================================ */
-.hero{position:relative;height:100vh;min-height:520px;max-height:780px;overflow:hidden;background:#0a1628;margin-top:58px;}
-.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-/* Video yoksa fallback fotoğraf */
-.hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;animation:panImg 22s ease-in-out infinite alternate;}
-@keyframes panImg{0%{transform:scale(1.07) translateX(0)}100%{transform:scale(1.07) translateX(-3%)}}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,22,40,0.88) 0%,rgba(10,22,40,0.5) 55%,rgba(10,22,40,0.18) 100%);z-index:1;}
+.hero{
+  position:relative;
+  height:100vh;
+  min-height:560px;
+  overflow:hidden;
+  background:#0a1628;
+  margin-top:0;          /* Nav'ın arkasına giriyor */
+}
+.hero video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  z-index:0;
+}
+.hero-fallback{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  z-index:0;
+  animation:panImg 22s ease-in-out infinite alternate;
+}
+@keyframes panImg{
+  0%  {transform:scale(1.06) translateX(0)}
+  100%{transform:scale(1.06) translateX(-2%)}
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    90deg,
+    rgba(10,22,40,0.86) 0%,
+    rgba(10,22,40,0.48) 52%,
+    rgba(10,22,40,0.14) 100%
+  );
+  z-index:1;
+}
 /* Köşe dekorasyon */
-.vid-corner{position:absolute;width:22px;height:22px;border-color:rgba(255,255,255,0.28);border-style:solid;z-index:2;}
-.vid-corner.tl{top:18px;left:18px;border-width:2px 0 0 2px;}
-.vid-corner.tr{top:18px;right:18px;border-width:2px 2px 0 0;}
+.vid-corner{position:absolute;width:22px;height:22px;border-color:rgba(255,255,255,0.22);border-style:solid;z-index:2;}
+.vid-corner.tl{top:72px;left:18px;border-width:2px 0 0 2px;}
+.vid-corner.tr{top:72px;right:18px;border-width:2px 2px 0 0;}
 .vid-corner.bl{bottom:18px;left:18px;border-width:0 0 2px 2px;}
 .vid-corner.br{bottom:18px;right:18px;border-width:0 2px 2px 0;}
-/* Slider noktalar */
-.slide-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:3;}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);border:none;cursor:pointer;padding:0;transition:all .35s;}
-.dot.active{background:#fff;width:22px;border-radius:4px;}
+/* Slide dots — tek video → gizle */
+.slide-dots{display:none;}
 /* Hero metin */
-.hero-text{position:absolute;left:clamp(20px,5vw,48px);top:50%;transform:translateY(-50%);z-index:3;max-width:min(420px,90vw);}
+.hero-text{
+  position:absolute;
+  left:clamp(20px,5vw,48px);
+  top:50%;
+  transform:translateY(-50%);
+  z-index:3;
+  max-width:min(440px,90vw);
+}
 .hero-eye{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
 .hero-eye-line{width:22px;height:1px;background:#1A6FA8;flex-shrink:0;}
 .hero-eye-txt{font-size:10px;color:#6BB8E8;letter-spacing:2.5px;text-transform:uppercase;}
-.hero-title{font-size:clamp(24px,4vw,40px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:12px;}
+.hero-title{font-size:clamp(26px,4.2vw,44px);font-weight:700;color:#fff;line-height:1.18;margin-bottom:12px;}
 .hero-title span{color:#6BB8E8;}
-.hero-desc{font-size:clamp(12px,1.5vw,14px);color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:22px;}
+.hero-desc{font-size:clamp(12px,1.4vw,15px);color:rgba(255,255,255,0.62);line-height:1.8;margin-bottom:24px;}
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
-.hero-btn-main{padding:11px 22px;border-radius:7px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
+.hero-btn-main{padding:12px 24px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
 .hero-btn-main:hover{background:#155d8f;}
-.hero-btn-outline{padding:11px 22px;border-radius:7px;border:1.5px solid rgba(255,255,255,0.35);color:#fff;font-size:13px;font-weight:500;background:transparent;cursor:pointer;transition:background .2s;}
-.hero-btn-outline:hover{background:rgba(255,255,255,0.1);}
+.hero-btn-outline{padding:12px 24px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.32);color:#fff;font-size:13px;font-weight:500;background:transparent;cursor:pointer;transition:all .2s;}
+.hero-btn-outline:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.5);}
 
 /* ============================================================
-   STATS
+   STATS — gizlendi, istatistikler 3D küplere taşındı
    ============================================================ */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-bottom:1px solid #E2EAF0;}
-.stat-item{padding:20px 16px;text-align:center;border-right:1px solid #E2EAF0;}
-.stat-item:last-child{border-right:none;}
-.stat-num{font-size:26px;font-weight:700;color:#1A6FA8;}
-.stat-lbl{font-size:11px;color:#526070;margin-top:4px;}
+.stats-bar{display:none;}
 
 /* ============================================================
    SECTION HELPERS
@@ -99,27 +146,517 @@ a{text-decoration:none;color:inherit;}
 .ssub{font-size:13px;color:#526070;margin-bottom:22px;}
 
 /* ============================================================
-   DOKTOR
+   DOKTOR — Glassmorphism & 3D Küp Premium
    ============================================================ */
-.doc-grid{display:grid;grid-template-columns:clamp(180px,25%,260px) 1fr;border-radius:12px;border:1px solid #E2EAF0;overflow:hidden;}
-.doc-photo{background:linear-gradient(160deg,#0F2744,#1A6FA8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;position:relative;min-height:300px;overflow:hidden;}
-.doc-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
-.doc-badge{position:relative;z-index:2;background:rgba(15,39,68,0.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.15);border-radius:9px;padding:10px 14px;text-align:center;width:100%;}
-.doc-badge-name{font-size:13px;font-weight:700;color:#fff;}
-.doc-badge-title{font-size:9.5px;color:rgba(255,255,255,0.55);margin-top:2px;}
-.doc-info{padding:clamp(18px,3vw,32px);background:#fff;}
-.dtitle{font-size:clamp(15px,2vw,19px);font-weight:700;color:#0F2744;margin-bottom:10px;}
-.dbody{font-size:13px;color:#526070;line-height:1.85;margin-bottom:14px;}
-.dmission{background:#F0F4F8;border-left:3px solid #1A6FA8;padding:13px 17px;border-radius:0 9px 9px 0;margin-bottom:18px;}
-.dmission-lbl{font-size:9px;color:#1A6FA8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
-.dmission-txt{font-size:13px;color:#0F2744;line-height:1.8;font-style:italic;}
-.certs{display:flex;gap:6px;flex-wrap:wrap;}
-.cert{font-size:11px;padding:4px 11px;border-radius:20px;background:#E8F2FA;color:#1A6FA8;border:.5px solid #B5D4F4;}
+
+/* Bölüm arka planı: buz mavisi-gri gradyan */
+.doc-section-wrap{
+  background: linear-gradient(160deg,
+    #e8eef6 0%,
+    #f0f5fb 30%,
+    #eaf1f8 60%,
+    #f5f7fa 100%);
+  position:relative;
+  overflow:hidden;
+  padding: clamp(56px,9vw,112px) clamp(16px,4vw,40px);
+}
+
+/* Derinlik için arka plan süsleme daireleri */
+.doc-section-wrap::before{
+  content:'';
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(26,111,168,.06) 0%, transparent 70%);
+  top:-150px;left:-100px;
+  pointer-events:none;
+}
+.doc-section-wrap::after{
+  content:'';
+  position:absolute;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(107,184,232,.07) 0%, transparent 70%);
+  bottom:-80px;right:5%;
+  pointer-events:none;
+}
+
+/* İç grid */
+.doc-section-inner{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:clamp(40px,6vw,96px);
+  align-items:start;
+  max-width:1040px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+
+/* SOL: Fotoğraf + sertifika listesi */
+.doc-photo-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:16px;
+}
+
+/* Portrait kart */
+.doc-photo-card{
+  width:100%;
+  aspect-ratio:3/4;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:
+    0 2px 6px  rgba(10,22,50,.10),
+    0 10px 28px rgba(10,22,50,.14),
+    0 32px 60px rgba(10,22,50,.16),
+    0 56px 90px rgba(10,22,50,.10);
+  background:#ccd8e8;
+  transition: transform .6s cubic-bezier(.25,.46,.45,.94),
+              box-shadow .6s ease;
+}
+.doc-photo-card:hover{
+  transform:translateY(-8px);
+  box-shadow:
+    0 4px 10px  rgba(10,22,50,.12),
+    0 18px 40px rgba(10,22,50,.16),
+    0 48px 80px rgba(10,22,50,.18),
+    0 72px 120px rgba(10,22,50,.12);
+}
+.doc-photo-card img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  border-radius:20px;
+}
+
+/* Glassmorphism sertifika kartları */
+.doc-pills{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.doc-pill{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(12px) saturate(1.4);
+  -webkit-backdrop-filter:blur(12px) saturate(1.4);
+  border:1px solid rgba(255,255,255,0.75);
+  border-radius:14px;
+  padding:11px 16px;
+  box-shadow:
+    0 2px 8px rgba(15,39,68,.06),
+    0 1px 2px rgba(15,39,68,.04);
+  transition:transform .22s ease, box-shadow .22s ease, background .22s;
+}
+.doc-pill:hover{
+  transform:translateX(4px);
+  background:rgba(255,255,255,0.78);
+  box-shadow:
+    0 4px 16px rgba(15,39,68,.09),
+    0 2px 4px rgba(15,39,68,.05);
+}
+.doc-pill-icon{
+  width:32px;height:32px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#0F2744,#1A6FA8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+  box-shadow:0 2px 8px rgba(26,111,168,.3);
+}
+.doc-pill-text{
+  font-size:12.5px;font-weight:600;
+  color:#0F2744;
+  letter-spacing:-.01em;
+  line-height:1.1;
+}
+.doc-pill-sub{
+  font-size:10px;color:#6e7f90;
+  margin-top:2px;font-weight:400;
+}
+
+/* SAĞ: Metin */
+.doc-text{
+  display:flex;
+  flex-direction:column;
+  padding-top:8px;
+}
+.doc-eyebrow{
+  font-size:11px;font-weight:600;
+  color:#1A6FA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.doc-eyebrow::before{
+  content:'';width:16px;height:1px;
+  background:#1A6FA8;flex-shrink:0;
+}
+.doc-headline{
+  font-size:clamp(26px,3.4vw,42px);
+  font-weight:700;
+  color:#0d1f36;
+  line-height:1.13;
+  letter-spacing:-.03em;
+  margin-bottom:28px;
+}
+.doc-motto{
+  position:relative;
+  margin-bottom:24px;
+  padding:0 0 0 20px;
+}
+.doc-motto::before{
+  content:'';
+  position:absolute;left:0;top:2px;bottom:2px;
+  width:2px;
+  background:linear-gradient(180deg,#1A6FA8,rgba(26,111,168,0));
+  border-radius:2px;
+}
+.doc-motto-quote{
+  font-size:clamp(14px,1.5vw,16px);
+  font-weight:500;
+  color:#1a2e44;
+  line-height:1.7;
+  letter-spacing:-.015em;
+}
+.doc-motto-mark{
+  color:#1A6FA8;font-size:1.3em;
+  line-height:0;vertical-align:-.12em;
+  font-weight:400;font-style:normal;
+}
+.doc-body{
+  font-size:clamp(13px,1.3vw,14.5px);
+  color:#526070;
+  line-height:1.9;
+  letter-spacing:-.01em;
+  margin-bottom:44px;
+}
+
+/* ── 3D KÜP İSTATİSTİK KARTLARI ── */
+.doc-cubes{
+  display:flex;
+  gap:clamp(12px,2vw,20px);
+  flex-wrap:wrap;
+}
+
+/* Floating animasyonlar — her küp farklı zamanlama */
+@keyframes floatA{
+  0%,100%{ transform:translateY(0px) rotateX(2deg); }
+  50%    { transform:translateY(-10px) rotateX(-1deg); }
+}
+@keyframes floatB{
+  0%,100%{ transform:translateY(-4px) rotateX(-1deg); }
+  50%    { transform:translateY(8px) rotateX(2deg); }
+}
+@keyframes floatC{
+  0%,100%{ transform:translateY(-6px) rotateX(1deg); }
+  50%    { transform:translateY(6px) rotateX(-2deg); }
+}
+@keyframes glowPulse{
+  0%,100%{ opacity:.5; }
+  50%    { opacity:.9; }
+}
+
+.doc-cube{
+  flex:1;
+  min-width:130px;
+  max-width:180px;
+  aspect-ratio:1/1.05;
+  position:relative;
+  perspective:600px;
+  cursor:default;
+}
+
+/* Küp gövdesi */
+.doc-cube-inner{
+  width:100%;height:100%;
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(16px) saturate(1.6);
+  -webkit-backdrop-filter:blur(16px) saturate(1.6);
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,0.60);
+  box-shadow:
+    0 4px 16px rgba(15,39,68,.08),
+    0 12px 32px rgba(15,39,68,.10),
+    inset 0 1px 0 rgba(255,255,255,.8);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:16px 12px;
+  transition:
+    transform .4s cubic-bezier(.25,.46,.45,.94),
+    box-shadow .4s ease,
+    background .3s ease;
+}
+
+/* Hover: büyü + parla */
+.doc-cube:hover .doc-cube-inner{
+  transform:scale(1.07) translateY(-4px);
+  background:rgba(255,255,255,0.42);
+  box-shadow:
+    0 8px 24px rgba(26,111,168,.14),
+    0 20px 48px rgba(26,111,168,.12),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* Floating animasyon ataması */
+.doc-cube:nth-child(1) .doc-cube-inner{ animation:floatA 5.5s ease-in-out infinite; }
+.doc-cube:nth-child(2) .doc-cube-inner{ animation:floatB 6.2s ease-in-out infinite; }
+.doc-cube:nth-child(3) .doc-cube-inner{ animation:floatC 4.8s ease-in-out infinite; }
+.doc-cube:hover .doc-cube-inner{ animation-play-state:paused; }
+
+/* Alt ışıma efekti */
+.doc-cube::after{
+  content:'';
+  position:absolute;
+  left:15%;right:15%;
+  bottom:-8px;
+  height:12px;
+  background:rgba(26,111,168,.18);
+  filter:blur(8px);
+  border-radius:50%;
+  animation:glowPulse 3s ease-in-out infinite;
+}
+.doc-cube:nth-child(2)::after{ animation-delay:.8s; }
+.doc-cube:nth-child(3)::after{ animation-delay:1.6s; }
+
+/* Küp ikon */
+.doc-cube-icon{
+  font-size:clamp(22px,3vw,30px);
+  line-height:1;
+  filter:drop-shadow(0 2px 6px rgba(26,111,168,.25));
+  transition:transform .3s ease, filter .3s ease;
+}
+.doc-cube:hover .doc-cube-icon{
+  transform:scale(1.15) translateY(-2px);
+  filter:drop-shadow(0 4px 10px rgba(26,111,168,.4));
+}
+
+/* Küp değer */
+.doc-cube-val{
+  font-size:clamp(22px,2.8vw,30px);
+  font-weight:700;
+  color:#0d1f36;
+  letter-spacing:-.04em;
+  line-height:1;
+}
+
+/* Küp etiket */
+.doc-cube-lbl{
+  font-size:10.5px;
+  color:#526070;
+  letter-spacing:.04em;
+  text-align:center;
+  line-height:1.4;
+  font-weight:500;
+}
+
+/* Responsive */
+@media(max-width:860px){
+  .doc-section-inner{
+    grid-template-columns:1fr;
+    gap:36px;
+  }
+  .doc-photo-wrap{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:16px;
+    align-items:start;
+  }
+  .doc-photo-card{aspect-ratio:3/4;width:200px;}
+  .doc-pills{display:flex;flex-direction:column;}
+}
+@media(max-width:560px){
+  .doc-photo-wrap{grid-template-columns:1fr;}
+  .doc-photo-card{width:100%;max-width:280px;margin:0 auto;}
+  .doc-cubes{justify-content:center;}
+  .doc-cube{min-width:110px;max-width:150px;}
+}
 
 /* ============================================================
-   UZMANLIKLAR GRID — Premium Tasarım
+   UZMANLIKLAR — Bento Grid Premium
    ============================================================ */
-.exp-grid{
+.bento-wrap{
+  padding:clamp(40px,6vw,72px) clamp(16px,4vw,40px);
+  background:linear-gradient(160deg,#f0f5fb 0%,#e8eef6 50%,#edf2f8 100%);
+}
+.bento-head{
+  text-align:center;
+  margin-bottom:clamp(28px,4vw,48px);
+}
+.bento-label{
+  font-size:10px;font-weight:700;color:#1A6FA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:14px;
+}
+.bento-label::before,.bento-label::after{content:'';width:24px;height:1px;background:#1A6FA8;}
+.bento-title{
+  font-size:clamp(24px,3.5vw,40px);font-weight:700;
+  color:#0d1f36;letter-spacing:-.03em;line-height:1.12;
+  margin-bottom:10px;
+}
+.bento-sub{font-size:14px;color:#6B7F96;max-width:480px;margin:0 auto;line-height:1.7;}
+
+/* ── Grid yapısı ── */
+.bento-grid{
+  display:grid;
+  grid-template-columns:1fr 1.7fr 1fr;
+  grid-template-rows:auto auto;
+  gap:14px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/* ── Temel kart ── */
+.bc{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#0a1628 0%,#0d2040 60%,#091428 100%);
+  border-radius:24px;
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  min-height:220px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .4s cubic-bezier(.25,.46,.45,.94),
+             box-shadow .4s ease;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.bc:hover{
+  transform:scale(1.03) translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(107,184,232,0.2),
+    0 20px 60px rgba(10,22,40,0.4),
+    0 0 40px rgba(26,111,168,0.15) inset;
+}
+
+/* İç parıltı efekti */
+.bc::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 70% 30%, rgba(26,111,168,0.18) 0%, transparent 65%);
+  opacity:0;
+  transition:opacity .4s;
+  border-radius:inherit;
+}
+.bc:hover::before{opacity:1;}
+
+/* Görsel alanı */
+.bc-img{
+  position:absolute;
+  right:-10%;top:-5%;
+  width:65%;height:115%;
+  object-fit:cover;
+  object-position:center;
+  border-radius:16px;
+  opacity:0.55;
+  transition:opacity .4s, transform .4s;
+  mask-image:linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+}
+.bc:hover .bc-img{opacity:0.7;transform:scale(1.04);}
+
+/* Büyük kart için ortada görsel */
+.bc-hero .bc-img{
+  right:-5%;top:-8%;
+  width:70%;height:120%;
+  opacity:0.5;
+}
+.bc-hero:hover .bc-img{opacity:0.65;}
+
+/* Metin katmanı */
+.bc-content{position:relative;z-index:2;}
+.bc-tag{
+  font-size:9px;font-weight:700;
+  color:rgba(107,184,232,0.7);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.bc-title{
+  font-size:clamp(16px,1.8vw,22px);
+  font-weight:700;color:#fff;
+  line-height:1.2;letter-spacing:-.02em;
+  margin-bottom:8px;
+}
+.bc-hero .bc-title{font-size:clamp(20px,2.4vw,30px);}
+.bc-desc{
+  font-size:12px;color:rgba(255,255,255,0.55);
+  line-height:1.65;margin-bottom:16px;
+  max-width:240px;
+}
+.bc-hero .bc-desc{font-size:13px;max-width:300px;}
+
+/* İncele butonu */
+.bc-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;
+  color:#6BB8E8;
+  transition:gap .2s, color .2s;
+}
+.bc-link::after{
+  content:'→';
+  transition:transform .2s;
+}
+.bc:hover .bc-link{gap:10px;color:#9DD4F4;}
+.bc:hover .bc-link::after{transform:translateX(3px);}
+
+/* Süre badge */
+.bc-badge{
+  position:absolute;
+  bottom:20px;right:20px;
+  font-size:10px;font-weight:700;
+  color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;
+  padding:4px 10px;
+  backdrop-filter:blur(4px);
+}
+
+/* Grid yerleşimi */
+.bc-col-left-top   { grid-column:1; grid-row:1; }
+.bc-col-left-mid   { grid-column:1; grid-row:2; }
+.bc-hero           { grid-column:2; grid-row:1/3; min-height:480px; }
+.bc-col-right-top  { grid-column:3; grid-row:1; }
+.bc-col-right-mid  { grid-column:3; grid-row:2; }
+
+/* Organik köşeler — her kart farklı */
+.bc-col-left-top  { border-radius:24px 24px 8px 24px; }
+.bc-col-left-mid  { border-radius:8px 24px 24px 24px; }
+.bc-hero          { border-radius:28px; }
+.bc-col-right-top { border-radius:24px 24px 24px 8px; }
+.bc-col-right-mid { border-radius:24px 8px 24px 24px; }
+
+/* Responsive */
+@media(max-width:960px){
+  .bento-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto;
+  }
+  .bc-col-left-top  { grid-column:1; grid-row:1; }
+  .bc-hero          { grid-column:1/3; grid-row:2; min-height:320px; }
+  .bc-col-left-mid  { grid-column:1; grid-row:3; }
+  .bc-col-right-top { grid-column:2; grid-row:1; }
+  .bc-col-right-mid { grid-column:2; grid-row:3; }
+  .bc{ border-radius:20px!important; }
+}
+@media(max-width:600px){
+  .bento-grid{ grid-template-columns:1fr; }
+  .bc-hero{ grid-column:1; min-height:260px; }
+  .bc-col-left-top,.bc-col-left-mid,.bc-col-right-top,.bc-col-right-mid{grid-column:1;}
+  .bc-img,.bc-hero .bc-img{ width:55%;opacity:0.4; }
+}
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:0;
@@ -269,15 +806,101 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 .kvkk-btn{font-size:10px;padding:5px 14px;border-radius:5px;background:rgba(26,111,168,0.25);border:.5px solid rgba(26,111,168,0.4);color:#6BB8E8;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 
 /* ============================================================
-   SAĞ PANEL — fixed, her zaman görünür
+   SAĞ ALT PANEL — Sayfanın tamamında sağ alt köşe, premium
    ============================================================ */
-.side-panel{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;gap:2px;}
-.s-btn{display:flex;align-items:center;overflow:hidden;background:#fff;border:none;border-left:3px solid #1A6FA8;cursor:pointer;box-shadow:-2px 2px 12px rgba(15,39,68,0.1);text-decoration:none;width:46px;transition:width .28s ease,background .15s;}
-.s-btn:hover{width:162px;background:#F0F4F8;}
-.s-btn.wa{border-left-color:#25D366;}
-.s-btn-ico{width:46px;min-width:46px;height:46px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
-.s-btn-lbl{font-size:11px;color:#0F2744;font-weight:600;white-space:nowrap;padding-right:14px;opacity:0;transition:opacity .15s .07s;}
-.s-btn:hover .s-btn-lbl{opacity:1;}
+.side-panel{
+  position:fixed;
+  right:20px;
+  bottom:24px;
+  z-index:400;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-end;
+}
+/* Ana WhatsApp balonu */
+.s-btn-wa-main{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(135deg,#25D366,#1da851);
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(37,211,102,0.35),0 2px 8px rgba(37,211,102,0.2);
+  text-decoration:none;
+  padding:12px 20px 12px 14px;
+  transition:transform .25s ease, box-shadow .25s ease;
+  white-space:nowrap;
+}
+.s-btn-wa-main:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 8px 28px rgba(37,211,102,0.4),0 4px 12px rgba(37,211,102,0.25);
+}
+.s-wa-ico{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+.s-wa-lbl{font-size:13px;color:#fff;font-weight:700;letter-spacing:-.01em;}
+.s-wa-sub{font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;}
+
+/* İkincil butonlar — küçük, cam efektli */
+.s-mini-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-end;
+}
+.s-mini{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(15,39,68,0.88);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:40px;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(15,39,68,0.25);
+  text-decoration:none;
+  padding:8px 16px 8px 10px;
+  transition:all .22s ease;
+  white-space:nowrap;
+  overflow:hidden;
+  max-width:42px;  /* collapsed */
+}
+.s-mini:hover{
+  max-width:200px;
+  background:rgba(15,39,68,0.96);
+  box-shadow:0 6px 20px rgba(15,39,68,0.3);
+  transform:translateX(-3px);
+}
+.s-mini-ico{
+  width:26px;height:26px;
+  border-radius:50%;
+  background:rgba(26,111,168,0.3);
+  border:1px solid rgba(107,184,232,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+  flex-shrink:0;
+}
+.s-mini-lbl{
+  font-size:11.5px;color:#fff;font-weight:500;
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity .15s .08s;
+  pointer-events:none;
+}
+.s-mini:hover .s-mini-lbl{opacity:1;}
+
+@media(max-width:600px){
+  .side-panel{right:12px;bottom:16px;}
+  .s-mini{display:none;}
+}
 
 /* ============================================================
    RANDEVU MODAL — takvim ile
@@ -483,140 +1106,183 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 </section>
 
 <!-- ============================================================
-     DOKTOR
+     DOKTOR — Glassmorphism + 3D Küp
      ============================================================ -->
-<section id="hakkimda" class="sw" aria-label="Hakkımda">
-  <div class="slbl">Hakkımda</div>
-  <div class="doc-grid">
-    <div class="doc-photo">
-      <img src="assets/images/doktor.jpg" alt="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı" loading="lazy">
-      <div class="doc-badge">
-        <div class="doc-badge-name">Dr. Çağrı Neyişci</div>
-        <div class="doc-badge-title">Ortopedi & Travmatoloji Uzmanı</div>
+<section id="hakkimda" aria-label="Hakkımda">
+  <div class="doc-section-wrap">
+    <div class="doc-section-inner">
+
+      <!-- SOL: Portrait Kart + Cam Sertifikalar -->
+      <div class="doc-photo-wrap">
+        <div class="doc-photo-card">
+          <img src="assets/images/doktor.jpg"
+               alt="Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı"
+               loading="lazy">
+        </div>
+
+        <div class="doc-pills">
+          <div class="doc-pill">
+            <div class="doc-pill-icon">🏅</div>
+            <div>
+              <div class="doc-pill-text">TOTEK Üyesi</div>
+              <div class="doc-pill-sub">Türk Ortopedi Derneği</div>
+            </div>
+          </div>
+          <div class="doc-pill">
+            <div class="doc-pill-icon">🌍</div>
+            <div>
+              <div class="doc-pill-text">EFORT Üyesi</div>
+              <div class="doc-pill-sub">Avrupa Ortopedi Derneği</div>
+            </div>
+          </div>
+          <div class="doc-pill">
+            <div class="doc-pill-icon">🔬</div>
+            <div>
+              <div class="doc-pill-text">Minimal İnvaziv</div>
+              <div class="doc-pill-sub">Uzman Sertifikası</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="doc-info">
-      <div class="dtitle">Sağlıklı Hareketi Yeniden Kazandırmak İçin Buradayım</div>
-      <p class="dbody">15 yılı aşkın cerrahi deneyimle diz, omuz, kalça ve omurga patolojilerinde minimal invaziv yaklaşımları benimsiyorum. Her hastamı bireysel değerlendiriyor, en uygun tedavi protokolünü birlikte planlıyoruz.</p>
-      <div class="dmission">
-        <div class="dmission-lbl">Misyonum</div>
-        <div class="dmission-txt">"Hastalarımı ameliyat masasına değil, aktif yaşama döndürmek önceliğimdir. Teknoloji ve deneyimi birleştirerek her bireye özel çözümler sunuyorum."</div>
-      </div>
-      <div class="certs">
-        <span class="cert">TOTEK Üyesi</span>
-        <span class="cert">EFORT Üyesi</span>
-        <span class="cert">Tıp Dr. Uzman</span>
-        <span class="cert">2500+ Ameliyat</span>
-      </div>
-    </div>
-  </div>
+
+      <!-- SAĞ: Metin + 3D Küpler -->
+      <div class="doc-text">
+        <div class="doc-eyebrow">Hakkımda</div>
+
+        <h2 class="doc-headline">
+          Sağlıklı Hareketi<br>
+          Yeniden Kazandırmak<br>
+          İçin Buradayım
+        </h2>
+
+        <div class="doc-motto">
+          <div class="doc-motto-quote">
+            <i class="doc-motto-mark">"</i>Hastalarımı ameliyat masasına değil,
+            aktif yaşama döndürmek önceliğimdir.
+            Teknoloji ve deneyimi birleştirerek
+            her bireye özel çözümler sunuyorum.<i class="doc-motto-mark">"</i>
+          </div>
+        </div>
+
+        <p class="doc-body">
+          15 yılı aşkın cerrahi deneyimle diz, omuz, kalça ve omurga
+          patolojilerinde minimal invaziv yaklaşımları benimsiyorum.
+          Her hastamı bireysel değerlendiriyor, en uygun tedavi
+          protokolünü birlikte planlıyoruz.
+        </p>
+
+        <!-- 3D Yüzen Küp İstatistikler -->
+        <div class="doc-cubes">
+
+          <div class="doc-cube">
+            <div class="doc-cube-inner">
+              <div class="doc-cube-icon">🏆</div>
+              <div class="doc-cube-val">2500<span style="font-size:.55em;opacity:.65;letter-spacing:0">+</span></div>
+              <div class="doc-cube-lbl">Başarılı<br>Ameliyat</div>
+            </div>
+          </div>
+
+          <div class="doc-cube">
+            <div class="doc-cube-inner">
+              <div class="doc-cube-icon">⏱</div>
+              <div class="doc-cube-val">15<span style="font-size:.5em;opacity:.65;letter-spacing:0">+ yıl</span></div>
+              <div class="doc-cube-lbl">Cerrahi<br>Deneyim</div>
+            </div>
+          </div>
+
+          <div class="doc-cube">
+            <div class="doc-cube-inner">
+              <div class="doc-cube-icon">❤️</div>
+              <div class="doc-cube-val">%98</div>
+              <div class="doc-cube-lbl">Hasta<br>Memnuniyeti</div>
+            </div>
+          </div>
+
+        </div><!-- /doc-cubes -->
+      </div><!-- /doc-text -->
+
+    </div><!-- /doc-section-inner -->
+  </div><!-- /doc-section-wrap -->
 </section>
 
 <!-- ============================================================
      UZMANLIKLAR
      ============================================================ -->
-<section id="uzmanlik" class="sw" aria-label="Uzmanlık Alanları">
-  <div class="slbl">Uzmanlık Alanları</div>
-  <div class="stitle">Tedavi Ettiğim Durumlar</div>
-  <div class="ssub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</div>
-  <div class="exp-grid">
-    <!-- Diz Protezi -->
-    <a href="uzmanlik/diz-protezi.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1A5F96);">🦴</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">Artroskopi · Protez</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Diz Protezi Ameliyatı</div>
-        <div class="exp-desc">Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez seçenekleri.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">90 dk</span><span class="exp-tag">2–3 gün</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
-    <!-- Menisküs -->
-    <a href="uzmanlik/meniskus.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">🏃</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">Artroskopi · Onarım</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Menisküs Tedavisi</div>
-        <div class="exp-desc">Artroskopik onarım ile spor yaralanmalarında spora hızlı dönüş ve fonksiyon kazanımı.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">45 dk</span><span class="exp-tag">Günübirlik</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
-    <!-- ACL -->
-    <a href="uzmanlik/on-capraz-bag.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">⚡</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">ACL · Rekonstrüksiyon</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Ön Çapraz Bağ (ACL)</div>
-        <div class="exp-desc">Sporcu odaklı artroskopik rekonstrüksiyon. 9–12 ayda tam kontakt spora dönüş protokolü.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">60 dk</span><span class="exp-tag">1–2 gün</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
-    <!-- Omuz -->
-    <a href="uzmanlik/omuz-artroskopi.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">💉</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">Rotator Manşet</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Omuz Artroskopi</div>
-        <div class="exp-desc">Rotator manşet yırtığı, SLAP lezyonu ve omuz sıkışma sendromunun minimal invaziv tedavisi.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">60–90 dk</span><span class="exp-tag">Günübirlik</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
-    <!-- Kalça -->
-    <a href="uzmanlik/kalca-protezi.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0F2744,#1A5580);">🏥</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">Minimal İnvaziv</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Kalça Protezi</div>
-        <div class="exp-desc">Küçük kesili minimal invaziv teknikle daha az kas hasarı, daha hızlı iyileşme ve dönüş.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">90 dk</span><span class="exp-tag">3–4 gün</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
-    <!-- Omurga -->
-    <a href="uzmanlik/omurga.html" class="exp-card">
-      <div class="exp-img">
-        <div class="exp-img-fallback" style="background:linear-gradient(135deg,#0a2240,#1A6080);">🔬</div>
-        <div class="exp-img-overlay"></div>
-        <span class="exp-img-badge">Disk · Stabilizasyon</span>
-      </div>
-      <div class="exp-body">
-        <div class="exp-name">Omurga Cerrahisi</div>
-        <div class="exp-desc">Bel ve boyun fıtığı, spinal stenoz, omurga kayması için mikrodiskektomi ve stabilizasyon.</div>
-        <div class="exp-foot">
-          <div class="exp-tags"><span class="exp-tag">60–120 dk</span><span class="exp-tag">2–4 gün</span></div>
-          <span class="exp-link">İncele →</span>
-        </div>
-      </div>
-    </a>
+<!-- ============================================================
+     UZMANLIKLAR — Bento Grid
+     ============================================================ -->
+<section id="uzmanlik" aria-label="Uzmanlık Alanları">
+<div class="bento-wrap">
+  <div class="bento-head">
+    <div class="bento-label">Uzmanlık Alanları</div>
+    <h2 class="bento-title">Tedavi Ettiğim Durumlar</h2>
+    <p class="bento-sub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</p>
   </div>
+
+  <div class="bento-grid">
+
+    <!-- Sol üst: Omurga -->
+    <a href="uzmanlik/omurga.html" class="bc bc-col-left-top">
+      <img class="bc-img" src="assets/images/omurga-kart.jpg" alt="" loading="lazy">
+      <div class="bc-content">
+        <div class="bc-tag">Disk · Stabilizasyon</div>
+        <div class="bc-title">Omurga<br>Cerrahisi</div>
+        <div class="bc-desc">Bel fıtığı, boyun fıtığı ve spinal stenoz için minimal invaziv mikrodiskektomi.</div>
+        <div class="bc-link">İncele</div>
+      </div>
+      <div class="bc-badge">60–120 dk</div>
+    </a>
+
+    <!-- Orta büyük: Diz Protezi -->
+    <a href="uzmanlik/diz-protezi.html" class="bc bc-hero">
+      <img class="bc-img" src="assets/images/diz-protezi-kart.jpg" alt="" loading="lazy">
+      <div class="bc-content">
+        <div class="bc-tag">Artroskopi · Protez</div>
+        <div class="bc-title">Diz Protezi<br>Ameliyatı</div>
+        <div class="bc-desc">Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez seçenekleri. Minimal invaziv teknikle hızlı iyileşme.</div>
+        <div class="bc-link">İncele</div>
+      </div>
+      <div class="bc-badge">90 dk · 2–3 gün</div>
+    </a>
+
+    <!-- Sağ üst: Omuz -->
+    <a href="uzmanlik/omuz-artroskopi.html" class="bc bc-col-right-top">
+      <img class="bc-img" src="assets/images/omuz-kart.jpg" alt="" loading="lazy">
+      <div class="bc-content">
+        <div class="bc-tag">Rotator Manşet</div>
+        <div class="bc-title">Omuz<br>Artroskopi</div>
+        <div class="bc-desc">SLAP lezyonu ve sıkışma sendromu tedavisi.</div>
+        <div class="bc-link">İncele</div>
+      </div>
+      <div class="bc-badge">12 gün</div>
+    </a>
+
+    <!-- Sol alt: Kalça -->
+    <a href="uzmanlik/kalca-protezi.html" class="bc bc-col-left-mid">
+      <img class="bc-img" src="assets/images/kalca-kart.jpg" alt="" loading="lazy">
+      <div class="bc-content">
+        <div class="bc-tag">Minimal İnvaziv</div>
+        <div class="bc-title">Kalça<br>Protezi</div>
+        <div class="bc-desc">Küçük kesili teknikle daha az ağrı, hızlı iyileşme.</div>
+        <div class="bc-link">İncele</div>
+      </div>
+      <div class="bc-badge">3–4 gün</div>
+    </a>
+
+    <!-- Sağ alt: Menisküs + ACL -->
+    <a href="uzmanlik/meniskus.html" class="bc bc-col-right-mid" style="grid-row:2;position:relative;">
+      <img class="bc-img" src="assets/images/meniskus-kart.jpg" alt="" loading="lazy">
+      <div class="bc-content">
+        <div class="bc-tag">Artroskopi · ACL</div>
+        <div class="bc-title">Menisküs &<br>Ön Çapraz Bağ</div>
+        <div class="bc-desc">Spor yaralanmalarında artroskopik onarım ve spora erken dönüş.</div>
+        <div class="bc-link">İncele</div>
+      </div>
+      <div class="bc-badge">10–30 gün</div>
+    </a>
+
+  </div>
+</div>
 </section>
 
 <!-- ============================================================
@@ -728,20 +1394,31 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 </footer>
 
 <!-- ============================================================
-     SAĞ PANEL
+     SAĞ ALT PANEL — Premium Floating Buttons
      ============================================================ -->
 <aside class="side-panel" aria-label="Hızlı iletişim">
-  <a href="https://wa.me/90XXXXXXXXXX" class="s-btn wa" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <div class="s-btn-ico">💬</div><span class="s-btn-lbl">WhatsApp</span>
-  </a>
-  <a href="#iletisim" class="s-btn" aria-label="Bize ulaşın">
-    <div class="s-btn-ico">✉️</div><span class="s-btn-lbl">Bize Ulaşın</span>
-  </a>
-  <a href="#" class="s-btn" onclick="openModal();return false;" aria-label="Randevu al">
-    <div class="s-btn-ico">📅</div><span class="s-btn-lbl">Randevu Al</span>
-  </a>
-  <a href="#iletisim" class="s-btn" aria-label="Konum">
-    <div class="s-btn-ico">📍</div><span class="s-btn-lbl">Konum</span>
+  <!-- İkincil mini butonlar -->
+  <div class="s-mini-group">
+    <a href="#iletisim" class="s-mini" aria-label="Konum">
+      <div class="s-mini-ico">📍</div>
+      <span class="s-mini-lbl">Konumumuz</span>
+    </a>
+    <a href="#" class="s-mini" onclick="openModal();return false;" aria-label="Randevu al">
+      <div class="s-mini-ico">📅</div>
+      <span class="s-mini-lbl">Randevu Al</span>
+    </a>
+    <a href="#iletisim" class="s-mini" aria-label="Bize ulaşın">
+      <div class="s-mini-ico">✉️</div>
+      <span class="s-mini-lbl">Bize Ulaşın</span>
+    </a>
+  </div>
+  <!-- Ana WhatsApp balonu -->
+  <a href="https://wa.me/90XXXXXXXXXX" class="s-btn-wa-main" target="_blank" rel="noopener" aria-label="WhatsApp ile ulaşın">
+    <div class="s-wa-ico">💬</div>
+    <div>
+      <div class="s-wa-lbl">WhatsApp</div>
+      <div class="s-wa-sub">Hemen mesaj gönderin</div>
+    </div>
   </a>
 </aside>
 
@@ -825,23 +1502,24 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
   const vid = document.getElementById('heroVideo');
   const fallback = document.getElementById('heroFallback');
   if(!vid) return;
-  // Eğer video yüklenemezse fallback fotoğrafı göster
   vid.addEventListener('error', function(){
     vid.style.display = 'none';
     if(fallback) fallback.style.zIndex = '1';
   });
-  // Video başarıyla oynarsa fallback'i gizle
   vid.addEventListener('playing', function(){
     if(fallback) fallback.style.opacity = '0';
   });
 })();
 
-/* ---------- NAV scroll ---------- */
+/* ---------- NAV scroll — saydam↔opak + gizle/göster ---------- */
 const navWrap = document.getElementById('navWrap');
 let lastY = 0;
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
-  navWrap.classList.toggle('nav-hidden', y > lastY && y > 80);
+  // Saydam / opak geçiş
+  navWrap.classList.toggle('nav-scrolled', y > 40);
+  // Aşağı inerken gizle, yukarı çıkarken göster
+  navWrap.classList.toggle('nav-hidden', y > lastY && y > 120);
   lastY = y;
 }, {passive: true});
 
