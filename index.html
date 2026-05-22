@@ -49,19 +49,180 @@ a{text-decoration:none;color:inherit;}
 .nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:rgba(26,111,168,0.85);color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;backdrop-filter:blur(4px);}
 .nav-cta:hover{background:#1A6FA8;}
 .nav-wrap.nav-scrolled .nav-cta{background:#1A6FA8;}
+/* ============================================================
+   NAV — Yeniden Düzenleme: Logo + Orta Menü + Sağ Dil Dropdown
+   ============================================================ */
+
+/* Dil dropdown — sağ köşe */
+.lang-dropdown{
+  position:relative;
+  display:flex;align-items:center;
+}
+.lang-trigger{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:8px;
+  padding:5px 10px 5px 8px;
+  cursor:pointer;
+  font-size:11px;font-weight:700;
+  color:rgba(255,255,255,.8);
+  letter-spacing:.5px;
+  transition:all .2s;
+  font-family:inherit;
+  white-space:nowrap;
+  gap:6px;
+}
+.lang-trigger:hover{background:rgba(255,255,255,.14);color:#fff;}
+.nav-wrap.nav-scrolled .lang-trigger{
+  color:#0F2744;
+  background:rgba(15,39,68,.06);
+  border-color:rgba(15,39,68,.15);
+}
+.lang-trigger-ico{font-size:13px;}
+.lang-trigger-txt{font-size:11px;font-weight:700;}
+.lang-trigger-arrow{
+  font-size:8px;
+  transition:transform .25s;
+  opacity:.6;
+}
+.lang-dropdown.open .lang-trigger-arrow{transform:rotate(180deg);}
+.lang-trigger-sep{width:1px;height:12px;background:currentColor;opacity:.2;}
+
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:rgba(15,28,50,.96);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(107,184,232,.15);
+  border-radius:12px;
+  padding:6px;
+  min-width:140px;
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+  display:none;
+  flex-direction:column;
+  gap:2px;
+  z-index:600;
+}
+.lang-menu.open{display:flex;}
+.lang-option{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:8px;
+  cursor:pointer;
+  font-size:12px;font-weight:600;
+  color:rgba(255,255,255,.6);
+  transition:all .15s;
+  border:none;background:none;font-family:inherit;
+  width:100%;text-align:left;
+}
+.lang-option:hover{background:rgba(107,184,232,.12);color:#fff;}
+.lang-option.active{
+  background:rgba(26,111,168,.25);
+  color:#6BB8E8;
+}
+.lang-opt-flag{font-size:16px;}
+.lang-opt-name{font-size:11.5px;}
+.lang-opt-native{font-size:10px;color:rgba(255,255,255,.3);margin-left:auto;}
+
+/* Eski lang-switcher gizle */
+.lang-switcher{display:none!important;}
+
+/* Nav layout: logo sol | linkler orta | sağ(randevu+dil) */
+.nav{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 24px;
+  height:62px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  gap:16px;
+}
+.nav-logo-area{
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(26,111,168,.35);
+}
+.nav-wrap.nav-scrolled .nav-logo-icon{box-shadow:0 2px 10px rgba(26,111,168,.2);}
+.nav-logo-text{}
+.nav-logo-name{font-size:14px;font-weight:700;color:#fff;line-height:1.2;transition:color .3s;}
+.nav-logo-sub{font-size:9px;color:rgba(107,184,232,.8);letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;}
+.nav-wrap.nav-scrolled .nav-logo-name{color:#0F2744;}
+.nav-wrap.nav-scrolled .nav-logo-sub{color:#1A6FA8;}
+
+/* Orta: nav linkler */
+.nav-links{
+  display:flex;gap:2px;align-items:center;justify-content:center;
+}
+.nav-links a{
+  font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.75);
+  padding:7px 12px;border-radius:8px;
+  transition:all .18s;border-bottom:2px solid transparent;
+  white-space:nowrap;
+  letter-spacing:-.01em;
+}
+.nav-links a:hover,.nav-links a.active{
+  color:#fff;background:rgba(255,255,255,.1);
+  border-bottom-color:rgba(107,184,232,.6);
+}
+.nav-wrap.nav-scrolled .nav-links a{color:#526070;}
+.nav-wrap.nav-scrolled .nav-links a:hover,.nav-wrap.nav-scrolled .nav-links a.active{
+  color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;
+}
+
+/* Sağ: randevu + dil */
+.nav-right{
+  display:flex;align-items:center;gap:10px;justify-content:flex-end;
+}
+.nav-cta{
+  font-size:12px;padding:8px 18px;border-radius:8px;
+  background:rgba(26,111,168,.85);
+  color:#fff;font-weight:700;border:none;cursor:pointer;
+  transition:background .2s;white-space:nowrap;
+  backdrop-filter:blur(4px);
+  letter-spacing:.02em;
+}
+.nav-cta:hover{background:#1A6FA8;}
+.nav-wrap.nav-scrolled .nav-cta{background:#1A6FA8;}
+
 /* Hamburger */
-.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+.nav-hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:6px;
+}
 .nav-hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .25s;}
 .nav-wrap.nav-scrolled .nav-hamburger span{background:#0F2744;}
 .nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
 .nav-hamburger.open span:nth-child(2){opacity:0;}
 .nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
 /* Mobile menu */
-.mobile-menu{display:none;position:fixed;top:58px;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:2px solid #1A6FA8;padding:16px 20px;z-index:490;flex-direction:column;gap:4px;box-shadow:0 6px 20px rgba(15,39,68,0.1);}
+.mobile-menu{
+  display:none;position:fixed;top:62px;left:0;right:0;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  border-bottom:2px solid #1A6FA8;padding:16px 20px;
+  z-index:490;flex-direction:column;gap:4px;
+  box-shadow:0 6px 20px rgba(15,39,68,.1);
+}
 .mobile-menu.open{display:flex;}
 .mobile-menu a{font-size:14px;color:#526070;padding:10px 12px;border-radius:6px;transition:background .15s;}
 .mobile-menu a:hover{background:#F0F7FF;color:#1A6FA8;}
 .mobile-menu .m-cta{margin-top:6px;background:#1A6FA8;color:#fff;text-align:center;border-radius:7px;padding:11px;font-weight:600;}
+
+@media(max-width:900px){
+  .nav{grid-template-columns:1fr auto;}
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .lang-menu{right:0;}
+}
+@media(max-width:500px){
+  .nav-logo-name{font-size:12px;}
+  .nav-logo-sub{display:none;}
+}
 
 /* ============================================================
    HERO — Nav arkasında tam ekran video
@@ -159,6 +320,34 @@ a{text-decoration:none;color:inherit;}
   position:relative;
   overflow:hidden;
   padding: clamp(56px,9vw,112px) clamp(16px,4vw,40px);
+}
+
+/* ── Biyomedikal Canvas Figürleri (Büyük Ekran) ── */
+.bio-fig{
+  display:none;
+  position:absolute;
+  top:50%; transform:translateY(-50%);
+  z-index:1; pointer-events:none;
+}
+.bio-fig.bio-left { left:0;   width:260px; height:560px; }
+.bio-fig.bio-right{ right:0;  width:260px; height:560px; }
+.bio-fig canvas{ width:100%; height:100%; }
+
+@keyframes scanPulse{
+  0%,100%{ opacity:.55; }
+  50%    { opacity:.90; }
+}
+.bio-fig{ animation:scanPulse 5s ease-in-out infinite; }
+.bio-fig.bio-right{ animation-delay:2s; }
+
+@media(min-width:1280px){
+  .bio-fig{ display:block; }
+  .doc-section-wrap{ padding-left:280px; padding-right:280px; }
+}
+@media(min-width:1600px){
+  .bio-fig.bio-left { left:10px;  width:300px; height:640px; }
+  .bio-fig.bio-right{ right:10px; width:300px; height:640px; }
+  .doc-section-wrap{ padding-left:330px; padding-right:330px; }
 }
 
 /* Derinlik için arka plan süsleme daireleri */
@@ -482,9 +671,174 @@ a{text-decoration:none;color:inherit;}
 }
 
 /* ============================================================
-   UZMANLIKLAR — Bento Grid Premium
+   UZMANLIK — Aydınlık Premium Tema (Teal & Slate Blue)
    ============================================================ */
-.bento-wrap{
+.uzman-section{
+  padding:clamp(56px,8vw,96px) clamp(16px,4vw,40px);
+  background:linear-gradient(160deg,
+    #eef3f9 0%,
+    #f4f8fc 25%,
+    #eaf2f8 55%,
+    #f0f5fa 100%);
+  position:relative;overflow:hidden;
+}
+/* Dekoratif arka plan daireleri */
+.uzman-section::before{
+  content:'';position:absolute;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,111,168,.05) 0%,transparent 65%);
+  top:-200px;right:-150px;pointer-events:none;
+}
+.uzman-section::after{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,144,164,.06) 0%,transparent 65%);
+  bottom:-100px;left:-80px;pointer-events:none;
+}
+
+.uzman-head{text-align:center;margin-bottom:clamp(24px,4vw,40px);position:relative;z-index:1;}
+.uzman-eyebrow{
+  font-size:10px;font-weight:700;color:#2B7DA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;
+}
+.uzman-eyebrow::before,.uzman-eyebrow::after{
+  content:'';width:24px;height:1.5px;
+  background:linear-gradient(90deg,transparent,#2B7DA8);
+}
+.uzman-eyebrow::after{background:linear-gradient(90deg,#2B7DA8,transparent);}
+.uzman-title{
+  font-size:clamp(26px,4vw,46px);font-weight:700;
+  color:#0d2740;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;
+}
+.uzman-title span{
+  background:linear-gradient(135deg,#1A6FA8,#4AA8C4);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.uzman-sub{font-size:14px;color:#6B8299;line-height:1.7;}
+
+/* Filtre sekmeleri — aydınlık */
+.uzman-filters{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  margin-bottom:clamp(24px,4vw,40px);position:relative;z-index:1;
+}
+.uf{
+  padding:9px 22px;border-radius:50px;font-size:12.5px;font-weight:600;
+  cursor:pointer;border:1.5px solid rgba(26,111,168,.18);
+  background:rgba(255,255,255,.7);color:#5A7A95;
+  backdrop-filter:blur(8px);
+  transition:all .25s ease;font-family:inherit;
+  box-shadow:0 2px 8px rgba(15,39,68,.04);
+}
+.uf:hover{
+  border-color:rgba(26,111,168,.4);
+  color:#1A6FA8;background:rgba(255,255,255,.95);
+  box-shadow:0 4px 14px rgba(26,111,168,.10);
+}
+.uf.active{
+  background:linear-gradient(135deg,#1A6FA8,#2890C0);
+  border-color:#1A6FA8;color:#fff;
+  box-shadow:0 4px 16px rgba(26,111,168,.25);
+}
+
+/* Kart ızgarası */
+.uzman-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:18px;
+  position:relative;z-index:1;
+  max-width:1300px;margin:0 auto;
+}
+
+/* Tekil kart — beyaz, hafif gölgeli */
+.ucard{
+  background:#fff;
+  border:1px solid rgba(26,111,168,.10);
+  border-radius:20px;
+  overflow:hidden;
+  text-decoration:none;
+  display:flex;flex-direction:column;
+  transition:all .35s cubic-bezier(.25,.46,.45,.94);
+  position:relative;
+  box-shadow:0 2px 12px rgba(15,39,68,.05),0 1px 3px rgba(15,39,68,.04);
+}
+.ucard:hover{
+  transform:translateY(-6px);
+  border-color:rgba(26,111,168,.25);
+  box-shadow:
+    0 16px 48px rgba(26,111,168,.12),
+    0 4px 14px rgba(15,39,68,.06);
+}
+.ucard.hidden{display:none;}
+
+/* Görsel */
+.ucard-img{
+  height:188px;position:relative;overflow:hidden;flex-shrink:0;
+}
+.ucard-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;
+}
+.ucard:hover .ucard-img img{transform:scale(1.07);}
+.ucard-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(10,30,55,.08) 0%,
+    rgba(10,30,55,.55) 100%);
+}
+
+/* Kategori etiketi üstte görünür */
+.ucard-img-cat{
+  position:absolute;top:12px;left:14px;z-index:2;
+  font-size:9px;font-weight:700;color:rgba(255,255,255,.9);
+  background:rgba(26,111,168,.75);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:3px 10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+}
+
+/* Glow kaldırıldı — aydınlık temada gereksiz */
+.ucard-glow{display:none;}
+
+/* Kart body */
+.ucard-body{padding:18px 20px 16px;display:flex;flex-direction:column;flex:1;}
+.ucard-cat{
+  font-size:9px;font-weight:700;color:#2B7DA8;
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;
+}
+.ucard-name{
+  font-size:clamp(14px,1.5vw,16px);font-weight:700;color:#0d2740;
+  line-height:1.3;letter-spacing:-.01em;margin-bottom:8px;
+}
+.ucard-desc{
+  font-size:12.5px;color:#6B8299;
+  line-height:1.7;margin-bottom:14px;flex:1;
+}
+.ucard-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid #EEF3F9;
+}
+.ucard-stats{display:flex;gap:6px;flex-wrap:wrap;}
+.ustat{
+  font-size:10px;padding:3px 9px;border-radius:10px;
+  background:#EEF3F9;color:#2B7DA8;font-weight:600;
+}
+.ucard-link{
+  font-size:12px;font-weight:700;
+  color:#1A6FA8;
+  display:flex;align-items:center;gap:4px;
+  white-space:nowrap;transition:gap .2s, color .2s;
+}
+.ucard:hover .ucard-link{gap:8px;color:#1260A0;}
+
+@media(max-width:640px){
+  .uzman-grid{grid-template-columns:1fr 1fr;}
+  .ucard-img{height:150px;}
+}
+@media(max-width:400px){
+  .uzman-grid{grid-template-columns:1fr;}
+}
   padding:clamp(40px,6vw,72px) clamp(16px,4vw,40px);
   background:linear-gradient(160deg,#f0f5fb 0%,#e8eef6 50%,#edf2f8 100%);
 }
@@ -755,34 +1109,796 @@ a{text-decoration:none;color:inherit;}
 .exp-card:hover .exp-link{gap:8px;}
 
 /* ============================================================
-   SSS
+   BLOG + SSS — İki Sütun Yan Yana
    ============================================================ */
-.faq-list{display:flex;flex-direction:column;gap:8px;}
-.faq-item{border:1px solid #E2EAF0;border-radius:9px;overflow:hidden;background:#fff;}
-.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 17px;background:none;border:none;cursor:pointer;text-align:left;font-size:13px;color:#0F2744;font-weight:600;transition:background .15s;gap:12px;}
-.faq-q:hover{background:#F7F9FC;}
-.faq-icon{font-size:16px;color:#1A6FA8;transition:transform .28s;flex-shrink:0;}
-.faq-icon.open{transform:rotate(180deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .38s ease;}
-.faq-a.open{max-height:240px;}
-.faq-a-inner{padding:0 17px 14px;font-size:13px;color:#526070;line-height:1.8;}
+.blog-sss-section{
+  padding:clamp(56px,8vw,96px) clamp(16px,4vw,40px);
+  background:linear-gradient(180deg,#edf2f8 0%,#f0f5fb 50%,#e8eef6 100%);
+  position:relative;overflow:hidden;
+}
+.blog-sss-section::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,111,168,.05) 0%,transparent 70%);
+  top:-150px;right:-100px;pointer-events:none;
+}
+.blog-sss-inner{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:start;
+  position:relative;z-index:1;
+}
+
+/* ── BLOG Sol Sütun ── */
+.blog-col{}
+.blog-col-head{ margin-bottom:28px; }
+.blog-eyebrow{
+  font-size:10px;font-weight:700;color:#1A6FA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;
+}
+.blog-eyebrow::before{content:'';width:20px;height:1px;background:#1A6FA8;}
+.blog-col-title{
+  font-size:clamp(20px,2.5vw,30px);font-weight:700;
+  color:#0d1f36;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;
+}
+.blog-col-sub{ font-size:13px;color:#6B7F96;line-height:1.6; }
+
+/* Blog kartları */
+.blog-list{ display:flex;flex-direction:column;gap:14px; }
+
+.blog-card{
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  gap:0;
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
+  text-decoration:none;
+  cursor:pointer;
+}
+.blog-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(26,111,168,.10), 0 2px 8px rgba(15,39,68,.05);
+  border-color:rgba(26,111,168,.22);
+}
+
+/* Sol renkli şerit */
+.blog-card-stripe{
+  width:5px;
+  flex-shrink:0;
+  background:linear-gradient(180deg,#1A6FA8,#6BB8E8);
+}
+.blog-card:nth-child(2) .blog-card-stripe{ background:linear-gradient(180deg,#0F2744,#1A6FA8); }
+.blog-card:nth-child(3) .blog-card-stripe{ background:linear-gradient(180deg,#1A7FAA,#6BB8E8); }
+.blog-card:nth-child(4) .blog-card-stripe{ background:linear-gradient(180deg,#0d2d4a,#1A6FA8); }
+
+.blog-card-body{
+  padding:16px 18px;
+  flex:1;
+}
+.blog-card-cat{
+  font-size:9px;font-weight:700;color:#1A6FA8;
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.blog-card-title{
+  font-size:clamp(13px,1.3vw,15px);font-weight:700;
+  color:#0d1f36;line-height:1.35;letter-spacing:-.01em;
+  margin-bottom:6px;
+}
+.blog-card-excerpt{
+  font-size:12px;color:#6B7F96;line-height:1.65;
+  margin-bottom:10px;
+}
+.blog-card-foot{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.blog-card-date{ font-size:10px;color:#8FA3B1; }
+.blog-card-link{
+  font-size:11px;font-weight:700;color:#1A6FA8;
+  display:flex;align-items:center;gap:4px;
+  transition:gap .2s;
+}
+.blog-card:hover .blog-card-link{ gap:8px; }
+
+/* Tümünü gör butonu */
+.blog-more{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:18px;
+  font-size:12px;font-weight:600;color:#1A6FA8;
+  padding:10px 20px;
+  border-radius:30px;
+  border:1.5px solid rgba(26,111,168,.25);
+  background:rgba(26,111,168,.04);
+  transition:all .2s;
+  text-decoration:none;
+}
+.blog-more:hover{
+  background:rgba(26,111,168,.09);
+  border-color:rgba(26,111,168,.5);
+  gap:12px;
+}
+
+/* ── SSS Sağ Sütun ── */
+.sss-col{}
+.sss-col-head{ margin-bottom:28px; }
+.sss-eyebrow{
+  font-size:10px;font-weight:700;color:#1A6FA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;
+}
+.sss-eyebrow::before{content:'';width:20px;height:1px;background:#1A6FA8;}
+.sss-col-title{
+  font-size:clamp(20px,2.5vw,30px);font-weight:700;
+  color:#0d1f36;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;
+}
+.sss-col-sub{ font-size:13px;color:#6B7F96;line-height:1.6; }
+
+/* Eski SSS wrap stilleri artık bu layout içinde geçersiz — sıfırla */
+.sss-wrap{ padding:0; background:none; overflow:visible; }
+.sss-wrap::before{ display:none; }
+.sss-inner{ max-width:none; margin:0; }
+.sss-head{ display:none; } /* başlık artık sss-col-head'de */
+
+@media(max-width:900px){
+  .blog-sss-inner{ grid-template-columns:1fr; gap:48px; }
+}
 
 /* ============================================================
-   İLETİŞİM
+   SSS — Apple Akordeon Premium
    ============================================================ */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.contact-left{display:flex;flex-direction:column;gap:10px;}
-.ccard{background:#fff;border:1px solid #E2EAF0;border-radius:10px;padding:15px 18px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s;cursor:pointer;}
-.ccard:hover{border-color:#1A6FA8;}
-.cico{width:40px;height:40px;border-radius:9px;background:#E8F2FA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
-.cico.wa{background:#E8FBF0;}
-.ctitle{font-size:12px;font-weight:700;color:#0F2744;margin-bottom:3px;}
-.cval{font-size:12px;color:#526070;}
-.clink{font-size:11px;color:#1A6FA8;margin-top:4px;font-weight:600;}
-.map-box{background:linear-gradient(135deg,#E8F2FA,#F0F7FF);border:1px solid #E2EAF0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:230px;}
-.map-icon{font-size:44px;}
-.map-lbl{font-size:14px;color:#526070;font-weight:600;}
-.map-sub{font-size:11px;color:#B5D4F4;}
+.sss-col .sss-wrap{ padding:0; background:none; }
+.sss-col .sss-inner{ max-width:none; }
+
+/* Akordeon listesi */
+.faq-list{display:flex;flex-direction:column;gap:10px;}
+
+.faq-item{
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border:1px solid rgba(255,255,255,0.80);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(15,39,68,.05),0 1px 2px rgba(15,39,68,.03);
+  transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease;
+}
+.faq-item:hover{
+  box-shadow:0 6px 24px rgba(26,111,168,.09),0 2px 6px rgba(15,39,68,.04);
+  border-color:rgba(26,111,168,.18);
+  transform:translateY(-1px);
+}
+.faq-item.faq-open{
+  border-color:rgba(26,111,168,.25);
+  box-shadow:0 8px 28px rgba(26,111,168,.10),0 2px 6px rgba(15,39,68,.04);
+}
+
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px;
+  background:none;border:none;cursor:pointer;
+  text-align:left;gap:16px;
+}
+.faq-q-text{
+  font-size:clamp(13px,1.4vw,15px);font-weight:600;
+  color:#0d1f36;line-height:1.45;letter-spacing:-.01em;
+  flex:1;
+}
+.faq-chevron{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(26,111,168,.08);
+  border:1px solid rgba(26,111,168,.12);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:transform .38s cubic-bezier(.34,1.56,.64,1), background .25s;
+}
+.faq-chevron svg{
+  width:14px;height:14px;stroke:#1A6FA8;
+  stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  fill:none;
+  transition:stroke .25s;
+}
+.faq-item.faq-open .faq-chevron{
+  transform:rotate(180deg);
+  background:rgba(26,111,168,.15);
+}
+
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease-out;}
+.faq-a.open{max-height:300px;}
+.faq-a-inner{
+  padding:0 22px 20px;
+  font-size:clamp(12.5px,1.3vw,14px);
+  color:#6B7F96;line-height:1.85;
+  border-top:1px solid rgba(26,111,168,.06);
+  padding-top:14px;
+  margin:0 22px;
+}
+/* eski uyumluluk */
+.faq-icon{display:none;}
+
+/* ============================================================
+   SOSYAL MEDYA — Balon Tasarımı
+   ============================================================ */
+.social-bubbles-wrap{
+  margin-bottom:16px;
+}
+.social-bubbles-label{
+  font-size:9px;font-weight:700;color:#6BB8E8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:7px;
+}
+.social-bubbles-label::before{content:'';width:14px;height:1px;background:#6BB8E8;}
+.social-bubbles{
+  display:flex;flex-direction:column;gap:10px;
+}
+
+/* ============================================================
+   İLETİŞİM — Premium Yeniden Tasarım CSS
+   ============================================================ */
+.ct-top-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:20px;align-items:stretch;margin-bottom:20px;}
+.ct-info-box{background:linear-gradient(160deg,#0e2240 0%,#132b50 60%,#0d2040 100%);border:1px solid rgba(107,184,232,.12);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:0;box-shadow:0 4px 28px rgba(10,22,48,.18);overflow:hidden;position:relative;}
+.ct-info-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(26,111,168,.12) 0%,transparent 55%);pointer-events:none;}
+.ct-info-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(107,184,232,.1);}
+.ct-info-header-icon{font-size:24px;}
+.ct-info-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px;}
+.ct-info-sub{font-size:11px;color:rgba(255,255,255,.4);}
+.ct-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.18);text-decoration:none;transition:all .25s;margin-bottom:16px;cursor:pointer;position:relative;overflow:hidden;}
+.ct-row:hover{background:rgba(37,211,102,.14);border-color:rgba(37,211,102,.32);transform:translateY(-1px);}
+.ct-row-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wa-ico{background:rgba(37,211,102,.2);color:#25D366;border:1px solid rgba(37,211,102,.3);}
+.ct-row-body{flex:1;}
+.ct-row-label{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
+.ct-row-val{font-size:12px;color:rgba(255,255,255,.5);}
+.ct-row-badge{font-size:9px;font-weight:700;color:#25D366;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.25);border-radius:20px;padding:3px 9px;flex-shrink:0;}
+.ct-row-arrow{color:rgba(255,255,255,.3);font-size:14px;transition:transform .2s;}
+.ct-row:hover .ct-row-arrow{transform:translateX(4px);color:#25D366;}
+.ct-divider{height:1px;background:rgba(107,184,232,.08);margin:14px 0;}
+.ct-two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.ct-mini{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(107,184,232,.1);text-decoration:none;transition:all .22s;}
+.ct-mini:hover{background:rgba(255,255,255,.09);border-color:rgba(107,184,232,.22);transform:translateY(-1px);}
+.ct-mini-ico{font-size:18px;flex-shrink:0;margin-top:1px;}
+.ct-mini-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;}
+.ct-mini-val{font-size:11.5px;color:#fff;margin-bottom:3px;word-break:break-all;}
+.ct-mini-link{font-size:10px;color:#6BB8E8;font-weight:600;}
+.ct-hours{padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(107,184,232,.08);}
+.ct-hours-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.ct-hours-ico{font-size:16px;}
+.ct-hours-title{font-size:12px;font-weight:700;color:#fff;}
+.ct-hours-grid{display:flex;flex-direction:column;gap:6px;}
+.ct-hours-row{display:flex;align-items:center;gap:6px;}
+.ct-day{font-size:12px;color:rgba(255,255,255,.5);min-width:75px;}
+.ct-dot-line{flex:1;border-bottom:1px dashed rgba(107,184,232,.15);}
+.ct-time{font-size:12px;font-weight:600;color:#fff;}
+.ct-closed{color:rgba(255,80,60,.7);}
+.ct-map-box{background:#0d2040;border:1px solid rgba(107,184,232,.12);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 28px rgba(10,22,48,.18);}
+.ct-map-area{flex:1;min-height:300px;background:#0a1a30;overflow:hidden;}
+.ct-map-area iframe{display:block;width:100%;height:100%;min-height:300px;border:none;}
+.ct-addr-bar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid rgba(107,184,232,.1);background:rgba(255,255,255,.03);}
+.ct-addr-pin{font-size:18px;flex-shrink:0;}
+.ct-addr-text{flex:1;}
+.ct-addr-label{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
+.ct-addr-val{font-size:12px;font-weight:500;color:#fff;line-height:1.4;}
+.ct-directions{font-size:11px;font-weight:700;color:#6BB8E8;text-decoration:none;white-space:nowrap;padding:6px 12px;border-radius:20px;background:rgba(26,111,168,.15);border:1px solid rgba(107,184,232,.2);transition:all .2s;flex-shrink:0;}
+.ct-directions:hover{background:rgba(26,111,168,.3);color:#9DD4F4;}
+.ct-randevu-bar{width:100%;overflow:hidden;background:linear-gradient(135deg,#1A6FA8 0%,#0d5a8a 50%,#1A6FA8 100%);background-size:200% 100%;border-radius:18px;cursor:pointer;box-shadow:0 6px 24px rgba(26,111,168,.35);transition:box-shadow .3s,transform .2s;animation:barShimmer 3s linear infinite;position:relative;}
+@keyframes barShimmer{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
+.ct-randevu-bar:hover{box-shadow:0 10px 32px rgba(26,111,168,.5);transform:translateY(-2px);}
+.ct-rb-inner{display:flex;align-items:center;padding:0 22px;height:62px;gap:16px;position:relative;overflow:hidden;}
+.ct-rb-pulse{position:absolute;left:-20px;top:50%;transform:translateY(-50%);width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none;}
+.ct-rb-icon{font-size:22px;flex-shrink:0;z-index:1;}
+.ct-rb-text-wrap{flex:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);z-index:1;}
+.ct-rb-marquee{display:flex;white-space:nowrap;animation:marqueeScroll 18s linear infinite;}
+@keyframes marqueeScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ct-rb-msg{font-size:14px;font-weight:700;color:rgba(255,255,255,.92);letter-spacing:.02em;display:inline-block;}
+.ct-rb-btn{flex-shrink:0;padding:10px 22px;border-radius:30px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s;z-index:1;white-space:nowrap;}
+.ct-rb-btn:hover{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.55);}
+@media(max-width:860px){.ct-top-grid{grid-template-columns:1fr;}.ct-map-area{min-height:220px;}}
+@media(max-width:560px){.ct-two-col{grid-template-columns:1fr;}.contact-wrap{padding:48px 16px;}.ct-rb-inner{height:56px;padding:0 16px;}.ct-rb-msg{font-size:13px;}}
+
+/* ============================================================
+   SOL SABİT SOSYAL PANEL
+   ============================================================ */
+.social-side-panel{position:fixed;left:0;z-index:300;display:flex;flex-direction:column;gap:8px;padding:10px 0;pointer-events:none;opacity:0;transition:opacity .4s ease;top:50%;}
+.social-side-panel.visible{pointer-events:all;opacity:1;}
+.ssp-btn{display:flex;align-items:center;overflow:hidden;background:rgba(15,39,68,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:none;border-right:3px solid var(--sc,#1A6FA8);cursor:pointer;box-shadow:2px 2px 16px rgba(15,39,68,.2);text-decoration:none;width:44px;height:44px;border-radius:0 22px 22px 0;transition:width .3s cubic-bezier(.25,.46,.45,.94),background .2s,box-shadow .2s;}
+.ssp-btn:hover{width:176px;background:rgba(15,39,68,.96);}
+.ssp-ig{--sc:#e1306c;}.ssp-ig:hover{box-shadow:4px 4px 20px rgba(225,48,108,.2);}
+.ssp-li{--sc:#0077b5;}.ssp-li:hover{box-shadow:4px 4px 20px rgba(0,119,181,.2);}
+.ssp-yt{--sc:#ff0000;}.ssp-yt:hover{box-shadow:4px 4px 20px rgba(255,0,0,.16);}
+.ssp-ico{width:44px;min-width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sc,#6BB8E8);}
+.ssp-ico svg{width:20px;height:20px;}
+.ssp-info{display:flex;flex-direction:column;padding-right:14px;opacity:0;transition:opacity .15s .08s;min-width:0;}
+.ssp-btn:hover .ssp-info{opacity:1;}
+.ssp-name{font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;}
+.ssp-handle{font-size:10px;color:var(--sc,#6BB8E8);white-space:nowrap;}
+@media(max-width:900px){.social-side-panel{display:none;}}
+
+/* ============================================================
+   SSS — Apple Akordeon Premium
+   ============================================================ */
+.sss-col .sss-wrap{ padding:0; background:none; }
+.sss-col .sss-inner{ max-width:none; }
+
+/* Akordeon listesi */
+.faq-list{display:flex;flex-direction:column;gap:10px;}
+
+.faq-item{
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  border:1px solid rgba(255,255,255,0.80);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(15,39,68,.05),0 1px 2px rgba(15,39,68,.03);
+  transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease;
+}
+.faq-item:hover{
+  box-shadow:0 6px 24px rgba(26,111,168,.09),0 2px 6px rgba(15,39,68,.04);
+  border-color:rgba(26,111,168,.18);
+  transform:translateY(-1px);
+}
+.faq-item.faq-open{
+  border-color:rgba(26,111,168,.25);
+  box-shadow:0 8px 28px rgba(26,111,168,.10),0 2px 6px rgba(15,39,68,.04);
+}
+
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px;
+  background:none;border:none;cursor:pointer;
+  text-align:left;gap:16px;
+}
+.faq-q-text{
+  font-size:clamp(13px,1.4vw,15px);font-weight:600;
+  color:#0d1f36;line-height:1.45;letter-spacing:-.01em;
+  flex:1;
+}
+.faq-chevron{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(26,111,168,.08);
+  border:1px solid rgba(26,111,168,.12);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:transform .38s cubic-bezier(.34,1.56,.64,1), background .25s;
+}
+.faq-chevron svg{
+  width:14px;height:14px;stroke:#1A6FA8;
+  stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  fill:none;
+  transition:stroke .25s;
+}
+.faq-item.faq-open .faq-chevron{
+  transform:rotate(180deg);
+  background:rgba(26,111,168,.15);
+}
+
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease-out;}
+.faq-a.open{max-height:300px;}
+.faq-a-inner{
+  padding:0 22px 20px;
+  font-size:clamp(12.5px,1.3vw,14px);
+  color:#6B7F96;line-height:1.85;
+  border-top:1px solid rgba(26,111,168,.06);
+  padding-top:14px;
+  margin:0 22px;
+}
+/* eski uyumluluk */
+.faq-icon{display:none;}
+
+/* ============================================================
+   SOSYAL MEDYA — Balon Tasarımı
+   ============================================================ */
+.social-bubbles-wrap{
+  margin-bottom:16px;
+}
+.social-bubbles-label{
+  font-size:9px;font-weight:700;color:#6BB8E8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:7px;
+}
+.social-bubbles-label::before{content:'';width:14px;height:1px;background:#6BB8E8;}
+.social-bubbles{
+  display:flex;flex-direction:column;gap:10px;
+}
+
+/* Balon kart */
+.sbubble{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(15,39,68,.78);
+  backdrop-filter:blur(14px) saturate(1.4);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  border:1px solid rgba(107,184,232,.12);
+  border-radius:50px;   /* tam yuvarlak balon */
+  padding:10px 20px 10px 10px;
+  text-decoration:none;
+  transition:all .28s cubic-bezier(.25,.46,.45,.94);
+  position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.sbubble:hover{
+  transform:translateX(6px);
+  border-color:rgba(107,184,232,.35);
+  box-shadow:0 6px 24px rgba(15,39,68,.25),0 0 0 1px rgba(107,184,232,.18);
+}
+
+/* Platform renkleri hover'da */
+.sbubble-ig{--sc:#e1306c;}
+.sbubble-ig:hover{border-color:rgba(225,48,108,.35);box-shadow:0 6px 24px rgba(225,48,108,.15),0 0 0 1px rgba(225,48,108,.2);}
+.sbubble-li{--sc:#0077b5;}
+.sbubble-li:hover{border-color:rgba(0,119,181,.35);box-shadow:0 6px 24px rgba(0,119,181,.15),0 0 0 1px rgba(0,119,181,.2);}
+.sbubble-yt{--sc:#ff0000;}
+.sbubble-yt:hover{border-color:rgba(255,0,0,.3);box-shadow:0 6px 24px rgba(255,0,0,.12),0 0 0 1px rgba(255,0,0,.18);}
+
+/* İkon daire */
+.sbubble-icon{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  color:var(--sc,#6BB8E8);
+  transition:background .25s, box-shadow .25s, transform .3s;
+}
+.sbubble-icon svg{width:20px;height:20px;}
+.sbubble:hover .sbubble-icon{
+  background:rgba(255,255,255,.14);
+  box-shadow:0 0 14px var(--sc,rgba(107,184,232,.4));
+  transform:scale(1.08);
+}
+.sbubble-info{flex:1;}
+.sbubble-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:1px;letter-spacing:-.01em;}
+.sbubble-handle{font-size:11px;color:var(--sc,#6BB8E8);}
+/* İç parıltı */
+.sbubble-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 10% 50%,rgba(107,184,232,.06) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;border-radius:inherit;
+}
+.sbubble:hover .sbubble-glow{opacity:1;}
+
+/* ── Konum Kartı (Sağ) ── */
+.location-wrap{display:flex;flex-direction:column;gap:0;}
+.location-card{
+  background:rgba(15,39,68,.82);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(107,184,232,.12);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 4px 24px rgba(15,39,68,.2);
+}
+
+/* Harita */
+.location-card .map-box{
+  min-height:280px;
+  border-radius:0;
+  border:none;
+  box-shadow:none;
+  background:rgba(10,26,48,.9);
+}
+
+/* Adres alanı */
+.location-address{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:16px 20px;
+  border-top:1px solid rgba(107,184,232,.1);
+}
+.loc-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.loc-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.05em;margin-bottom:4px;}
+.loc-addr{font-size:13.5px;font-weight:500;color:#fff;line-height:1.55;}
+
+/* Randevu butonu */
+.location-cta-btn{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 20px;
+  background:linear-gradient(135deg,#1A6FA8,#1260A0);
+  border:none;cursor:pointer;
+  font-size:14px;font-weight:700;color:#fff;
+  font-family:inherit;letter-spacing:-.01em;
+  transition:background .25s, box-shadow .25s;
+}
+.location-cta-btn:hover{
+  background:linear-gradient(135deg,#1260A0,#0e4d85);
+  box-shadow:0 4px 20px rgba(26,111,168,.35);
+}
+.loc-btn-arrow{
+  font-size:16px;
+  transition:transform .2s;
+}
+.location-cta-btn:hover .loc-btn-arrow{transform:translateX(4px);}
+
+@media(max-width:900px){
+  .contact-main-grid{grid-template-columns:1fr;}
+  .location-card .map-box{min-height:220px;}
+}
+@media(max-width:560px){
+  .contact-wrap{padding:48px 16px;}
+  .sbubble{border-radius:16px;}
+}
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  gap:24px;
+  align-items:start;
+}
+.contact-left-wrap{ display:flex;flex-direction:column;gap:0; }
+
+/* ============================================================
+   SOSYAL MEDYA
+   ============================================================ */
+.social-wrap{
+  display:flex;flex-direction:column;gap:20px;
+}
+.social-head{ margin-bottom:4px; }
+.social-eyebrow{
+  font-size:10px;font-weight:700;color:#6BB8E8;
+  letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;
+}
+.social-title{
+  font-size:clamp(20px,2.5vw,28px);font-weight:700;
+  color:#fff;letter-spacing:-.03em;margin-bottom:6px;
+}
+.social-sub{ font-size:13px;color:rgba(255,255,255,.4);line-height:1.6; }
+
+.social-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+/* Sosyal kart */
+.social-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(107,184,232,.1);
+  border-radius:16px;
+  padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+  transition:all .25s ease;
+  position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.social-card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity .3s;border-radius:inherit;
+}
+.social-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(107,184,232,.3);
+}
+.social-card:hover::before{opacity:1;}
+
+/* Platform renkleri */
+.sc-instagram{--sc:#e1306c;--sc2:#f77737;}
+.sc-instagram::before{background:linear-gradient(135deg,rgba(225,48,108,.08),rgba(247,119,55,.05));}
+.sc-instagram:hover{border-color:rgba(225,48,108,.3);box-shadow:0 8px 24px rgba(225,48,108,.12);}
+
+.sc-youtube{--sc:#ff0000;}
+.sc-youtube::before{background:radial-gradient(ellipse at 20% 50%,rgba(255,0,0,.08) 0%,transparent 60%);}
+.sc-youtube:hover{border-color:rgba(255,0,0,.25);box-shadow:0 8px 24px rgba(255,0,0,.10);}
+
+.sc-linkedin{--sc:#0077b5;}
+.sc-linkedin::before{background:radial-gradient(ellipse at 20% 50%,rgba(0,119,181,.1) 0%,transparent 60%);}
+.sc-linkedin:hover{border-color:rgba(0,119,181,.3);box-shadow:0 8px 24px rgba(0,119,181,.12);}
+
+.sc-twitter{--sc:#1da1f2;}
+.sc-twitter::before{background:radial-gradient(ellipse at 20% 50%,rgba(29,161,242,.08) 0%,transparent 60%);}
+.sc-twitter:hover{border-color:rgba(29,161,242,.3);box-shadow:0 8px 24px rgba(29,161,242,.10);}
+
+.sc-tiktok{--sc:#69c9d0;}
+.sc-tiktok::before{background:radial-gradient(ellipse at 20% 50%,rgba(105,201,208,.08) 0%,transparent 60%);}
+.sc-tiktok:hover{border-color:rgba(105,201,208,.3);box-shadow:0 8px 24px rgba(105,201,208,.10);}
+
+.sc-google{--sc:#4285f4;}
+.sc-google::before{background:radial-gradient(ellipse at 20% 50%,rgba(66,133,244,.08) 0%,transparent 60%);}
+.sc-google:hover{border-color:rgba(66,133,244,.3);box-shadow:0 8px 24px rgba(66,133,244,.10);}
+
+.sc-icon-wrap{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  color:var(--sc,#6BB8E8);
+  transition:background .25s, box-shadow .25s;
+}
+.sc-icon-wrap svg{width:18px;height:18px;}
+.social-card:hover .sc-icon-wrap{
+  background:rgba(255,255,255,.1);
+  box-shadow:0 0 12px var(--sc,rgba(107,184,232,.3));
+}
+.sc-body{flex:1;min-width:0;}
+.sc-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:1px;}
+.sc-handle{font-size:10px;color:var(--sc,#6BB8E8);margin-bottom:3px;}
+.sc-desc{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4;}
+.sc-arrow{
+  font-size:12px;color:rgba(255,255,255,.2);
+  flex-shrink:0;transition:color .2s, transform .2s;
+}
+.social-card:hover .sc-arrow{color:var(--sc,#6BB8E8);transform:translateX(3px);}
+
+/* Online randevu CTA kutusu */
+.contact-cta-box{
+  background:linear-gradient(135deg,rgba(26,111,168,.25),rgba(15,39,68,.5));
+  border:1px solid rgba(107,184,232,.2);
+  border-radius:18px;padding:20px 22px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  backdrop-filter:blur(12px);
+}
+.ccta-icon{font-size:28px;}
+.ccta-text{flex:1;min-width:120px;}
+.ccta-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;}
+.ccta-sub{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.5;}
+.ccta-btn{
+  padding:10px 22px;border-radius:30px;
+  background:#1A6FA8;color:#fff;font-size:12px;font-weight:700;
+  border:none;cursor:pointer;white-space:nowrap;
+  transition:background .2s, transform .2s;
+}
+.ccta-btn:hover{background:#155d8f;transform:translateY(-1px);}
+
+@media(max-width:900px){
+  .contact-main-grid{grid-template-columns:1fr;}
+  .social-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+@media(max-width:560px){
+  .social-grid{grid-template-columns:1fr 1fr;}
+  .contact-wrap{ padding:48px 16px; }
+}
+  padding:clamp(56px,8vw,96px) clamp(16px,4vw,40px);
+  background:linear-gradient(180deg,#e8eef6 0%,#edf2f8 60%,#f0f5fb 100%);
+  position:relative;overflow:hidden;
+}
+.contact-wrap::after{
+  content:'';position:absolute;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(107,184,232,.06) 0%,transparent 70%);
+  bottom:-80px;left:5%;pointer-events:none;
+}
+.contact-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.contact-head{text-align:center;margin-bottom:clamp(28px,4vw,48px);}
+.contact-eyebrow{
+  font-size:10px;font-weight:700;color:#1A6FA8;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;
+}
+.contact-eyebrow::before,.contact-eyebrow::after{content:'';width:20px;height:1px;background:#1A6FA8;}
+.contact-title{
+  font-size:clamp(22px,3vw,34px);font-weight:700;
+  color:#0d1f36;letter-spacing:-.03em;line-height:1.15;margin-bottom:8px;
+}
+.contact-sub{font-size:14px;color:#6B7F96;}
+
+/* Ana grid */
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:20px;
+  align-items:stretch;
+}
+
+/* Sol: Bento iletişim kartları */
+.contact-left{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:12px;
+}
+
+.ccard{
+  background:rgba(15,39,68,.82);
+  backdrop-filter:blur(16px) saturate(1.4);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  border:1px solid rgba(107,184,232,.12);
+  border-radius:18px;
+  padding:20px 18px;
+  display:flex;flex-direction:column;gap:10px;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all .28s ease;
+  position:relative;overflow:hidden;
+}
+.ccard::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(26,111,168,.18) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;border-radius:inherit;
+}
+.ccard:hover{
+  border-color:rgba(107,184,232,.30);
+  box-shadow:0 8px 28px rgba(15,39,68,.25),0 0 0 1px rgba(107,184,232,.15);
+  transform:translateY(-2px);
+}
+.ccard:hover::before{opacity:1;}
+
+/* WA kart — tam satır */
+.ccard-wa{grid-column:1/-1;}
+
+.cico{
+  width:40px;height:40px;border-radius:11px;
+  background:rgba(26,111,168,.2);
+  border:1px solid rgba(107,184,232,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+  filter:drop-shadow(0 0 6px rgba(107,184,232,.3));
+  transition:filter .3s;
+}
+.ccard:hover .cico{filter:drop-shadow(0 0 10px rgba(107,184,232,.55));}
+.cico.wa{background:rgba(37,211,102,.15);border-color:rgba(37,211,102,.25);filter:drop-shadow(0 0 6px rgba(37,211,102,.25));}
+.ccard:hover .cico.wa{filter:drop-shadow(0 0 10px rgba(37,211,102,.5));}
+
+.ctitle{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:2px;letter-spacing:.02em;}
+.cval{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.5;}
+.clink{font-size:11px;color:#6BB8E8;font-weight:600;margin-top:2px;transition:color .2s;}
+.ccard:hover .clink{color:#9DD4F4;}
+
+/* WA kart iç satır */
+.ccard-wa-inner{display:flex;align-items:center;gap:14px;}
+.ccard-wa-text .ctitle{font-size:14px;}
+.ccard-wa-text .cval{font-size:13px;}
+
+/* Çalışma saatleri — saat listesi */
+.hours-list{display:flex;flex-direction:column;gap:4px;margin-top:4px;}
+.hours-row{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.5);}
+.hours-val{color:rgba(255,255,255,.75);font-weight:500;}
+
+/* Sağ: Harita */
+.map-box{
+  background:rgba(15,39,68,.85);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(107,184,232,.12);
+  border-radius:24px;
+  overflow:hidden;
+  min-height:380px;
+  position:relative;
+  box-shadow:
+    0 4px 16px rgba(15,39,68,.15),
+    0 20px 48px rgba(15,39,68,.18),
+    0 40px 80px rgba(15,39,68,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+}
+/* İframe gelince tam otur */
+.map-box iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:none;border-radius:24px;
+}
+.map-placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+.map-box:has(iframe) .map-placeholder{display:none;}
+.map-pin-wrap{
+  width:56px;height:56px;border-radius:16px;
+  background:rgba(26,111,168,.2);border:1px solid rgba(107,184,232,.2);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+}
+.map-lbl{font-size:15px;font-weight:600;color:rgba(255,255,255,.8);}
+.map-sub{font-size:12px;color:rgba(255,255,255,.35);text-align:center;max-width:200px;line-height:1.6;}
+.map-badge{
+  font-size:10px;color:#6BB8E8;font-weight:600;
+  background:rgba(26,111,168,.15);border:1px solid rgba(107,184,232,.2);
+  border-radius:20px;padding:4px 12px;
+  margin-top:4px;
+}
+
+@media(max-width:860px){
+  .contact-grid{grid-template-columns:1fr;}
+  .map-box{min-height:280px;}
+}
+@media(max-width:560px){
+  .contact-left{grid-template-columns:1fr;}
+  .ccard-wa{grid-column:1;}
+}
 
 /* ============================================================
    FOOTER
@@ -998,23 +2114,65 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
      ============================================================ -->
 <div class="nav-wrap" id="navWrap">
   <nav class="nav" role="navigation" aria-label="Ana menü">
-    <div class="nav-logo">
-      <div class="nav-logo-name">Dr. Çağrı Neyişci</div>
-      <div class="nav-logo-sub">Ortopedi & Travmatoloji</div>
+
+    <!-- Sol: Logo -->
+    <div class="nav-logo-area">
+      <div class="nav-logo-icon">🦴</div>
+      <div class="nav-logo-text">
+        <div class="nav-logo-name">Dr. Çağrı Neyişci</div>
+        <div class="nav-logo-sub" data-i18n="subtitle">Ortopedi & Travmatoloji</div>
+      </div>
     </div>
+
+    <!-- Orta: Nav linkleri -->
     <div class="nav-links">
-      <a href="#" class="active">Ana Sayfa</a>
-      <a href="#hakkimda">Hakkımda</a>
-      <a href="#uzmanlik">Uzmanlık</a>
-      <a href="#sss">SSS</a>
-      <a href="#iletisim">İletişim</a>
+      <a href="#" class="active" data-i18n="nav_home">Ana Sayfa</a>
+      <a href="#hakkimda" data-i18n="nav_about">Hakkımda</a>
+      <a href="#uzmanlik" data-i18n="nav_exp">Uzmanlık</a>
+      <a href="#sss" data-i18n="nav_faq">SSS</a>
+      <a href="#iletisim" data-i18n="nav_contact">İletişim</a>
     </div>
+
+    <!-- Sağ: Randevu + Dil Dropdown + Hamburger -->
     <div class="nav-right">
-      <button class="nav-cta" onclick="openModal()" aria-label="Randevu al">📅 Randevu Al</button>
+      <button class="nav-cta" onclick="openModal()" data-i18n="nav_cta">📅 Randevu Al</button>
+
+      <!-- Dil Dropdown -->
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-trigger" onclick="toggleLangMenu()" aria-label="Dil seç" aria-expanded="false" id="langTrigger">
+          <span class="lang-trigger-ico">🌐</span>
+          <span class="lang-trigger-txt" id="langLabel">TR</span>
+          <span class="lang-trigger-arrow">▾</span>
+        </button>
+        <div class="lang-menu" id="langMenu" role="menu">
+          <button class="lang-option active" onclick="setLang('tr',this)" data-lang="tr" role="menuitem">
+            <span class="lang-opt-flag">🇹🇷</span>
+            <span class="lang-opt-name">Türkçe</span>
+            <span class="lang-opt-native">TR</span>
+          </button>
+          <button class="lang-option" onclick="setLang('en',this)" data-lang="en" role="menuitem">
+            <span class="lang-opt-flag">🇬🇧</span>
+            <span class="lang-opt-name">English</span>
+            <span class="lang-opt-native">EN</span>
+          </button>
+          <button class="lang-option" onclick="setLang('ar',this)" data-lang="ar" role="menuitem">
+            <span class="lang-opt-flag">🇸🇦</span>
+            <span class="lang-opt-name">العربية</span>
+            <span class="lang-opt-native">AR</span>
+          </button>
+          <button class="lang-option" onclick="setLang('de',this)" data-lang="de" role="menuitem">
+            <span class="lang-opt-flag">🇩🇪</span>
+            <span class="lang-opt-name">Deutsch</span>
+            <span class="lang-opt-native">DE</span>
+          </button>
+        </div>
+      </div>
+
       <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menüyü aç/kapat" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
+
   </nav>
 </div>
 
@@ -1110,6 +2268,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
      ============================================================ -->
 <section id="hakkimda" aria-label="Hakkımda">
   <div class="doc-section-wrap">
+
+    <!-- ── Sol: Biyomedikal İskelet Figürü (Canvas) ── -->
+    <div class="bio-fig bio-left">
+      <canvas id="bioLeft" width="220" height="500"></canvas>
+    </div>
+
+    <!-- ── Sağ: Biyomedikal Diz/Bacak Figürü (Canvas) ── -->
+    <div class="bio-fig bio-right">
+      <canvas id="bioRight" width="220" height="500"></canvas>
+    </div>
     <div class="doc-section-inner">
 
       <!-- SOL: Portrait Kart + Cam Sertifikalar -->
@@ -1206,148 +2374,564 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 </section>
 
 <!-- ============================================================
-     UZMANLIKLAR
-     ============================================================ -->
-<!-- ============================================================
-     UZMANLIKLAR — Bento Grid
+     UZMANLIK — Sekmeli Filtreli Kart Galerisi (10+ Hastalık)
      ============================================================ -->
 <section id="uzmanlik" aria-label="Uzmanlık Alanları">
-<div class="bento-wrap">
-  <div class="bento-head">
-    <div class="bento-label">Uzmanlık Alanları</div>
-    <h2 class="bento-title">Tedavi Ettiğim Durumlar</h2>
-    <p class="bento-sub">Her alan için detaylı bilgi, tedavi süreci ve sık sorulan sorular</p>
+<div class="uzman-section">
+
+  <div class="uzman-head">
+    <div class="uzman-eyebrow" data-i18n="exp_label">Uzmanlık Alanları</div>
+    <h2 class="uzman-title" data-i18n="exp_title">Tedavi Ettiğim<br><span>Durumlar</span></h2>
+    <p class="uzman-sub" data-i18n="exp_sub">Semptomlarınıza göre filtreleyerek doğru tedavi bilgisine ulaşın</p>
   </div>
 
-  <div class="bento-grid">
+  <!-- Filtre sekmeleri -->
+  <div class="uzman-filters" role="tablist">
+    <button class="uf active" onclick="filterCards('all',this)" role="tab" aria-selected="true">🔬 Tümü</button>
+    <button class="uf" onclick="filterCards('diz',this)" role="tab">🦴 Diz</button>
+    <button class="uf" onclick="filterCards('omuz',this)" role="tab">💪 Omuz</button>
+    <button class="uf" onclick="filterCards('omurga',this)" role="tab">🏃 Omurga</button>
+    <button class="uf" onclick="filterCards('kalca',this)" role="tab">🏥 Kalça</button>
+    <button class="uf" onclick="filterCards('spor',this)" role="tab">⚡ Spor</button>
+  </div>
 
-    <!-- Sol üst: Omurga -->
-    <a href="uzmanlik/omurga.html" class="bc bc-col-left-top">
-      <img class="bc-img" src="assets/images/omurga-kart.jpg" alt="" loading="lazy">
-      <div class="bc-content">
-        <div class="bc-tag">Disk · Stabilizasyon</div>
-        <div class="bc-title">Omurga<br>Cerrahisi</div>
-        <div class="bc-desc">Bel fıtığı, boyun fıtığı ve spinal stenoz için minimal invaziv mikrodiskektomi.</div>
-        <div class="bc-link">İncele</div>
+  <!-- Kart ızgarası -->
+  <div class="uzman-grid" id="uzmanGrid">
+
+    <!-- 1 -->
+    <a href="uzmanlik/diz-protezi.html" class="ucard" data-cat="diz">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">
+        <img src="assets/images/diz-protezi-kart.jpg" alt="Diz Protezi" loading="lazy">
+        <div class="ucard-img-overlay"></div>
       </div>
-      <div class="bc-badge">60–120 dk</div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Diz · Protez</div>
+        <div class="ucard-name">Diz Protezi Ameliyatı</div>
+        <div class="ucard-desc">Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 90 dk</span>
+            <span class="ustat">🏥 2–3 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
     </a>
 
-    <!-- Orta büyük: Diz Protezi -->
-    <a href="uzmanlik/diz-protezi.html" class="bc bc-hero">
-      <img class="bc-img" src="assets/images/diz-protezi-kart.jpg" alt="" loading="lazy">
-      <div class="bc-content">
-        <div class="bc-tag">Artroskopi · Protez</div>
-        <div class="bc-title">Diz Protezi<br>Ameliyatı</div>
-        <div class="bc-desc">Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez seçenekleri. Minimal invaziv teknikle hızlı iyileşme.</div>
-        <div class="bc-link">İncele</div>
+    <!-- 2 -->
+    <a href="uzmanlik/meniskus.html" class="ucard" data-cat="diz spor">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">
+        <img src="assets/images/meniskus-kart.jpg" alt="Menisküs" loading="lazy">
+        <div class="ucard-img-overlay"></div>
       </div>
-      <div class="bc-badge">90 dk · 2–3 gün</div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Diz · Artroskopi</div>
+        <div class="ucard-name">Menisküs Yırtığı</div>
+        <div class="ucard-desc">Ani dönme veya ezilme sonucu oluşan menisküs yırtıklarında artroskopik onarım.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 45 dk</span>
+            <span class="ustat">🏥 Günübirlik</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
     </a>
 
-    <!-- Sağ üst: Omuz -->
-    <a href="uzmanlik/omuz-artroskopi.html" class="bc bc-col-right-top">
-      <img class="bc-img" src="assets/images/omuz-kart.jpg" alt="" loading="lazy">
-      <div class="bc-content">
-        <div class="bc-tag">Rotator Manşet</div>
-        <div class="bc-title">Omuz<br>Artroskopi</div>
-        <div class="bc-desc">SLAP lezyonu ve sıkışma sendromu tedavisi.</div>
-        <div class="bc-link">İncele</div>
+    <!-- 3 -->
+    <a href="uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">
+        <img src="assets/images/acl-kart.jpg" alt="ACL" loading="lazy">
+        <div class="ucard-img-overlay"></div>
       </div>
-      <div class="bc-badge">12 gün</div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Diz · ACL</div>
+        <div class="ucard-name">Ön Çapraz Bağ (ACL)</div>
+        <div class="ucard-desc">Futbol, basketbol ve kayak gibi sporlarda oluşan ACL yırtığında rekonstrüksiyon.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60 dk</span>
+            <span class="ustat">🏃 9–12 ay</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
     </a>
 
-    <!-- Sol alt: Kalça -->
-    <a href="uzmanlik/kalca-protezi.html" class="bc bc-col-left-mid">
-      <img class="bc-img" src="assets/images/kalca-kart.jpg" alt="" loading="lazy">
-      <div class="bc-content">
-        <div class="bc-tag">Minimal İnvaziv</div>
-        <div class="bc-title">Kalça<br>Protezi</div>
-        <div class="bc-desc">Küçük kesili teknikle daha az ağrı, hızlı iyileşme.</div>
-        <div class="bc-link">İncele</div>
+    <!-- 4 -->
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">
+        <img src="assets/images/omuz-kart.jpg" alt="Omuz Artroskopi" loading="lazy">
+        <div class="ucard-img-overlay"></div>
       </div>
-      <div class="bc-badge">3–4 gün</div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omuz · Artroskopi</div>
+        <div class="ucard-name">Omuz Artroskopi</div>
+        <div class="ucard-desc">Rotator manşet yırtığı, SLAP lezyonu ve omuz sıkışma sendromunun minimal invaziv tedavisi.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60–90 dk</span>
+            <span class="ustat">🏥 Günübirlik</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
     </a>
 
-    <!-- Sağ alt: Menisküs + ACL -->
-    <a href="uzmanlik/meniskus.html" class="bc bc-col-right-mid" style="grid-row:2;position:relative;">
-      <img class="bc-img" src="assets/images/meniskus-kart.jpg" alt="" loading="lazy">
-      <div class="bc-content">
-        <div class="bc-tag">Artroskopi · ACL</div>
-        <div class="bc-title">Menisküs &<br>Ön Çapraz Bağ</div>
-        <div class="bc-desc">Spor yaralanmalarında artroskopik onarım ve spora erken dönüş.</div>
-        <div class="bc-link">İncele</div>
+    <!-- 5 -->
+    <a href="uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1A5580);">
+        <img src="assets/images/kalca-kart.jpg" alt="Kalça Protezi" loading="lazy">
+        <div class="ucard-img-overlay"></div>
       </div>
-      <div class="bc-badge">10–30 gün</div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Kalça · Protez</div>
+        <div class="ucard-name">Kalça Protezi</div>
+        <div class="ucard-desc">Minimal invaziv teknikle kalça kireçlenmesi ve kırığında daha az kesik, hızlı iyileşme.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 90 dk</span>
+            <span class="ustat">🏥 3–4 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
     </a>
+
+    <!-- 6 -->
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0a2240,#1A6080);">
+        <img src="assets/images/omurga-kart.jpg" alt="Omurga" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omurga · Mikrodiskektomi</div>
+        <div class="ucard-name">Bel Fıtığı Cerrahisi</div>
+        <div class="ucard-desc">Bel ve bacağa vuran ağrı, uyuşma ve güçsüzlük şikayetlerinde mikrodiskektomi.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60–90 dk</span>
+            <span class="ustat">🏥 2–3 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 7 -->
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0d1f38,#1A5570);">
+        <img src="assets/images/boyun-kart.jpg" alt="Boyun Fıtığı" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omurga · Servikal</div>
+        <div class="ucard-name">Boyun Fıtığı</div>
+        <div class="ucard-desc">Kola vuran ağrı ve uyuşmaya yol açan servikal disk hernisinde minimal invaziv cerrahi.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60 dk</span>
+            <span class="ustat">🏥 1–2 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 8 -->
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1A4A80);">
+        <img src="assets/images/rotator-kart.jpg" alt="Rotator Manşet" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omuz · Rotator Manşet</div>
+        <div class="ucard-name">Rotator Manşet Yırtığı</div>
+        <div class="ucard-desc">Kol kaldırmada güçlük ve gece ağrısına neden olan tam kat rotator manşet yırtığı tamiri.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 90 dk</span>
+            <span class="ustat">🏥 Günübirlik</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 9 -->
+    <a href="uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0d1a30,#1A4570);">
+        <img src="assets/images/kalca-kirtik-kart.jpg" alt="Kalça Kırığı" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Kalça · Travma</div>
+        <div class="ucard-name">Kalça Kırığı Tedavisi</div>
+        <div class="ucard-desc">Yaşlılarda düşme sonucu oluşan femur boynu kırıklarında çivi veya protez uygulaması.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60–90 dk</span>
+            <span class="ustat">🏥 3–5 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 10 -->
+    <a href="uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0a1628,#1A3A6A);">
+        <img src="assets/images/pcl-kart.jpg" alt="PCL" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Diz · PCL</div>
+        <div class="ucard-name">Arka Çapraz Bağ (PCL)</div>
+        <div class="ucard-desc">Trafik kazaları ve spor darbelerinde PCL yırtığı; konservatif veya cerrahi tedavi.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 60 dk</span>
+            <span class="ustat">🏃 6–9 ay</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 11 -->
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0d2040,#145580);">
+        <img src="assets/images/omuz-cikik-kart.jpg" alt="Omuz Çıkığı" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omuz · Çıkık</div>
+        <div class="ucard-name">Tekrarlayan Omuz Çıkığı</div>
+        <div class="ucard-desc">Bankart tamiri ile omuz labrum yırtığı onarımı ve tekrarlayan çıkık önleme.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 45–60 dk</span>
+            <span class="ustat">🏥 Günübirlik</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+    <!-- 12 -->
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+      <div class="ucard-img" style="background:linear-gradient(135deg,#0a1a30,#154060);">
+        <img src="assets/images/stenoz-kart.jpg" alt="Spinal Stenoz" loading="lazy">
+        <div class="ucard-img-overlay"></div>
+      </div>
+      <div class="ucard-body">
+        <div class="ucard-cat">Omurga · Stenoz</div>
+        <div class="ucard-name">Spinal Kanal Darlığı</div>
+        <div class="ucard-desc">Yürüyünce bacakta ağrı ve uyuşma yapan spinal stenozda laminektomi ve dekompresyon.</div>
+        <div class="ucard-foot">
+          <div class="ucard-stats">
+            <span class="ustat">⏱ 90–120 dk</span>
+            <span class="ustat">🏥 3–4 gün</span>
+          </div>
+          <span class="ucard-link">İncele →</span>
+        </div>
+      </div>
+      <div class="ucard-glow"></div>
+    </a>
+
+  </div><!-- /uzman-grid -->
+</div>
+</section>
+
+<!-- ============================================================
+     BLOG (Sol) + SSS (Sağ) — Yan Yana
+     ============================================================ -->
+<section id="sss" aria-label="Blog ve Sıkça Sorulan Sorular">
+<div class="blog-sss-section">
+  <div class="blog-sss-inner">
+
+    <!-- ══════════════ SOL: BLOG ══════════════ -->
+    <div class="blog-col">
+      <div class="blog-col-head">
+        <div class="blog-eyebrow">Sağlık Blogu</div>
+        <h2 class="blog-col-title">Hastalıklar &<br>Tedaviler Hakkında</h2>
+        <p class="blog-col-sub">Dr. Neyişci'nin kaleme aldığı güncel ortopedi yazıları</p>
+      </div>
+
+      <div class="blog-list">
+
+        <div class="blog-card">
+          <div class="blog-card-stripe"></div>
+          <div class="blog-card-body">
+            <div class="blog-card-cat">Diz · Protez</div>
+            <div class="blog-card-title">Diz Protezi Ameliyatı Ne Zaman Gereklidir?</div>
+            <div class="blog-card-excerpt">Kireçlenmenin hangi evresinde ameliyata gerek duyulur, konservatif tedavi seçenekleri nelerdir?</div>
+            <div class="blog-card-foot">
+              <span class="blog-card-date">12 Mayıs 2024</span>
+              <span class="blog-card-link">Okumaya devam et →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-card-stripe"></div>
+          <div class="blog-card-body">
+            <div class="blog-card-cat">Spor · ACL</div>
+            <div class="blog-card-title">Ön Çapraz Bağ (ACL) Yırtığından Sonra Spora Dönüş</div>
+            <div class="blog-card-excerpt">Ameliyat sonrası rehabilitasyon süreci, spora dönüş kriterleri ve dikkat edilmesi gerekenler.</div>
+            <div class="blog-card-foot">
+              <span class="blog-card-date">3 Mayıs 2024</span>
+              <span class="blog-card-link">Okumaya devam et →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-card-stripe"></div>
+          <div class="blog-card-body">
+            <div class="blog-card-cat">Omurga · Fıtık</div>
+            <div class="blog-card-title">Bel Fıtığında Doğru Bilinen Yanlışlar</div>
+            <div class="blog-card-excerpt">Her bel ağrısı fıtık değildir. Tanı yöntemleri ve tedavi seçeneklerinin doğru anlaşılması.</div>
+            <div class="blog-card-foot">
+              <span class="blog-card-date">21 Nisan 2024</span>
+              <span class="blog-card-link">Okumaya devam et →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-card-stripe"></div>
+          <div class="blog-card-body">
+            <div class="blog-card-cat">Menisküs · Artroskopi</div>
+            <div class="blog-card-title">Menisküs Yırtığında Ameliyat Şart Mı?</div>
+            <div class="blog-card-excerpt">Yırtığın tipi ve boyutuna göre değişen tedavi seçenekleri; PRP, fizik tedavi ve cerrahi kararı.</div>
+            <div class="blog-card-foot">
+              <span class="blog-card-date">8 Nisan 2024</span>
+              <span class="blog-card-link">Okumaya devam et →</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a href="#" class="blog-more">Tüm Yazıları Gör →</a>
+    </div>
+
+    <!-- ══════════════ SAĞ: SSS ══════════════ -->
+    <div class="sss-col">
+      <div class="sss-col-head">
+        <div class="sss-eyebrow">Sıkça Sorulan Sorular</div>
+        <h2 class="sss-col-title">Merak<br>Ettikleriniz</h2>
+        <p class="sss-col-sub">Hastalarımızın en çok sorduğu sorular</p>
+      </div>
+
+      <div class="sss-wrap">
+        <div class="sss-inner">
+          <div class="faq-list">
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçlar en az 5 gün önceden kesilmelidir. Ayrıntılı liste muayene sırasında tarafınıza iletilir.</div></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">Diz protezi sonrası ne zaman yürüyebilirim?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir. Tam iyileşme 6–12 hafta arasında tamamlanır.</div></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">Menisküs ameliyatı şart mı, alternatif var mı?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir. Ameliyat büyük yırtık veya mekanik kilitlenme durumunda önerilir.</div></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">Yurt dışından randevu alabilir miyim?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">Evet, WhatsApp ve e-posta üzerinden online konsültasyon yapılmaktadır. MR görüntülerinizi dijital olarak iletmeniz yeterlidir. Tercüman desteği de sağlanmaktadır.</div></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">Hangi sigorta kurumlarıyla anlaşmanız var?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">SGK ve özel sağlık sigortalarıyla anlaşmamız mevcuttur. Güncel liste için kliniğimizi arayabilirsiniz.</div></div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+                <span class="faq-q-text">ACL ameliyatından sonra spora ne zaman dönebilirim?</span>
+                <span class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+              </button>
+              <div class="faq-a"><div class="faq-a-inner">Tam kontakt spora dönüş genellikle 9–12. ayda gerçekleşir. 6. ayda koşu ve düşük yoğunluklu antrenman başlanabilir. Dönüş kararı fonksiyonel testlerle birlikte verilir.</div></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
 </section>
 
 <!-- ============================================================
-     SSS
+     İLETİŞİM — Premium Yeniden Tasarım
      ============================================================ -->
-<section id="sss" class="sw" aria-label="Sıkça Sorulan Sorular">
-  <div class="slbl">SSS</div>
-  <div class="stitle">Sıkça Sorulan Sorular</div>
-  <div class="ssub">Hastalarımızın en çok merak ettiği konular</div>
-  <div class="faq-list">
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</span><span class="faq-icon">▾</span></button>
-      <div class="faq-a"><div class="faq-a-inner">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçlar en az 5 gün önceden kesilmelidir. Ayrıntılı liste muayene sırasında tarafınıza iletilir.</div></div>
+<section id="iletisim" aria-label="İletişim ve Konum">
+<div class="contact-wrap">
+  <div class="contact-inner">
+    <div class="contact-head">
+      <div class="contact-eyebrow" data-i18n="contact_label">İletişim & Konum</div>
+      <h2 class="contact-title" data-i18n="contact_title">Bize Ulaşın</h2>
+      <p class="contact-sub" data-i18n="contact_sub">Randevu ve bilgi için aşağıdaki kanallardan ulaşın</p>
     </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Diz protezi sonrası ne zaman yürüyebilirim?</span><span class="faq-icon">▾</span></button>
-      <div class="faq-a"><div class="faq-a-inner">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir. Tam iyileşme 6–12 hafta arasında tamamlanır.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Menisküs ameliyatı şart mı, alternatif tedavi var mı?</span><span class="faq-icon">▾</span></button>
-      <div class="faq-a"><div class="faq-a-inner">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir. Ameliyat büyük yırtık veya mekanik kilitlenme durumunda önerilir.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Yurt dışından randevu alabilir miyim?</span><span class="faq-icon">▾</span></button>
-      <div class="faq-a"><div class="faq-a-inner">Evet, WhatsApp ve e-posta üzerinden online konsültasyon yapılmaktadır. MR görüntülerinizi dijital olarak iletmeniz yeterlidir. Tercüman desteği de sağlanmaktadır.</div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span>Hangi sigorta kurumlarıyla anlaşmanız var?</span><span class="faq-icon">▾</span></button>
-      <div class="faq-a"><div class="faq-a-inner">SGK ve özel sağlık sigortalarıyla anlaşmamız mevcuttur. Güncel liste için kliniğimizi arayabilirsiniz.</div></div>
-    </div>
-  </div>
-</section>
 
-<!-- ============================================================
-     İLETİŞİM
-     ============================================================ -->
-<section id="iletisim" class="sw" aria-label="İletişim ve Konum">
-  <div class="slbl">İletişim & Konum</div>
-  <div class="stitle">Bize Ulaşın</div>
-  <div class="ssub">Randevu ve bilgi için aşağıdaki kanallardan ulaşın</div>
-  <div class="contact-grid">
-    <div class="contact-left">
-      <a href="https://wa.me/90XXXXXXXXXX" class="ccard" target="_blank" rel="noopener">
-        <div class="cico wa">💬</div>
-        <div><div class="ctitle">WhatsApp</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Mesaj Gönder</div></div>
-      </a>
-      <a href="tel:+90XXXXXXXXXX" class="ccard">
-        <div class="cico">📞</div>
-        <div><div class="ctitle">Telefon</div><div class="cval">+90 000 000 00 00</div><div class="clink">→ Hemen Ara</div></div>
-      </a>
-      <a href="mailto:info@drcagrineyisci.com" class="ccard">
-        <div class="cico">✉️</div>
-        <div><div class="ctitle">E-posta</div><div class="cval">info@drcagrineyisci.com</div><div class="clink">→ E-posta Gönder</div></div>
-      </a>
-      <div class="ccard">
-        <div class="cico">🕐</div>
-        <div><div class="ctitle">Çalışma Saatleri</div><div class="cval">Pzt–Cum: 09:00–18:00</div><div class="cval">Cmt: 09:00–13:00</div></div>
+    <!-- Üst grid: sol iletişim kutusu | sağ harita -->
+    <div class="ct-top-grid">
+
+      <!-- ── SOL: Premium İletişim Kutusu ── -->
+      <div class="ct-info-box">
+        <div class="ct-info-header">
+          <div class="ct-info-header-icon">📋</div>
+          <div>
+            <div class="ct-info-title" data-i18n="contact_info_title">İletişim Bilgileri</div>
+            <div class="ct-info-sub" data-i18n="contact_info_sub">Size en hızlı yoldan ulaşalım</div>
+          </div>
+        </div>
+
+        <!-- WhatsApp — öne çıkan -->
+        <a href="https://wa.me/90XXXXXXXXXX" class="ct-row ct-row-wa" target="_blank" rel="noopener">
+          <div class="ct-row-ico wa-ico">
+            <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="rgba(37,211,102,.15)"/>
+            </svg>
+          </div>
+          <div class="ct-row-body">
+            <div class="ct-row-label" data-i18n="cta_wa">WhatsApp ile Randevu</div>
+            <div class="ct-row-val">+90 000 000 00 00</div>
+          </div>
+          <div class="ct-row-badge" data-i18n="ct_online">Çevrimiçi</div>
+          <div class="ct-row-arrow">→</div>
+        </a>
+
+        <div class="ct-divider"></div>
+
+        <!-- Telefon + E-posta yan yana -->
+        <div class="ct-two-col">
+          <a href="tel:+90XXXXXXXXXX" class="ct-mini">
+            <div class="ct-mini-ico">📞</div>
+            <div>
+              <div class="ct-mini-label" data-i18n="ct_phone">Telefon</div>
+              <div class="ct-mini-val">+90 000 000 00 00</div>
+              <div class="ct-mini-link" data-i18n="ct_call">→ Ara</div>
+            </div>
+          </a>
+          <a href="mailto:info@drcagrineyisci.com" class="ct-mini">
+            <div class="ct-mini-ico">✉️</div>
+            <div>
+              <div class="ct-mini-label" data-i18n="ct_email">E-posta</div>
+              <div class="ct-mini-val">info@drcagrineyisci.com</div>
+              <div class="ct-mini-link" data-i18n="ct_write">→ Yaz</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="ct-divider"></div>
+
+        <!-- Çalışma saatleri -->
+        <div class="ct-hours">
+          <div class="ct-hours-head">
+            <span class="ct-hours-ico">🕐</span>
+            <span class="ct-hours-title" data-i18n="ct_hours">Çalışma Saatleri</span>
+          </div>
+          <div class="ct-hours-grid">
+            <div class="ct-hours-row">
+              <span class="ct-day" data-i18n="ct_weekday">Pzt – Cum</span>
+              <span class="ct-dot-line"></span>
+              <span class="ct-time">09:00 – 18:00</span>
+            </div>
+            <div class="ct-hours-row">
+              <span class="ct-day" data-i18n="ct_saturday">Cumartesi</span>
+              <span class="ct-dot-line"></span>
+              <span class="ct-time">09:00 – 13:00</span>
+            </div>
+            <div class="ct-hours-row">
+              <span class="ct-day" data-i18n="ct_sunday">Pazar</span>
+              <span class="ct-dot-line"></span>
+              <span class="ct-time ct-closed" data-i18n="ct_closed">Kapalı</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SAĞ: Harita + Adres ── -->
+      <div class="ct-map-box">
+        <!-- Google Maps iframe buraya gelecek -->
+        <div class="ct-map-area">
+          <iframe
+            src="https://maps.google.com/maps?q=O%C4%9Fuzlar%2C+1422.+Sk.%2C+06520+%C3%87ankaya%2FAnkara&output=embed&z=16"
+            width="100%" height="100%"
+            style="border:0;border-radius:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Klinik Konumu">
+          </iframe>
+        </div>
+        <div class="ct-addr-bar">
+          <div class="ct-addr-pin">📍</div>
+          <div class="ct-addr-text">
+            <div class="ct-addr-label" data-i18n="ct_address_label">Klinik Adresi</div>
+            <div class="ct-addr-val">Oğuzlar, 1422. Sk., 06520 Çankaya / Ankara</div>
+          </div>
+          <a href="https://maps.google.com/?q=Oğuzlar,1422.Sk.,06520,Çankaya,Ankara"
+             target="_blank" rel="noopener" class="ct-directions" data-i18n="ct_directions">
+            Yol Tarifi →
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /ct-top-grid -->
+
+    <!-- ── ALT: Hareketli Randevu Butonu ── -->
+    <div class="ct-randevu-bar">
+      <div class="ct-rb-inner" onclick="openModal()">
+        <div class="ct-rb-pulse"></div>
+        <div class="ct-rb-icon">📅</div>
+        <div class="ct-rb-text-wrap">
+          <div class="ct-rb-marquee">
+            <span class="ct-rb-msg" data-i18n="ct_appt_msg">Online Randevu Al&nbsp;&nbsp;·&nbsp;&nbsp;Ücretsiz Değerlendirme&nbsp;&nbsp;·&nbsp;&nbsp;Hızlı Yanıt&nbsp;&nbsp;·&nbsp;&nbsp;Online Randevu Al&nbsp;&nbsp;·&nbsp;&nbsp;Ücretsiz Değerlendirme&nbsp;&nbsp;·&nbsp;&nbsp;Hızlı Yanıt&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <button class="ct-rb-btn" data-i18n="ct_appt_btn">Randevu Al →</button>
       </div>
     </div>
-    <div class="map-box">
-      <span class="map-icon">🗺️</span>
-      <div class="map-lbl">Klinik Konumu</div>
-      <div class="map-sub">Google Haritalar eklenecek</div>
-    </div>
+
   </div>
+</div>
 </section>
 
 <!-- ============================================================
@@ -1479,6 +3063,39 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 </div>
 
 <!-- ============================================================
+     SOL SABİT SOSYAL PANEL (Hakkımda altından görünür)
+     ============================================================ -->
+<aside class="social-side-panel" id="socialSidePanel" aria-label="Sosyal medya">
+  <a href="#" class="ssp-btn ssp-ig" target="_blank" rel="noopener" aria-label="Instagram">
+    <div class="ssp-ico">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+    </div>
+    <div class="ssp-info">
+      <span class="ssp-name">Instagram</span>
+      <span class="ssp-handle">@drcagrineyisci</span>
+    </div>
+  </a>
+  <a href="#" class="ssp-btn ssp-li" target="_blank" rel="noopener" aria-label="LinkedIn">
+    <div class="ssp-ico">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M8 11v5M8 8v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 16v-3c0-1.1.9-2 2-2s2 .9 2 2v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <div class="ssp-info">
+      <span class="ssp-name">LinkedIn</span>
+      <span class="ssp-handle">Dr. Çağrı Neyişci</span>
+    </div>
+  </a>
+  <a href="#" class="ssp-btn ssp-yt" target="_blank" rel="noopener" aria-label="YouTube">
+    <div class="ssp-ico">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M22 12s0-7-1-8.5c-.5-1-1.5-1.5-2.5-1.5C16 2 12 2 12 2s-4 0-6.5.5c-1 .5-2 1-2.5 2C2 6 2 12 2 12s0 6 1 7.5c.5 1 1.5 1.5 2.5 2C8 22 12 22 12 22s4 0 6.5-.5c1-.5 2-1 2.5-2C22 18 22 12 22 12Z" stroke="currentColor" stroke-width="1.8"/><polygon points="10,8.5 16,12 10,15.5" fill="currentColor"/></svg>
+    </div>
+    <div class="ssp-info">
+      <span class="ssp-name">YouTube</span>
+      <span class="ssp-handle">Dr. Çağrı Neyişci</span>
+    </div>
+  </a>
+</aside>
+
+<!-- ============================================================
      30 SANİYE POPUP
      ============================================================ -->
 <div class="popup-overlay" id="popup" role="dialog" aria-modal="true">
@@ -1536,16 +3153,575 @@ function closeMenu() {
   document.getElementById('hamburger').classList.remove('open');
 }
 
-/* ---------- FAQ ---------- */
+/* ---------- FAQ — Chevron akordeon ---------- */
 function toggleFaq(btn) {
-  const a = btn.nextElementSibling;
-  const ico = btn.querySelector('.faq-icon');
-  const open = a.classList.contains('open');
-  document.querySelectorAll('.faq-a').forEach(x => x.classList.remove('open'));
-  document.querySelectorAll('.faq-icon').forEach(x => { x.classList.remove('open'); x.textContent = '▾'; });
-  document.querySelectorAll('.faq-q').forEach(x => x.setAttribute('aria-expanded', 'false'));
-  if (!open) { a.classList.add('open'); ico.classList.add('open'); ico.textContent = '▴'; btn.setAttribute('aria-expanded', 'true'); }
+  const item = btn.closest('.faq-item');
+  const ans  = item.querySelector('.faq-a');
+  const chev = item.querySelector('.faq-chevron');
+  const isOpen = ans.classList.contains('open');
+
+  // Tümünü kapat
+  document.querySelectorAll('.faq-item').forEach(el => {
+    el.classList.remove('faq-open');
+    el.querySelector('.faq-a').classList.remove('open');
+    const c = el.querySelector('.faq-chevron');
+    if (c) c.style.transform = '';
+    el.querySelector('button').setAttribute('aria-expanded', 'false');
+  });
+
+  if (!isOpen) {
+    item.classList.add('faq-open');
+    ans.classList.add('open');
+    if (chev) chev.style.transform = 'rotate(180deg)';
+    btn.setAttribute('aria-expanded', 'true');
+  }
 }
+
+/* ---------- Biyomedikal Canvas Figürleri ---------- */
+(function(){
+  // Yalnızca büyük ekranda çalış
+  if(window.innerWidth < 1280) return;
+
+  // ── Ortak çizim yardımcıları ──
+  function glow(ctx, color, blur){
+    ctx.shadowColor = color;
+    ctx.shadowBlur  = blur;
+  }
+  function noGlow(ctx){ ctx.shadowBlur = 0; }
+
+  // ── Renk paleti — daha parlak ──
+  const C = {
+    bone   : 'rgba(160,215,240,0.80)',
+    boneD  : 'rgba(100,175,230,0.90)',
+    glow   : 'rgba(107,184,232,1.0)',
+    hot    : 'rgba(255,100,80,0.95)',
+    hotDim : 'rgba(220,80,60,0.6)',
+    nerve  : 'rgba(180,235,255,0.5)',
+    fill   : 'rgba(80,150,220,0.10)',
+    fillB  : 'rgba(50,110,190,0.15)',
+  };
+
+  // ══════════════════════════════════
+  // SOL CANVAS — Omurga / Üst Gövde
+  // ══════════════════════════════════
+  const cL = document.getElementById('bioLeft');
+  if(!cL) return;
+  const gl = cL.getContext('2d');
+  const W = cL.width, H = cL.height;
+
+  function drawSpine(){
+    gl.clearRect(0,0,W,H);
+
+    // — Kafatası taslağı —
+    gl.beginPath();
+    gl.ellipse(W/2, 38, 30, 36, 0, 0, Math.PI*2);
+    gl.strokeStyle = C.bone; gl.lineWidth = 1.2;
+    glow(gl, C.glow, 8); gl.stroke(); noGlow(gl);
+
+    // — Boyun omurları —
+    for(let i=0; i<3; i++){
+      const y = 80 + i*16;
+      gl.beginPath();
+      gl.roundRect(W/2-14, y, 28, 11, 4);
+      gl.fillStyle = C.fillB;
+      gl.fill();
+      gl.strokeStyle = C.boneD; gl.lineWidth = 1;
+      glow(gl, C.glow, 6); gl.stroke(); noGlow(gl);
+      // İşlem çıkıntıları
+      gl.beginPath();
+      gl.moveTo(W/2-14, y+5); gl.lineTo(W/2-24, y+5);
+      gl.moveTo(W/2+14, y+5); gl.lineTo(W/2+24, y+5);
+      gl.strokeStyle = C.bone; gl.lineWidth = .8;
+      gl.stroke();
+    }
+
+    // — Omurga merkez çizgisi —
+    gl.beginPath();
+    gl.moveTo(W/2, 74);
+    gl.bezierCurveTo(W/2-4, 150, W/2+4, 240, W/2, 340);
+    gl.strokeStyle = 'rgba(107,184,232,0.3)'; gl.lineWidth = 1;
+    gl.setLineDash([4,3]); gl.stroke(); gl.setLineDash([]);
+
+    // — Göğüs omurları (torakal) —
+    for(let i=0; i<7; i++){
+      const y = 128 + i*22;
+      const xOff = Math.sin(i*0.3)*3;
+      // Vertebra gövdesi
+      gl.beginPath();
+      gl.roundRect(W/2-16+xOff, y, 32, 14, 5);
+      gl.fillStyle = C.fillB; gl.fill();
+      gl.strokeStyle = C.boneD; gl.lineWidth = 1.2;
+      glow(gl, C.glow, 5); gl.stroke(); noGlow(gl);
+      // Kanat çıkıntıları
+      gl.beginPath();
+      gl.moveTo(W/2-16+xOff, y+6); gl.lineTo(W/2-28+xOff, y+3);
+      gl.moveTo(W/2+16+xOff, y+6); gl.lineTo(W/2+28+xOff, y+9);
+      gl.strokeStyle = C.bone; gl.lineWidth = .9; gl.stroke();
+      // Kaburgalar (sol 4 adet)
+      if(i < 6){
+        gl.beginPath();
+        gl.moveTo(W/2-28+xOff, y+3);
+        gl.bezierCurveTo(W/2-50+xOff, y-10, W/2-60+xOff, y+20, W/2-40+xOff, y+30);
+        gl.strokeStyle = 'rgba(107,184,232,0.28)'; gl.lineWidth = .8;
+        gl.stroke();
+      }
+    }
+
+    // — Lomber omurlar (bel, 5 adet) —
+    const lumbarColors = [C.boneD, C.boneD, C.hot, C.hot, C.hot]; // alt 3'ü kırmızı
+    for(let i=0; i<5; i++){
+      const y = 290 + i*24;
+      gl.beginPath();
+      gl.roundRect(W/2-18, y, 36, 18, 5);
+      gl.fillStyle = i>=2 ? 'rgba(255,80,60,0.06)' : C.fill;
+      gl.fill();
+      gl.strokeStyle = lumbarColors[i]; gl.lineWidth = 1.4;
+      glow(gl, i>=2 ? C.hot : C.glow, i>=2 ? 10 : 5);
+      gl.stroke(); noGlow(gl);
+      // İşlem çıkıntıları
+      gl.beginPath();
+      gl.moveTo(W/2-18, y+8); gl.lineTo(W/2-30, y+5);
+      gl.moveTo(W/2+18, y+8); gl.lineTo(W/2+30, y+5);
+      gl.strokeStyle = lumbarColors[i]; gl.lineWidth = .9;
+      gl.stroke();
+    }
+
+    // — Sakrum —
+    gl.beginPath();
+    gl.moveTo(W/2-20, 418);
+    gl.bezierCurveTo(W/2-22,430, W/2-12,448, W/2,452);
+    gl.bezierCurveTo(W/2+12,448, W/2+22,430, W/2+20,418);
+    gl.closePath();
+    gl.fillStyle = 'rgba(107,184,232,0.06)'; gl.fill();
+    gl.strokeStyle = C.boneD; gl.lineWidth = 1.2;
+    glow(gl, C.glow, 6); gl.stroke(); noGlow(gl);
+
+    // — Pelvis konturu —
+    gl.beginPath();
+    gl.moveTo(W/2-20, 420);
+    gl.bezierCurveTo(W/2-55,410, W/2-70,380, W/2-55,350);
+    gl.strokeStyle = 'rgba(107,184,232,0.22)'; gl.lineWidth = 1;
+    gl.setLineDash([5,4]); gl.stroke(); gl.setLineDash([]);
+    gl.beginPath();
+    gl.moveTo(W/2+20, 420);
+    gl.bezierCurveTo(W/2+55,410, W/2+70,380, W/2+55,350);
+    gl.strokeStyle = 'rgba(107,184,232,0.22)'; gl.lineWidth = 1;
+    gl.setLineDash([5,4]); gl.stroke(); gl.setLineDash([]);
+
+    // — Omuz (sol) —
+    gl.beginPath();
+    gl.ellipse(W/2-42, 122, 18, 12, -0.3, 0, Math.PI*2);
+    gl.strokeStyle = C.bone; gl.lineWidth = 1.2;
+    glow(gl, C.glow, 8); gl.stroke(); noGlow(gl);
+
+    // — Tarama çizgisi animasyonu —
+    const t = Date.now()/1000;
+    const scanY = (Math.sin(t*0.6)*0.5+0.5) * H;
+    const scanGrad = gl.createLinearGradient(0, scanY-2, 0, scanY+2);
+    scanGrad.addColorStop(0, 'transparent');
+    scanGrad.addColorStop(0.5, 'rgba(107,184,232,0.55)');
+    scanGrad.addColorStop(1, 'transparent');
+    gl.fillStyle = scanGrad;
+    gl.fillRect(0, scanY-2, W, 4);
+
+    // — Sağ alt köşe bilgi etiketi —
+    gl.font = '8px system-ui';
+    gl.fillStyle = 'rgba(107,184,232,0.35)';
+    gl.textAlign = 'center';
+    gl.fillText('Omurga & Üst Gövde', W/2, H-6);
+  }
+
+  // ══════════════════════════════════
+  // SAĞ CANVAS — Diz / Alt Ekstremite
+  // ══════════════════════════════════
+  const cR = document.getElementById('bioRight');
+  if(!cR) return;
+  const gr = cR.getContext('2d');
+
+  function drawKnee(){
+    gr.clearRect(0,0,W,H);
+
+    // — Femur gövdesi —
+    gr.beginPath();
+    gr.moveTo(W/2-14, 30);
+    gr.bezierCurveTo(W/2-14,120, W/2-10,190, W/2-6, 230);
+    gr.moveTo(W/2+14, 30);
+    gr.bezierCurveTo(W/2+14,120, W/2+10,190, W/2+6, 230);
+    gr.strokeStyle = C.bone; gr.lineWidth = 1.4;
+    glow(gr, C.glow, 6); gr.stroke(); noGlow(gr);
+    // İlik çizgisi
+    gr.beginPath();
+    gr.moveTo(W/2, 35); gr.lineTo(W/2, 218);
+    gr.strokeStyle = 'rgba(107,184,232,0.2)'; gr.lineWidth = .7;
+    gr.setLineDash([4,4]); gr.stroke(); gr.setLineDash([]);
+
+    // — Femur kondilleri (parlayan eklem) —
+    gr.beginPath();
+    gr.ellipse(W/2-12, 240, 18, 12, 0, 0, Math.PI*2);
+    gr.fillStyle = 'rgba(255,100,80,0.10)'; gr.fill();
+    gr.strokeStyle = C.hot; gr.lineWidth = 1.8;
+    glow(gr, C.hot, 14); gr.stroke(); noGlow(gr);
+
+    gr.beginPath();
+    gr.ellipse(W/2+12, 240, 18, 12, 0, 0, Math.PI*2);
+    gr.fillStyle = 'rgba(255,100,80,0.10)'; gr.fill();
+    gr.strokeStyle = C.hot; gr.lineWidth = 1.8;
+    glow(gr, C.hot, 14); gr.stroke(); noGlow(gr);
+
+    // — Eklem boşluğu ışıması —
+    const jGrad = gr.createRadialGradient(W/2, 252, 0, W/2, 252, 32);
+    jGrad.addColorStop(0, 'rgba(255,100,80,0.18)');
+    jGrad.addColorStop(1, 'transparent');
+    gr.fillStyle = jGrad;
+    gr.fillRect(W/2-40, 228, 80, 48);
+
+    // — Patella —
+    gr.beginPath();
+    gr.ellipse(W/2, 248, 16, 12, 0, 0, Math.PI*2);
+    gr.fillStyle = 'rgba(107,184,232,0.12)'; gr.fill();
+    gr.strokeStyle = C.boneD; gr.lineWidth = 1.8;
+    glow(gr, C.glow, 10); gr.stroke(); noGlow(gr);
+    gr.beginPath();
+    gr.ellipse(W/2, 248, 8, 6, 0, 0, Math.PI*2);
+    gr.strokeStyle = 'rgba(107,184,232,0.3)'; gr.lineWidth = .8;
+    gr.setLineDash([2,2]); gr.stroke(); gr.setLineDash([]);
+
+    // — Menisküs —
+    gr.beginPath();
+    gr.moveTo(W/2-24, 265);
+    gr.bezierCurveTo(W/2-20,280, W/2,282, W/2+20,280);
+    gr.bezierCurveTo(W/2+24,280, W/2+26,268, W/2+24,265);
+    gr.strokeStyle = C.boneD; gr.lineWidth = 2;
+    glow(gr, C.glow, 7); gr.stroke(); noGlow(gr);
+
+    // — ACL çapraz bağlar —
+    gr.beginPath();
+    gr.moveTo(W/2-8, 258); gr.lineTo(W/2+10, 278);
+    gr.strokeStyle = C.boneD; gr.lineWidth = 1.6;
+    glow(gr, C.glow, 8); gr.stroke(); noGlow(gr);
+    gr.beginPath();
+    gr.moveTo(W/2+8, 258); gr.lineTo(W/2-10, 278);
+    gr.strokeStyle = 'rgba(107,184,232,0.4)'; gr.lineWidth = 1.2;
+    gr.stroke();
+
+    // — Tibia platou —
+    gr.beginPath();
+    gr.roundRect(W/2-26, 284, 52, 12, 6);
+    gr.fillStyle = C.fillB; gr.fill();
+    gr.strokeStyle = C.boneD; gr.lineWidth = 1.4;
+    glow(gr, C.glow, 6); gr.stroke(); noGlow(gr);
+
+    // — Tibia gövdesi —
+    gr.beginPath();
+    gr.moveTo(W/2-12, 296); gr.lineTo(W/2-10, 440);
+    gr.bezierCurveTo(W/2-10,450, W/2+10,450, W/2+10,440);
+    gr.lineTo(W/2+12, 296);
+    gr.strokeStyle = C.bone; gr.lineWidth = 1.3;
+    glow(gr, C.glow, 5); gr.stroke(); noGlow(gr);
+    // İlik
+    gr.beginPath();
+    gr.moveTo(W/2, 300); gr.lineTo(W/2, 438);
+    gr.strokeStyle = 'rgba(107,184,232,0.18)'; gr.lineWidth = .6;
+    gr.setLineDash([4,4]); gr.stroke(); gr.setLineDash([]);
+
+    // — Fibula —
+    gr.beginPath();
+    gr.moveTo(W/2+18, 310); gr.lineTo(W/2+20, 440);
+    gr.strokeStyle = 'rgba(107,184,232,0.3)'; gr.lineWidth = .9;
+    gr.setLineDash([5,4]); gr.stroke(); gr.setLineDash([]);
+
+    // — Sinir/damar hatları —
+    gr.beginPath();
+    gr.moveTo(W/2+22, 40);
+    gr.bezierCurveTo(W/2+30,150, W/2+28,280, W/2+22,430);
+    gr.strokeStyle = 'rgba(160,220,255,0.18)'; gr.lineWidth = .7;
+    gr.setLineDash([3,5]); gr.stroke(); gr.setLineDash([]);
+
+    // — Tarama çizgisi —
+    const t = Date.now()/1000;
+    const scanY = (Math.sin(t*0.5+1)*0.5+0.5) * H;
+    const sg = gr.createLinearGradient(0, scanY-2, 0, scanY+2);
+    sg.addColorStop(0, 'transparent');
+    sg.addColorStop(0.5, 'rgba(107,184,232,0.5)');
+    sg.addColorStop(1, 'transparent');
+    gr.fillStyle = sg;
+    gr.fillRect(0, scanY-2, W, 4);
+
+    gr.font = '8px system-ui';
+    gr.fillStyle = 'rgba(107,184,232,0.35)';
+    gr.textAlign = 'center';
+    gr.fillText('Diz & Alt Eklem', W/2, H-6);
+  }
+
+  // Animasyon döngüsü
+  function animate(){
+    if(window.innerWidth >= 1280){
+      drawSpine();
+      drawKnee();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* ---------- Dil Dropdown ---------- */
+function toggleLangMenu(){
+  const dd = document.getElementById('langDropdown');
+  const menu = document.getElementById('langMenu');
+  const trigger = document.getElementById('langTrigger');
+  const isOpen = menu.classList.contains('open');
+  menu.classList.toggle('open', !isOpen);
+  dd.classList.toggle('open', !isOpen);
+  trigger.setAttribute('aria-expanded', String(!isOpen));
+}
+// Dışarı tıklayınca kapat
+document.addEventListener('click', function(e){
+  const dd = document.getElementById('langDropdown');
+  if(dd && !dd.contains(e.target)){
+    document.getElementById('langMenu').classList.remove('open');
+    dd.classList.remove('open');
+  }
+});
+
+/* ---------- Çok Dilli Sistem (i18n) ---------- */
+const LANGS = {
+  tr:{
+    subtitle:'Ortopedi & Travmatoloji',
+    nav_home:'Ana Sayfa', nav_about:'Hakkımda', nav_exp:'Uzmanlık',
+    nav_faq:'SSS', nav_contact:'İletişim', nav_cta:'📅 Randevu Al',
+    /* Hero */
+    hero_tag:'Uzman Ortopedi & Travmatoloji',
+    hero_title:'Hareketin En İyi Versiyonuna Kavuş',
+    hero_desc:'Minimal invaziv teknikler ve kişiye özel tedavi protokolleriyle daha hızlı iyileşme.',
+    hero_btn1:'📅 Randevu Al', hero_btn2:'Uzmanlıklarımız',
+    /* Hakkımda */
+    about_eyebrow:'Hakkımda',
+    about_title:'Sağlıklı Hareketi Yeniden Kazandırmak İçin Buradayım',
+    about_motto:'"Hastalarımı ameliyat masasına değil, aktif yaşama döndürmek önceliğimdir. Teknoloji ve deneyimi birleştirerek her bireye özel çözümler sunuyorum."',
+    about_body:'15 yılı aşkın cerrahi deneyimle diz, omuz, kalça ve omurga patolojilerinde minimal invaziv yaklaşımları benimsiyorum. Her hastamı bireysel değerlendiriyor, en uygun tedavi protokolünü birlikte planlıyoruz.',
+    about_stat1:'Başarılı Ameliyat', about_stat2:'Cerrahi Deneyim', about_stat3:'Hasta Memnuniyeti',
+    about_pill1:'TOTEK Üyesi', about_pill1s:'Türk Ortopedi Derneği',
+    about_pill2:'EFORT Üyesi', about_pill2s:'Avrupa Ortopedi Derneği',
+    about_pill3:'Minimal İnvaziv', about_pill3s:'Uzman Sertifikası',
+    /* Uzmanlık */
+    exp_label:'Uzmanlık Alanları', exp_title:'Tedavi Ettiğim Durumlar',
+    exp_sub:'Semptomlarınıza göre filtreleyerek doğru tedavi bilgisine ulaşın',
+    exp_filter_all:'🔬 Tümü', exp_filter_diz:'🦴 Diz', exp_filter_omuz:'💪 Omuz',
+    exp_filter_omurga:'🏃 Omurga', exp_filter_kalca:'🏥 Kalça', exp_filter_spor:'⚡ Spor',
+    /* Blog */
+    blog_eyebrow:'Sağlık Blogu', blog_title:'Hastalıklar & Tedaviler Hakkında',
+    blog_sub:"Dr. Neyişci'nin kaleme aldığı güncel ortopedi yazıları",
+    blog_more:'Tüm Yazıları Gör →',
+    blog_read:'Okumaya devam et →',
+    /* SSS */
+    sss_eyebrow:'Sıkça Sorulan Sorular', sss_title:'Merak Ettikleriniz',
+    sss_sub:'Hastalarımızın en çok sorduğu sorular',
+    /* İletişim */
+    contact_label:'İletişim & Konum', contact_title:'Bize Ulaşın',
+    contact_sub:'Randevu ve bilgi için aşağıdaki kanallardan ulaşın',
+    contact_info_title:'İletişim Bilgileri', contact_info_sub:'Size en hızlı yoldan ulaşalım',
+    cta_wa:'WhatsApp ile Randevu', cta_wa_link:'→ Hemen Mesaj Gönder',
+    ct_online:'Çevrimiçi', ct_phone:'Telefon', ct_call:'→ Ara',
+    ct_email:'E-posta', ct_write:'→ Yaz',
+    ct_hours:'Çalışma Saatleri', ct_weekday:'Pzt – Cum', ct_saturday:'Cumartesi',
+    ct_sunday:'Pazar', ct_closed:'Kapalı',
+    ct_address_label:'Klinik Adresi', ct_directions:'Yol Tarifi →',
+    ct_appt_msg:'Online Randevu Al  ·  Ücretsiz Değerlendirme  ·  Hızlı Yanıt  ·  Online Randevu Al  ·  Ücretsiz Değerlendirme  ·  Hızlı Yanıt  ·  ',
+    ct_appt_btn:'Randevu Al →',
+    cta_box_title:'Online Randevu Alın', cta_box_sub:'Muayene, online konsültasyon veya ameliyat planlama için',
+    cta_btn:'Online Randevu Al'
+  },
+  en:{
+    subtitle:'Orthopaedics & Traumatology',
+    nav_home:'Home', nav_about:'About', nav_exp:'Expertise',
+    nav_faq:'FAQ', nav_contact:'Contact', nav_cta:'📅 Book Appointment',
+    hero_tag:'Expert Orthopaedics & Traumatology',
+    hero_title:'Return to Your Best Movement',
+    hero_desc:'Minimally invasive techniques and personalised treatment protocols for faster recovery.',
+    hero_btn1:'📅 Book Appointment', hero_btn2:'Our Expertise',
+    about_eyebrow:'About Me',
+    about_title:'Here to Restore Healthy Movement',
+    about_motto:'"My priority is to return my patients to active life, not just the operating table. I offer personalised solutions by combining technology and experience."',
+    about_body:'With over 15 years of surgical experience, I specialise in minimally invasive approaches for knee, shoulder, hip and spine pathologies.',
+    about_stat1:'Successful Surgeries', about_stat2:'Years of Experience', about_stat3:'Patient Satisfaction',
+    about_pill1:'TOTEK Member', about_pill1s:'Turkish Orthopaedic Society',
+    about_pill2:'EFORT Member', about_pill2s:'European Orthopaedic Society',
+    about_pill3:'Minimally Invasive', about_pill3s:'Expert Certificate',
+    exp_label:'Areas of Expertise', exp_title:'Conditions We Treat',
+    exp_sub:'Filter by symptom to find the right treatment information',
+    exp_filter_all:'🔬 All', exp_filter_diz:'🦴 Knee', exp_filter_omuz:'💪 Shoulder',
+    exp_filter_omurga:'🏃 Spine', exp_filter_kalca:'🏥 Hip', exp_filter_spor:'⚡ Sports',
+    blog_eyebrow:'Health Blog', blog_title:'About Conditions & Treatments',
+    blog_sub:'Current orthopaedic articles by Dr. Neyişci',
+    blog_more:'View All Articles →', blog_read:'Continue reading →',
+    sss_eyebrow:'Frequently Asked Questions', sss_title:'Your Questions',
+    sss_sub:'The most common questions from our patients',
+    contact_label:'Contact & Location', contact_title:'Get in Touch',
+    contact_sub:'Reach us for appointments and information',
+    contact_info_title:'Contact Information', contact_info_sub:'Let us reach you as quickly as possible',
+    cta_wa:'WhatsApp Appointment', cta_wa_link:'→ Send Message Now',
+    ct_online:'Online', ct_phone:'Phone', ct_call:'→ Call',
+    ct_email:'E-mail', ct_write:'→ Write',
+    ct_hours:'Working Hours', ct_weekday:'Mon – Fri', ct_saturday:'Saturday',
+    ct_sunday:'Sunday', ct_closed:'Closed',
+    ct_address_label:'Clinic Address', ct_directions:'Get Directions →',
+    ct_appt_msg:'Book Online  ·  Free Assessment  ·  Fast Response  ·  Book Online  ·  Free Assessment  ·  Fast Response  ·  ',
+    ct_appt_btn:'Book Now →',
+    cta_box_title:'Book Online', cta_box_sub:'For examination, consultation or surgery planning',
+    cta_btn:'Book Appointment'
+  },
+  ar:{
+    subtitle:'جراحة العظام والصدمات',
+    nav_home:'الرئيسية', nav_about:'عنّا', nav_exp:'التخصصات',
+    nav_faq:'أسئلة', nav_contact:'اتصل', nav_cta:'📅 احجز موعداً',
+    hero_tag:'تخصص في جراحة العظام والصدمات',
+    hero_title:'استعد أفضل حركة لجسدك',
+    hero_desc:'بتقنيات جراحية طفيفة التوغل وبروتوكولات علاجية مخصصة لكل مريض.',
+    hero_btn1:'📅 احجز موعداً', hero_btn2:'تخصصاتنا',
+    about_eyebrow:'عنّي',
+    about_title:'هنا لاستعادة حركتك الصحية',
+    about_motto:'"أولويتي إعادة مرضاي إلى الحياة النشطة لا إلى طاولة العمليات فقط."',
+    about_body:'بخبرة جراحية تتجاوز 15 عاماً في الجراحة الطفيفة للركبة والكتف والورك والعمود الفقري.',
+    about_stat1:'عملية ناجحة', about_stat2:'سنوات خبرة', about_stat3:'رضا المرضى',
+    about_pill1:'عضو TOTEK', about_pill1s:'الجمعية التركية لجراحة العظام',
+    about_pill2:'عضو EFORT', about_pill2s:'الجمعية الأوروبية لجراحة العظام',
+    about_pill3:'جراحة طفيفة', about_pill3s:'شهادة خبير',
+    exp_label:'مجالات التخصص', exp_title:'الحالات التي نعالجها',
+    exp_sub:'صفّ حسب الأعراض للعثور على معلومات العلاج المناسبة',
+    exp_filter_all:'🔬 الكل', exp_filter_diz:'🦴 الركبة', exp_filter_omuz:'💪 الكتف',
+    exp_filter_omurga:'🏃 العمود الفقري', exp_filter_kalca:'🏥 الورك', exp_filter_spor:'⚡ الرياضة',
+    blog_eyebrow:'مدونة صحية', blog_title:'عن الأمراض والعلاجات',
+    blog_sub:'مقالات العظام الحديثة بقلم د. نيشجي',
+    blog_more:'عرض جميع المقالات →', blog_read:'تابع القراءة →',
+    sss_eyebrow:'الأسئلة الشائعة', sss_title:'أسئلتكم',
+    sss_sub:'أكثر الأسئلة شيوعاً من مرضانا',
+    contact_label:'التواصل والموقع', contact_title:'تواصل معنا',
+    contact_sub:'للمواعيد والاستفسارات',
+    contact_info_title:'معلومات التواصل', contact_info_sub:'سنصل إليك بأسرع وقت',
+    cta_wa:'موعد واتساب', cta_wa_link:'→ أرسل رسالة الآن',
+    ct_online:'متاح', ct_phone:'هاتف', ct_call:'→ اتصل',
+    ct_email:'البريد الإلكتروني', ct_write:'→ اكتب',
+    ct_hours:'ساعات العمل', ct_weekday:'الإثنين – الجمعة', ct_saturday:'السبت',
+    ct_sunday:'الأحد', ct_closed:'مغلق',
+    ct_address_label:'عنوان العيادة', ct_directions:'احصل على الاتجاهات →',
+    ct_appt_msg:'احجز موعداً  ·  تقييم مجاني  ·  رد سريع  ·  احجز موعداً  ·  تقييم مجاني  ·  رد سريع  ·  ',
+    ct_appt_btn:'احجز الآن →',
+    cta_box_title:'احجز موعداً', cta_box_sub:'للفحص أو الاستشارة أو تخطيط الجراحة',
+    cta_btn:'احجز موعداً'
+  },
+  de:{
+    subtitle:'Orthopädie & Traumatologie',
+    nav_home:'Startseite', nav_about:'Über mich', nav_exp:'Expertise',
+    nav_faq:'FAQ', nav_contact:'Kontakt', nav_cta:'📅 Termin buchen',
+    hero_tag:'Experte für Orthopädie & Traumatologie',
+    hero_title:'Zurück zu Ihrer besten Bewegung',
+    hero_desc:'Minimal-invasive Techniken und individuelle Behandlungsprotokolle für schnellere Genesung.',
+    hero_btn1:'📅 Termin buchen', hero_btn2:'Unsere Expertise',
+    about_eyebrow:'Über mich',
+    about_title:'Hier um gesunde Bewegung wiederherzustellen',
+    about_motto:'"Mein Ziel ist es, meine Patienten nicht nur zu operieren, sondern sie zurück ins aktive Leben zu bringen."',
+    about_body:'Mit über 15 Jahren Operationserfahrung spezialisiere ich mich auf minimal-invasive Eingriffe an Knie, Schulter, Hüfte und Wirbelsäule.',
+    about_stat1:'Erfolgreiche OPs', about_stat2:'Jahre Erfahrung', about_stat3:'Patientenzufriedenheit',
+    about_pill1:'TOTEK Mitglied', about_pill1s:'Türkische Orthopädie-Gesellschaft',
+    about_pill2:'EFORT Mitglied', about_pill2s:'Europäische Orthopädie-Gesellschaft',
+    about_pill3:'Minimal-invasiv', about_pill3s:'Expertenzertifikat',
+    exp_label:'Fachgebiete', exp_title:'Behandelte Erkrankungen',
+    exp_sub:'Filtern Sie nach Symptomen um die richtigen Informationen zu finden',
+    exp_filter_all:'🔬 Alle', exp_filter_diz:'🦴 Knie', exp_filter_omuz:'💪 Schulter',
+    exp_filter_omurga:'🏃 Wirbelsäule', exp_filter_kalca:'🏥 Hüfte', exp_filter_spor:'⚡ Sport',
+    blog_eyebrow:'Gesundheitsblog', blog_title:'Über Erkrankungen & Behandlungen',
+    blog_sub:'Aktuelle Orthopädie-Artikel von Dr. Neyişci',
+    blog_more:'Alle Artikel anzeigen →', blog_read:'Weiterlesen →',
+    sss_eyebrow:'Häufig gestellte Fragen', sss_title:'Ihre Fragen',
+    sss_sub:'Die häufigsten Fragen unserer Patienten',
+    contact_label:'Kontakt & Standort', contact_title:'Kontaktieren Sie uns',
+    contact_sub:'Für Termine und Informationen',
+    contact_info_title:'Kontaktinformationen', contact_info_sub:'Wir melden uns schnellstmöglich',
+    cta_wa:'WhatsApp Termin', cta_wa_link:'→ Jetzt Nachricht senden',
+    ct_online:'Online', ct_phone:'Telefon', ct_call:'→ Anrufen',
+    ct_email:'E-Mail', ct_write:'→ Schreiben',
+    ct_hours:'Öffnungszeiten', ct_weekday:'Mo – Fr', ct_saturday:'Samstag',
+    ct_sunday:'Sonntag', ct_closed:'Geschlossen',
+    ct_address_label:'Klinikadresse', ct_directions:'Route →',
+    ct_appt_msg:'Termin buchen  ·  Kostenlose Beratung  ·  Schnelle Antwort  ·  Termin buchen  ·  Kostenlose Beratung  ·  Schnelle Antwort  ·  ',
+    ct_appt_btn:'Jetzt buchen →',
+    cta_box_title:'Online Termin buchen', cta_box_sub:'Für Untersuchung, Konsultation oder OP-Planung',
+    cta_btn:'Termin buchen'
+  }
+};
+
+let currentLang = 'tr';
+const LANG_LABELS = {tr:'TR', en:'EN', ar:'AR', de:'DE'};
+
+function setLang(lang, btn){
+  currentLang = lang;
+  // Dropdown kapat
+  document.getElementById('langMenu').classList.remove('open');
+  document.getElementById('langDropdown').classList.remove('open');
+  // Dropdown etiketi güncelle
+  const lbl = document.getElementById('langLabel');
+  if(lbl) lbl.textContent = LANG_LABELS[lang] || lang.toUpperCase();
+  // Buton aktif durumu
+  document.querySelectorAll('.lang-option').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // RTL desteği
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  // i18n güncelle
+  const dict = LANGS[lang] || LANGS.tr;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(dict[key]) el.textContent = dict[key];
+  });
+}
+
+/* ---------- Uzmanlık Filtre ---------- */
+function filterCards(cat, btn){
+  // Aktif buton
+  document.querySelectorAll('.uf').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // Kartları göster/gizle
+  document.querySelectorAll('.ucard').forEach(card => {
+    const cats = card.getAttribute('data-cat') || '';
+    if(cat === 'all' || cats.includes(cat)){
+      card.classList.remove('hidden');
+      card.style.animation = 'cardIn .35s ease forwards';
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+/* ---------- Sol Sosyal Panel — Hakkımda altından itibaren ---------- */
+(function(){
+  const panel = document.getElementById('socialSidePanel');
+  const aboutSection = document.getElementById('hakkimda');
+  if(!panel || !aboutSection) return;
+
+  function updateSocialPanel(){
+    const aboutBottom = aboutSection.getBoundingClientRect().bottom + window.scrollY;
+    const scrollY = window.scrollY;
+    const winH = window.innerHeight;
+
+    // Hakkımda bölümünün altına geçince göster
+    if(scrollY + winH * 0.3 >= aboutBottom){
+      panel.classList.add('visible');
+    } else {
+      panel.classList.remove('visible');
+    }
+
+    // Paneli orta ekranda tut ama hakkımda'nın üstüne çıkmasın
+    const panelH = panel.offsetHeight;
+    const targetTop = Math.max(
+      aboutBottom - scrollY,                   // hakkımda altından aşağı
+      winH / 2 - panelH / 2                    // ekran ortası
+    );
+    panel.style.top = Math.min(targetTop, winH - panelH - 20) + 'px';
+  }
+
+  window.addEventListener('scroll', updateSocialPanel, {passive:true});
+  window.addEventListener('resize', updateSocialPanel);
+  updateSocialPanel();
+})();
 
 /* ---------- Takvim ---------- */
 const TR_MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
