@@ -22,403 +22,37 @@ a{text-decoration:none;color:inherit;}
 /* ============================================================
    NAV — sticky, scroll ile gizlenir/gösterilir
    ============================================================ */
-/* ══════════════════════════════════════════════════════
-   NAV — 80px, şeffaf, logo fixed ortada 120×160
-   ══════════════════════════════════════════════════════ */
 .nav-wrap{
   position:fixed;top:0;left:0;right:0;z-index:500;
-  height:80px;
-  background:transparent;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  transition:background .35s cubic-bezier(.4,0,.2,1),
-             backdrop-filter .35s,
-             border-color .35s,
-             box-shadow .35s;
-  will-change:background;
-  overflow:visible;
+  transition:transform 0.32s ease, background 0.3s ease, box-shadow 0.3s ease;
+  background:transparent;  /* başlangıçta saydam */
 }
-/* Aşağı scroll → koyu buzlu cam, ASLA beyaz değil */
+.nav-wrap.nav-hidden{transform:translateY(-100%);}
 .nav-wrap.nav-scrolled{
-  background:rgba(8,18,40,0.60);
-  backdrop-filter:blur(20px) saturate(1.5);
-  -webkit-backdrop-filter:blur(20px) saturate(1.5);
-  border-bottom-color:rgba(107,184,232,.14);
-  box-shadow:0 2px 24px rgba(8,16,36,.28);
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:0 1px 12px rgba(15,39,68,0.09);
 }
-/* Yukarı scroll → nav-scrolled kaldırılır, başlangıca döner */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:58px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.nav-wrap.nav-scrolled .nav{border-bottom-color:#E2EAF0;}
+.nav-logo-name{font-size:15px;font-weight:700;color:#fff;transition:color .3s;}
+.nav-logo-sub{font-size:9px;color:rgba(107,184,232,0.8);letter-spacing:2.5px;text-transform:uppercase;transition:color .3s;}
+.nav-wrap.nav-scrolled .nav-logo-name{color:#0F2744;}
+.nav-wrap.nav-scrolled .nav-logo-sub{color:#1A6FA8;}
+.nav-links{display:flex;gap:4px;}
+.nav-links a{font-size:13px;color:rgba(255,255,255,0.75);padding:6px 10px;border-radius:5px;transition:all .18s;border-bottom:2px solid transparent;}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,0.12);border-bottom-color:rgba(107,184,232,0.7);}
+.nav-wrap.nav-scrolled .nav-links a{color:#526070;}
+.nav-wrap.nav-scrolled .nav-links a:hover,.nav-wrap.nav-scrolled .nav-links a.active{color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.nav-cta{font-size:12px;padding:8px 18px;border-radius:7px;background:rgba(26,111,168,0.85);color:#fff;font-weight:600;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;backdrop-filter:blur(4px);}
+.nav-cta:hover{background:#1A6FA8;}
+.nav-wrap.nav-scrolled .nav-cta{background:#1A6FA8;}
+/* ============================================================
+   NAV — Yeniden Düzenleme: Logo + Orta Menü + Sağ Dil Dropdown
+   ============================================================ */
 
-/* Nav iç */
-.nav{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  padding:0 32px;
-  height:80px;
-  gap:20px;
-  overflow:visible;
-  position:relative;
-}
-
-/* ── SOL: LOGO (nav içinde, başlangıçta) ── */
-.nav-logo-area{
-  display:flex;align-items:center;gap:10px;
-  text-decoration:none;
-  position:relative;z-index:510;
-  transition:opacity .4s cubic-bezier(.4,0,.2,1),
-             transform .4s cubic-bezier(.4,0,.2,1);
-  will-change:transform,opacity;
-}
-/* Logo ortaya gidince sol logoyu gizle */
-.nav-wrap.logo-centered .nav-logo-area{
-  opacity:0;pointer-events:none;
-}
-
-.nav-logo-icon{
-  width:42px;height:42px;
-  border-radius:11px;
-  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;
-  box-shadow:0 3px 14px rgba(26,111,168,.4);
-  overflow:hidden;
-}
-.nav-logo-icon img{width:100%;height:100%;object-fit:cover;border-radius:inherit;}
-.nav-logo-name{font-size:14px;font-weight:700;color:#fff;line-height:1.2;}
-.nav-logo-sub{font-size:9px;color:rgba(107,184,232,.85);letter-spacing:1.5px;text-transform:uppercase;}
-.nav-logo-area:hover .nav-logo-name{color:#6BB8E8;}
-.nav-wrap.nav-scrolled .nav-logo-name{color:#fff;}
-.nav-wrap.nav-scrolled .nav-logo-sub{color:rgba(107,184,232,.85);}
-
-.ncl-img{
-  width:52px;height:52px;
-  border-radius:12px;
-  overflow:hidden;
-  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#fff;
-  flex-shrink:0;
-  box-shadow:0 3px 12px rgba(26,111,168,.35);
-  position:relative;z-index:1;
-}
-.ncl-img img{width:100%;height:100%;object-fit:cover;border-radius:inherit;}
-.ncl-name{
-  font-size:10.5px;font-weight:700;color:#fff;
-  text-align:center;line-height:1.3;
-  position:relative;z-index:1;
-  letter-spacing:-.01em;
-}
-.ncl-sub{
-  font-size:8.5px;color:rgba(107,184,232,.75);
-  text-align:center;letter-spacing:1.2px;text-transform:uppercase;
-  position:relative;z-index:1;
-  display:none;  /* yer tasarrufu */
-}
-
-/* ── MERKEZ LOGO KUTUSU ──
-   top:0 → navbarın tam üst kenarından başlar (üst sınır = navbar üst sınırı)
-   height:110px → navbar 80px + 30px aşağıya taşar
-   Başlangıçta yukarı gizli, logo-centered class'ı ile aşağı iner */
-.nav-center-logo{
-  position:fixed;
-  top:0;
-  left:50%;
-  transform:translateX(-50%) translateY(-110px);
-  z-index:520;
-  width:120px;
-  height:110px;
-  border-radius:0 0 18px 18px;
-  background:rgba(8,20,48,0.75);
-  backdrop-filter:blur(24px) saturate(1.5);
-  -webkit-backdrop-filter:blur(24px) saturate(1.5);
-  border:1px solid rgba(255,255,255,.15);
-  border-top:none;
-  box-shadow:0 8px 32px rgba(8,16,36,.4),
-             0 0 0 1px rgba(107,184,232,.1);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:7px;
-  padding:10px 10px 14px;
-  text-decoration:none;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .38s cubic-bezier(.4,0,.2,1),
-             transform .42s cubic-bezier(.34,1,.64,1);
-  will-change:opacity,transform;
-  overflow:hidden;
-}
-.nav-center-logo::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%,rgba(107,184,232,.1) 0%,transparent 65%);
-  border-radius:inherit;pointer-events:none;
-}
-.nav-wrap.logo-centered .nav-center-logo{
-  opacity:1;
-  pointer-events:all;
-  transform:translateX(-50%) translateY(0);
-}
-.ncl-img{
-  width:52px;height:52px;
-  border-radius:12px;
-  overflow:hidden;
-  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#fff;
-  flex-shrink:0;
-  box-shadow:0 3px 12px rgba(26,111,168,.35);
-  position:relative;z-index:1;
-}
-.ncl-img img{width:100%;height:100%;object-fit:cover;border-radius:inherit;}
-.ncl-name{
-  font-size:10.5px;font-weight:700;color:#fff;
-  text-align:center;line-height:1.3;
-  position:relative;z-index:1;
-  letter-spacing:-.01em;
-}
-.ncl-sub{font-size:8.5px;color:rgba(107,184,232,.75);text-align:center;text-transform:uppercase;position:relative;z-index:1;}
-
-/* ── ORTA: NAV LİNKLERİ ── */
-.nav-links{
-  display:flex;gap:2px;justify-content:center;
-  transition:opacity .38s cubic-bezier(.4,0,.2,1);
-}
-.nav-links a{
-  font-size:13px;font-weight:600;
-  color:rgba(255,255,255,.8);
-  padding:6px 12px;border-radius:8px;
-  transition:all .18s;border-bottom:2px solid transparent;
-  white-space:nowrap;
-}
-.nav-links a:hover,.nav-links a.active{
-  color:#fff;background:rgba(255,255,255,.1);
-  border-bottom-color:rgba(107,184,232,.65);
-}
-.nav-wrap.nav-scrolled .nav-links a{color:rgba(255,255,255,.8);}
-.nav-wrap.nav-scrolled .nav-links a:hover,
-.nav-wrap.nav-scrolled .nav-links a.active{
-  color:#fff;background:rgba(255,255,255,.1);
-  border-bottom-color:rgba(107,184,232,.7);
-}
-
-/* ── SAĞ ── */
-.nav-right{display:flex;align-items:center;gap:10px;justify-content:flex-end;}
-.nav-cta{
-  font-size:12px;padding:9px 20px;border-radius:9px;
-  background:linear-gradient(135deg,#1A6FA8,#1260A0);
-  color:#fff;font-weight:700;border:none;cursor:pointer;
-  box-shadow:0 3px 12px rgba(26,111,168,.35);
-  transition:all .2s;white-space:nowrap;
-}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(26,111,168,.45);}
-
-/* Dil dropdown scroll durumunda da açık renk */
-.nav-wrap.nav-scrolled .lang-trigger{
-  color:rgba(255,255,255,.8);
-  background:rgba(255,255,255,.08);
-  border-color:rgba(255,255,255,.16);
-}
-
-/* Hamburger */
-.nav-hamburger{
-  display:none;flex-direction:column;gap:5px;
-  background:none;border:none;cursor:pointer;padding:6px;
-}
-.nav-hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .25s;}
-.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-.nav-hamburger.open span:nth-child(2){opacity:0;}
-.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-/* Mobile menu */
-.mobile-menu{
-  display:none;position:fixed;top:80px;left:0;right:0;
-  background:rgba(8,18,40,.92);backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(107,184,232,.18);
-  padding:16px 20px;z-index:490;flex-direction:column;gap:4px;
-  box-shadow:0 6px 20px rgba(8,16,36,.2);
-}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{font-size:14px;color:rgba(255,255,255,.75);padding:10px 12px;border-radius:8px;transition:background .15s;}
-.mobile-menu a:hover{background:rgba(255,255,255,.08);color:#fff;}
-.mobile-menu .m-cta{margin-top:6px;background:linear-gradient(135deg,#1A6FA8,#1260A0);color:#fff;text-align:center;border-radius:9px;padding:12px;font-weight:700;}
-@media(max-width:900px){
-  .nav{grid-template-columns:auto 1fr;}
-  .nav-links{display:none;}
-  .nav-hamburger{display:flex;}
-  .nav-center-logo{display:none;}
-}
-@media(max-width:500px){
-  .nav-logo-name{font-size:12px;}
-  .nav-logo-sub{display:none;}
-}
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  /* Başlangıç: saydam */
-  background:transparent;
-  transition:background .45s cubic-bezier(.4,0,.2,1),
-             box-shadow .45s cubic-bezier(.4,0,.2,1);
-  will-change:background;
-  overflow:visible; /* logo taşması için */
-}
-
-/* Nav iç çerçeve — her zaman overflow:visible */
-.nav{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  padding:0 28px;
-  height:64px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  gap:16px;
-  overflow:visible;
-  position:relative;
-}
-
-/* ── Logo alanı ── */
-.nav-logo-area{
-  display:flex;align-items:center;gap:10px;
-  text-decoration:none;
-  position:relative;
-  z-index:10;
-  /* Geçiş hazırlığı */
-  transition:transform .48s cubic-bezier(.34,.8,.64,1);
-  will-change:transform;
-  transform-origin:left center;
-}
-
-/* Orta konuma gitme */
-.nav-wrap.logo-centered .nav-logo-area{
-  transform:translateX(calc(50vw - 50% - 28px)) translateY(10px);
-}
-
-/* Logo ikonu — scroll sonrası dikdörtgen büyür, navbarın dışına taşar */
-.nav-logo-icon{
-  width:40px;height:40px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;
-  box-shadow:0 3px 14px rgba(26,111,168,.4);
-  overflow:hidden;
-  position:relative;
-  transition:all .48s cubic-bezier(.34,.8,.64,1);
-  will-change:width,height,border-radius,box-shadow;
-}
-.nav-logo-icon img{
-  width:100%;height:100%;object-fit:cover;
-  border-radius:inherit;
-}
-
-/* Ortaya gelince büyü ve dikdörtgen ol, navbarın altına taş */
-.nav-wrap.logo-centered .nav-logo-icon{
-  width:80px;
-  height:96px; /* navbarın (64px) çok üstüne taşar */
-  border-radius:0 0 20px 20px; /* üstü keskin, alt yuvarlatılmış */
-  box-shadow:0 8px 32px rgba(26,111,168,.55),
-             0 0 0 3px rgba(107,184,232,.18);
-  margin-top:32px; /* nav yüksekliğinin yarısı kadar aşağıya kaydır */
-}
-
-/* Logo yazısı — scroll sonrası saydamlaşır (dikdörtgen moddayken yazı gizlenir) */
-.nav-logo-text{
-  transition:opacity .35s cubic-bezier(.4,0,.2,1),
-             transform .35s cubic-bezier(.4,0,.2,1);
-}
-.nav-wrap.logo-centered .nav-logo-text{
-  opacity:0;
-  pointer-events:none;
-  transform:translateX(-10px);
-}
-
-/* Nav linkleri + sağ panel — solar */
-.nav-links,.nav-right{
-  transition:opacity .38s cubic-bezier(.4,0,.2,1),
-             transform .38s cubic-bezier(.4,0,.2,1);
-  will-change:opacity,transform;
-}
-.nav-wrap.logo-centered .nav-links{
-  opacity:0;pointer-events:none;transform:translateY(-5px);
-}
-.nav-wrap.logo-centered .nav-right{
-  opacity:0;pointer-events:none;transform:translateY(-5px);
-}
-
-/* Yazı renkleri — her zaman beyaz (koyu değil) */
-.nav-logo-name{font-size:14px;font-weight:700;color:#fff;line-height:1.2;transition:color .3s;}
-.nav-logo-sub{font-size:9px;color:rgba(107,184,232,.85);letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;}
-/* Scrolled durumda da beyaz kalır (arka plan artık koyu cam) */
-.nav-wrap.nav-scrolled .nav-logo-name{color:#fff;}
-.nav-wrap.nav-scrolled .nav-logo-sub{color:rgba(107,184,232,.85);}
-.nav-logo-area:hover .nav-logo-name{color:#6BB8E8;}
-
-/* Nav linkleri */
-.nav-links{display:flex;gap:2px;justify-content:center;}
-.nav-links a{
-  font-size:13px;font-weight:600;
-  color:rgba(255,255,255,.78);
-  padding:6px 12px;border-radius:8px;
-  transition:all .18s;border-bottom:2px solid transparent;
-  white-space:nowrap;letter-spacing:-.01em;
-}
-.nav-links a:hover,.nav-links a.active{
-  color:#fff;background:rgba(255,255,255,.1);
-  border-bottom-color:rgba(107,184,232,.65);
-}
-/* Scrolled'da da koyu değil */
-.nav-wrap.nav-scrolled .nav-links a{color:rgba(255,255,255,.78);}
-.nav-wrap.nav-scrolled .nav-links a:hover,
-.nav-wrap.nav-scrolled .nav-links a.active{
-  color:#fff;background:rgba(255,255,255,.1);border-bottom-color:rgba(107,184,232,.7);
-}
-
-/* Nav sağ */
-.nav-right{display:flex;align-items:center;gap:10px;justify-content:flex-end;}
-.nav-cta{
-  font-size:12px;padding:9px 20px;border-radius:9px;
-  background:linear-gradient(135deg,#1A6FA8,#1260A0);
-  color:#fff;font-weight:700;border:none;cursor:pointer;
-  box-shadow:0 3px 12px rgba(26,111,168,.35);
-  transition:all .2s;white-space:nowrap;
-}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(26,111,168,.45);}
-
-/* Dil dropdown renkleri — buzlu zeminde hep açık */
-.nav-wrap.nav-scrolled .lang-trigger{
-  color:rgba(255,255,255,.8);
-  background:rgba(255,255,255,.1);
-  border-color:rgba(255,255,255,.18);
-}
-.nav-wrap.nav-scrolled .lang-btn{color:rgba(255,255,255,.5);}
-.nav-wrap.nav-scrolled .lang-btn.active{color:#6BB8E8;background:rgba(107,184,232,.12);}
-.nav-wrap.nav-scrolled .lang-sep{color:rgba(255,255,255,.2);}
-
-/* Hamburger */
-.nav-hamburger{
-  display:none;flex-direction:column;gap:5px;
-  background:none;border:none;cursor:pointer;padding:6px;
-}
-.nav-hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .25s;}
-.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-.nav-hamburger.open span:nth-child(2){opacity:0;}
-.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-/* Mobile menu */
-.mobile-menu{
-  display:none;position:fixed;top:64px;left:0;right:0;
-  background:rgba(10,28,56,0.92);backdrop-filter:blur(20px);
-  border-bottom:2px solid rgba(107,184,232,.2);
-  padding:16px 20px;z-index:490;flex-direction:column;gap:4px;
-  box-shadow:0 6px 20px rgba(10,22,48,.2);
-}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{font-size:14px;color:rgba(255,255,255,.75);padding:10px 12px;border-radius:8px;transition:background .15s;}
-.mobile-menu a:hover{background:rgba(255,255,255,.08);color:#fff;}
-.mobile-menu .m-cta{margin-top:6px;background:linear-gradient(135deg,#1A6FA8,#1260A0);color:#fff;text-align:center;border-radius:9px;padding:12px;font-weight:700;}
-@media(max-width:900px){
-  .nav{grid-template-columns:auto 1fr;}
-  .nav-links{display:none;}
-  .nav-hamburger{display:flex;}
-}
-@media(max-width:500px){
-  .nav-logo-name{font-size:12px;}
-  .nav-logo-sub{display:none;}
-}
 /* Dil dropdown — sağ köşe */
 .lang-dropdown{
   position:relative;
@@ -489,7 +123,106 @@ a{text-decoration:none;color:inherit;}
 .lang-opt-name{font-size:11.5px;}
 .lang-opt-native{font-size:10px;color:rgba(255,255,255,.3);margin-left:auto;}
 
+/* Eski lang-switcher gizle */
+.lang-switcher{display:none!important;}
 
+/* Nav layout: logo sol | linkler orta | sağ(randevu+dil) */
+.nav{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  padding:0 24px;
+  height:62px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  gap:16px;
+}
+.nav-logo-area{
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#1A6FA8,#0d2d4a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(26,111,168,.35);
+}
+.nav-wrap.nav-scrolled .nav-logo-icon{box-shadow:0 2px 10px rgba(26,111,168,.2);}
+.nav-logo-text{}
+.nav-logo-name{font-size:14px;font-weight:700;color:#fff;line-height:1.2;transition:color .3s;}
+.nav-logo-sub{font-size:9px;color:rgba(107,184,232,.8);letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;}
+.nav-wrap.nav-scrolled .nav-logo-name{color:#0F2744;}
+.nav-wrap.nav-scrolled .nav-logo-sub{color:#1A6FA8;}
+
+/* Orta: nav linkler */
+.nav-links{
+  display:flex;gap:2px;align-items:center;justify-content:center;
+}
+.nav-links a{
+  font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.75);
+  padding:7px 12px;border-radius:8px;
+  transition:all .18s;border-bottom:2px solid transparent;
+  white-space:nowrap;
+  letter-spacing:-.01em;
+}
+.nav-links a:hover,.nav-links a.active{
+  color:#fff;background:rgba(255,255,255,.1);
+  border-bottom-color:rgba(107,184,232,.6);
+}
+.nav-wrap.nav-scrolled .nav-links a{color:#526070;}
+.nav-wrap.nav-scrolled .nav-links a:hover,.nav-wrap.nav-scrolled .nav-links a.active{
+  color:#1A6FA8;background:#F0F7FF;border-bottom-color:#1A6FA8;
+}
+
+/* Sağ: randevu + dil */
+.nav-right{
+  display:flex;align-items:center;gap:10px;justify-content:flex-end;
+}
+.nav-cta{
+  font-size:12px;padding:8px 18px;border-radius:8px;
+  background:rgba(26,111,168,.85);
+  color:#fff;font-weight:700;border:none;cursor:pointer;
+  transition:background .2s;white-space:nowrap;
+  backdrop-filter:blur(4px);
+  letter-spacing:.02em;
+}
+.nav-cta:hover{background:#1A6FA8;}
+.nav-wrap.nav-scrolled .nav-cta{background:#1A6FA8;}
+
+/* Hamburger */
+.nav-hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:6px;
+}
+.nav-hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:all .25s;}
+.nav-wrap.nav-scrolled .nav-hamburger span{background:#0F2744;}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* Mobile menu */
+.mobile-menu{
+  display:none;position:fixed;top:62px;left:0;right:0;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  border-bottom:2px solid #1A6FA8;padding:16px 20px;
+  z-index:490;flex-direction:column;gap:4px;
+  box-shadow:0 6px 20px rgba(15,39,68,.1);
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-size:14px;color:#526070;padding:10px 12px;border-radius:6px;transition:background .15s;}
+.mobile-menu a:hover{background:#F0F7FF;color:#1A6FA8;}
+.mobile-menu .m-cta{margin-top:6px;background:#1A6FA8;color:#fff;text-align:center;border-radius:7px;padding:11px;font-weight:600;}
+
+@media(max-width:900px){
+  .nav{grid-template-columns:1fr auto;}
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .lang-menu{right:0;}
+}
+@media(max-width:500px){
+  .nav-logo-name{font-size:12px;}
+  .nav-logo-sub{display:none;}
+}
 
 /* ============================================================
    HERO — Nav arkasında tam ekran video
@@ -550,24 +283,8 @@ a{text-decoration:none;color:inherit;}
 .hero-eye{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
 .hero-eye-line{width:22px;height:1px;background:#1A6FA8;flex-shrink:0;}
 .hero-eye-txt{font-size:10px;color:#6BB8E8;letter-spacing:2.5px;text-transform:uppercase;}
-.hero-title{font-size:clamp(36px,6vw,68px);font-weight:700;color:#fff;line-height:1.12;margin-bottom:14px;letter-spacing:-.03em;}
-.hero-title span{color:#6BB8E8;display:inline-block;}
-/* Parıltı ve kayma animasyonu */
-@keyframes heroTitleIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
-@keyframes heroSubIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes heroBtnIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes spanFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.hero-title{animation:heroTitleIn .9s cubic-bezier(.16,1,.3,1) .1s both;}
-.hero-title span{animation:spanFloat 4s ease-in-out 1.2s infinite;}
-.hero-desc{animation:heroSubIn .9s cubic-bezier(.16,1,.3,1) .3s both;}
-.hero-btns{animation:heroBtnIn .9s cubic-bezier(.16,1,.3,1) .5s both;}
-.hero-eye{animation:heroSubIn .9s cubic-bezier(.16,1,.3,1) 0s both;}
-/* Hover efekti — butonlarda */
-.hero-btn-main{position:relative;overflow:hidden;}
-.hero-btn-main::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .4s;}
-.hero-btn-main:hover::after{transform:translateX(100%);}
-.hero-btn-outline{position:relative;overflow:hidden;}
-.hero-btn-outline:hover{letter-spacing:.02em;}
+.hero-title{font-size:clamp(26px,4.2vw,44px);font-weight:700;color:#fff;line-height:1.18;margin-bottom:12px;}
+.hero-title span{color:#6BB8E8;}
 .hero-desc{font-size:clamp(12px,1.4vw,15px);color:rgba(255,255,255,0.62);line-height:1.8;margin-bottom:24px;}
 .hero-btns{display:flex;gap:10px;flex-wrap:wrap;}
 .hero-btn-main{padding:12px 24px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .2s;}
@@ -2359,50 +2076,13 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 /* ============================================================
    RANDEVU MODAL — takvim ile
    ============================================================ */
-/* ── Modal başarı ekranı ── */
-.modal-success{padding:36px 24px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;}
-.ms-icon{font-size:52px;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
-.ms-title{font-size:21px;font-weight:700;color:#0d1f36;letter-spacing:-.02em;}
-.ms-sub{font-size:13.5px;color:#526070;line-height:1.7;max-width:300px;}
-.ms-phone{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;background:linear-gradient(135deg,#1A6FA8,#0d5a8a);color:#fff;font-size:14px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(26,111,168,.3);transition:all .2s;margin:4px 0;}
-.ms-phone:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(26,111,168,.4);}
-.ms-close{margin-top:4px;padding:10px 28px;border-radius:10px;background:#EEF6FF;color:#1A6FA8;font-size:13px;font-weight:600;border:1.5px solid #C5DEFA;cursor:pointer;transition:all .2s;}
-.ms-close:hover{background:#D6ECFF;}
-
-/* ── Modal iletişim şeridi ── */
-.modal-contact-bar{display:flex;align-items:stretch;background:linear-gradient(135deg,#0d2040,#1A3A5C);border-radius:16px 16px 0 0;overflow:hidden;}
-.mcb-item{flex:1;display:flex;align-items:center;gap:10px;padding:14px 18px;text-decoration:none;transition:background .2s;}
-.mcb-item:hover{background:rgba(255,255,255,.07);}
-.mcb-ico{width:36px;height:36px;border-radius:9px;background:rgba(107,184,232,.15);display:flex;align-items:center;justify-content:center;color:#6BB8E8;flex-shrink:0;transition:background .2s;}
-.mcb-ico-wa{background:rgba(37,211,102,.15);color:#25D366;}
-.mcb-item:hover .mcb-ico{background:rgba(107,184,232,.25);}
-.mcb-item.mcb-wa:hover .mcb-ico{background:rgba(37,211,102,.25);}
-.mcb-label{font-size:9.5px;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;}
-.mcb-val{font-size:12.5px;font-weight:700;color:#fff;}
-.mcb-sep{width:1px;background:rgba(255,255,255,.08);flex-shrink:0;}
-
-/* ── Modal temel ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.48);z-index:600;display:none;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.show{display:flex;}
-.modal{
-  background:#fff;border-radius:16px;
-  width:100%;max-width:520px;max-height:90vh;
-  overflow-y:auto;
-  box-shadow:0 24px 64px rgba(15,39,68,0.22);
-  position:relative;  /* modal-close için */
-}
-.modal-header{padding:18px 24px 0;display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-size:17px;font-weight:700;color:#0F2744;}
-.modal-close{
-  position:absolute;top:12px;right:14px;
-  background:rgba(15,39,68,.08);border:none;cursor:pointer;
-  font-size:16px;color:#526070;
-  width:30px;height:30px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s;z-index:10;
-}
-.modal-close:hover{background:rgba(15,39,68,.15);}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(15,39,68,0.22);}
+.modal-header{padding:22px 24px 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:18px;font-weight:700;color:#0F2744;}
+.modal-close{background:none;border:none;cursor:pointer;font-size:20px;color:#8FA3B1;padding:4px;border-radius:6px;transition:background .15s;}
+.modal-close:hover{background:#F0F4F8;}
 .modal-body{padding:20px 24px 24px;}
 .form-group{margin-bottom:14px;}
 .form-label{display:block;font-size:12px;font-weight:600;color:#0F2744;margin-bottom:5px;}
@@ -2432,27 +2112,15 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 /* ============================================================
    POPUP (30sn)
    ============================================================ */
-.popup-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.55);z-index:700;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.popup-overlay{position:fixed;inset:0;background:rgba(15,39,68,0.45);z-index:700;display:none;align-items:center;justify-content:center;padding:16px;}
 .popup-overlay.show{display:flex;}
-.popup{
-  background:#fff;border-radius:20px;
-  padding:40px 36px;
-  width:100%;max-width:420px;  /* büyütüldü */
-  position:relative;
-  box-shadow:0 28px 80px rgba(15,39,68,0.28);
-  animation:popupIn .35s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes popupIn{from{opacity:0;transform:scale(.88) translateY(20px)}to{opacity:1;transform:none}}
-.popup-close{position:absolute;top:14px;right:16px;background:none;border:none;cursor:pointer;color:#8FA3B1;font-size:20px;width:32px;height:32px;border-radius:8px;transition:background .15s;display:flex;align-items:center;justify-content:center;}
-.popup-close:hover{background:#F0F4F8;}
-.popup-icon{font-size:44px;text-align:center;margin-bottom:14px;}  /* büyütüldü */
-.popup-title{font-size:20px;font-weight:700;color:#0F2744;text-align:center;margin-bottom:7px;}  /* büyütüldü */
-.popup-sub{font-size:14px;color:#526070;text-align:center;line-height:1.7;margin-bottom:22px;}  /* büyütüldü */
-.pbtn-main{width:100%;padding:11px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;margin-bottom:8px;transition:background .2s;}
-.pbtn-main:hover{background:#1260A0;}
-.pbtn-tel{display:block;width:100%;padding:11px;border-radius:8px;background:linear-gradient(135deg,#1A6FA8,#38BDAA);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;margin-bottom:8px;transition:opacity .2s;}
-.pbtn-tel:hover{opacity:.9;}
-.pbtn-wa{display:block;width:100%;padding:11px;border-radius:8px;background:#E8FBF0;color:#25D366;font-size:13px;font-weight:600;border:1px solid rgba(37,211,102,0.22);cursor:pointer;margin-bottom:6px;text-align:center;text-decoration:none;}
+.popup{background:#fff;border-radius:14px;padding:28px;width:100%;max-width:310px;position:relative;box-shadow:0 20px 60px rgba(15,39,68,0.2);}
+.popup-close{position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#8FA3B1;font-size:18px;}
+.popup-icon{font-size:32px;text-align:center;margin-bottom:12px;}
+.popup-title{font-size:16px;font-weight:700;color:#0F2744;text-align:center;margin-bottom:5px;}
+.popup-sub{font-size:12px;color:#526070;text-align:center;line-height:1.65;margin-bottom:16px;}
+.pbtn-main{width:100%;padding:11px;border-radius:8px;background:#1A6FA8;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;margin-bottom:8px;}
+.pbtn-wa{width:100%;padding:11px;border-radius:8px;background:#E8FBF0;color:#25D366;font-size:13px;font-weight:600;border:1px solid rgba(37,211,102,0.22);cursor:pointer;margin-bottom:6px;}
 .pbtn-later{width:100%;padding:7px;background:transparent;color:#8FA3B1;font-size:11px;border:none;cursor:pointer;}
 
 /* ============================================================
@@ -2494,39 +2162,31 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
 }
 </style>
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://eiuyluyysyfphggkshad.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdXlsdXl5c3lmcGhnZ2tzaGFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDU4NTUsImV4cCI6MjA5NTIyMTg1NX0.ehlSS8_uzkwnzcMFANz5YuUl37NTi9a5S_vSwz-n0Jc";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+
+
 <body>
 
 <!-- ============================================================
      NAV
      ============================================================ -->
 <div class="nav-wrap" id="navWrap">
-
-  <!-- ── Merkez Logo Kutusu (scroll > 100px'de görünür) ── -->
-  <a class="nav-center-logo" href="index.html" id="navCenterLogo" aria-label="Ana Sayfa">
-    <div class="ncl-img">
-      <img src="assets/images/logo.png" alt="Logo"
-           onerror="this.style.display='none';this.parentElement.textContent='CN'">
-    </div>
-    <div class="ncl-name">Dr. Çağrı<br>Neyişci</div>
-    <div class="ncl-sub">Ortopedi</div>
-  </a>
-
   <nav class="nav" role="navigation" aria-label="Ana menü">
 
-    <!-- Sol: Logo (tıklanınca anasayfa) -->
-    <a href="index.html" class="nav-logo-area" aria-label="Ana Sayfa - Dr. Çağrı Neyişci">
-      <div class="nav-logo-icon" id="navLogoIcon">
-        <!-- Logo fotoğrafı buraya gelecek: assets/images/logo.png -->
-        <img src="assets/images/logo.png" alt="Dr. Çağrı Neyişci Logo"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-             style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-        <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:17px;">⚕️</span>
-      </div>
+    <!-- Sol: Logo -->
+    <div class="nav-logo-area">
+      <div class="nav-logo-icon">🦴</div>
       <div class="nav-logo-text">
         <div class="nav-logo-name">Dr. Çağrı Neyişci</div>
         <div class="nav-logo-sub" data-i18n="subtitle">Ortopedi & Travmatoloji</div>
       </div>
-    </a>
+    </div>
 
     <!-- Orta: Nav linkleri -->
     <div class="nav-links">
@@ -2803,7 +2463,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
   <div class="uzman-grid" id="uzmanGrid">
 
     <!-- 1 -->
-    <a href="./uzmanlik/diz-protezi.html" class="ucard" data-cat="diz">
+    <a href="uzmanlik/diz-protezi.html" class="ucard" data-cat="diz">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">
         <img src="assets/images/diz-protezi-kart.jpg" alt="Diz Protezi" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2826,16 +2486,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">🦴 Diz Protezi</div>
           <div class="udd-sub">Kireçlenme ve eklem hasarında</div>
         </div>
-        <a href="./uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Ameliyat nedir?</a>
-<a href="./uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">📋</div>Kimler aday?</a>
-<a href="./uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">⏱</div>Süreç ve iyileşme</a>
+        <a href="uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Ameliyat nedir?</a>
+<a href="uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">📋</div>Kimler aday?</a>
+<a href="uzmanlik/diz-protezi.html" class="udd-item"><div class="udd-item-ico">⏱</div>Süreç ve iyileşme</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/diz-protezi.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/diz-protezi.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 2 -->
-    <a href="./uzmanlik/meniskus.html" class="ucard" data-cat="diz spor">
+    <a href="uzmanlik/meniskus.html" class="ucard" data-cat="diz spor">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0d2d4a,#1A7FAA);">
         <img src="assets/images/meniskus-kart.jpg" alt="Menisküs" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2858,16 +2518,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">🏃 Menisküs</div>
           <div class="udd-sub">Artroskopik onarım</div>
         </div>
-        <a href="./uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">🔬</div>Menisküs yırtığı nedir?</a>
-<a href="./uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">📋</div>Belirtiler</a>
-<a href="./uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">⏱</div>Spora dönüş</a>
+        <a href="uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">🔬</div>Menisküs yırtığı nedir?</a>
+<a href="uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">📋</div>Belirtiler</a>
+<a href="uzmanlik/meniskus.html" class="udd-item"><div class="udd-item-ico">⏱</div>Spora dönüş</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/meniskus.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/meniskus.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 3 -->
-    <a href="./uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
+    <a href="uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1a4a7a);">
         <img src="assets/images/acl-kart.jpg" alt="ACL" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2890,16 +2550,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">⚡ Ön Çapraz Bağ</div>
           <div class="udd-sub">ACL rekonstrüksiyonu</div>
         </div>
-        <a href="./uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">🔬</div>ACL yırtığı nedir?</a>
-<a href="./uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">📋</div>Rekonstrüksiyon</a>
-<a href="./uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">🏃</div>Spora dönüş</a>
+        <a href="uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">🔬</div>ACL yırtığı nedir?</a>
+<a href="uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">📋</div>Rekonstrüksiyon</a>
+<a href="uzmanlik/on-capraz-bag.html" class="udd-item"><div class="udd-item-ico">🏃</div>Spora dönüş</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/on-capraz-bag.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/on-capraz-bag.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 4 -->
-    <a href="./uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz">
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0a1e38,#1A6FA8);">
         <img src="assets/images/omuz-kart.jpg" alt="Omuz Artroskopi" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2922,16 +2582,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">💉 Omuz Artroskopi</div>
           <div class="udd-sub">Rotator manşet ve SLAP</div>
         </div>
-        <a href="./uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Hangi durumlar?</a>
-<a href="./uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">📋</div>Ameliyat süreci</a>
-<a href="./uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">⏱</div>İyileşme</a>
+        <a href="uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Hangi durumlar?</a>
+<a href="uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">📋</div>Ameliyat süreci</a>
+<a href="uzmanlik/omuz-artroskopi.html" class="udd-item"><div class="udd-item-ico">⏱</div>İyileşme</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/omuz-artroskopi.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/omuz-artroskopi.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 5 -->
-    <a href="./uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
+    <a href="uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1A5580);">
         <img src="assets/images/kalca-kart.jpg" alt="Kalça Protezi" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2954,16 +2614,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">🏥 Kalça Protezi</div>
           <div class="udd-sub">Minimal invaziv teknik</div>
         </div>
-        <a href="./uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Kimler aday?</a>
-<a href="./uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">📋</div>İmplant tipleri</a>
-<a href="./uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">⏱</div>İyileşme süreci</a>
+        <a href="uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">🔬</div>Kimler aday?</a>
+<a href="uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">📋</div>İmplant tipleri</a>
+<a href="uzmanlik/kalca-protezi.html" class="udd-item"><div class="udd-item-ico">⏱</div>İyileşme süreci</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/kalca-protezi.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/kalca-protezi.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 6 -->
-    <a href="./uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0a2240,#1A6080);">
         <img src="assets/images/omurga-kart.jpg" alt="Omurga" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -2986,16 +2646,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <div class="udd-title">🔬 Omurga Cerrahisi</div>
           <div class="udd-sub">Bel fıtığı ve stenoz</div>
         </div>
-        <a href="./uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">🔬</div>Mikrodiskektomi</a>
-<a href="./uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">📋</div>Stenoz tedavisi</a>
-<a href="./uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">⏱</div>Ameliyat sonrası</a>
+        <a href="uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">🔬</div>Mikrodiskektomi</a>
+<a href="uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">📋</div>Stenoz tedavisi</a>
+<a href="uzmanlik/omurga.html" class="udd-item"><div class="udd-item-ico">⏱</div>Ameliyat sonrası</a>
         <div class="udd-divider"></div>
-        <a href="./uzmanlik/omurga.html" class="udd-cta">Sayfayı Aç →</a>
+        <a href="uzmanlik/omurga.html" class="udd-cta">Sayfayı Aç →</a>
       </div>
     </a>
 
     <!-- 7 -->
-    <a href="./uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0d1f38,#1A5570);">
         <img src="assets/images/boyun-kart.jpg" alt="Boyun Fıtığı" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3016,7 +2676,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     </a>
 
     <!-- 8 -->
-    <a href="./uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0F2744,#1A4A80);">
         <img src="assets/images/rotator-kart.jpg" alt="Rotator Manşet" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3037,7 +2697,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     </a>
 
     <!-- 9 -->
-    <a href="./uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
+    <a href="uzmanlik/kalca-protezi.html" class="ucard" data-cat="kalca">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0d1a30,#1A4570);">
         <img src="assets/images/kalca-kirtik-kart.jpg" alt="Kalça Kırığı" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3058,7 +2718,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     </a>
 
     <!-- 10 -->
-    <a href="./uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
+    <a href="uzmanlik/on-capraz-bag.html" class="ucard" data-cat="diz spor">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0a1628,#1A3A6A);">
         <img src="assets/images/pcl-kart.jpg" alt="PCL" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3079,7 +2739,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     </a>
 
     <!-- 11 -->
-    <a href="./uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
+    <a href="uzmanlik/omuz-artroskopi.html" class="ucard" data-cat="omuz spor">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0d2040,#145580);">
         <img src="assets/images/omuz-cikik-kart.jpg" alt="Omuz Çıkığı" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3100,7 +2760,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     </a>
 
     <!-- 12 -->
-    <a href="./uzmanlik/omurga.html" class="ucard" data-cat="omurga">
+    <a href="uzmanlik/omurga.html" class="ucard" data-cat="omurga">
       <div class="ucard-img" style="background:linear-gradient(135deg,#0a1a30,#154060);">
         <img src="assets/images/stenoz-kart.jpg" alt="Spinal Stenoz" loading="lazy">
         <div class="ucard-img-overlay"></div>
@@ -3481,36 +3141,9 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
      ============================================================ -->
 <div class="modal-overlay" id="randevuModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-
-    <!-- Kapatma -->
-    <button class="modal-close" onclick="closeModal()" aria-label="Kapat">✕</button>
-
-    <!-- ── Üst iletişim şeridi ── -->
-    <div class="modal-contact-bar">
-      <a href="tel:+905379118609" class="mcb-item">
-        <div class="mcb-ico">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="18" height="18"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.41 2 2 0 0 1 3.58 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
-        </div>
-        <div>
-          <div class="mcb-label">Hemen Ara</div>
-          <div class="mcb-val">+90 537 911 86 09</div>
-        </div>
-      </a>
-      <div class="mcb-sep"></div>
-      <a href="https://wa.me/905379118609" target="_blank" rel="noopener" class="mcb-item mcb-wa">
-        <div class="mcb-ico mcb-ico-wa">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" width="18" height="18"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        </div>
-        <div>
-          <div class="mcb-label">WhatsApp</div>
-          <div class="mcb-val">Mesaj Gönder</div>
-        </div>
-      </a>
-    </div>
-
-    <!-- ── Form bölümü ── -->
     <div class="modal-header">
-      <div class="modal-title" id="modalTitle">📅 Randevu Formu</div>
+      <div class="modal-title" id="modalTitle">📅 Randevu Al</div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Kapat">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-row">
@@ -3520,13 +3153,7 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
         </div>
         <div class="form-group">
           <label class="form-label" for="tel">Telefon *</label>
-          <input class="form-input" type="tel" id="tel"
-                 placeholder="05xx xxx xx xx"
-                 maxlength="11"
-                 pattern="0[5][0-9]{9}"
-                 inputmode="numeric"
-                 oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11)"
-                 required>
+          <input class="form-input" type="tel" id="tel" placeholder="+90 5xx xxx xx xx" required>
         </div>
       </div>
       <div class="form-group">
@@ -3539,12 +3166,6 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
           <option>Omuz Artroskopi</option>
           <option>Kalça Protezi</option>
           <option>Omurga Cerrahisi</option>
-          <option>Boyun Fıtığı</option>
-          <option>Rotator Manşet</option>
-          <option>Kalça Kırığı</option>
-          <option>PCL Tedavisi</option>
-          <option>Omuz Çıkığı</option>
-          <option>Spinal Stenoz</option>
           <option>Genel Muayene</option>
         </select>
       </div>
@@ -3566,17 +3187,8 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
         <textarea class="form-input" id="mesaj" rows="2" placeholder="Şikayetiniz veya notunuz..." style="resize:vertical;"></textarea>
       </div>
       <button class="form-submit" onclick="submitForm()">Randevu Talebini Gönder</button>
+      <button class="form-wa-alt" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
     </div>
-
-    <!-- ── Başarı ekranı ── -->
-    <div class="modal-success" id="modalSuccess" style="display:none;">
-      <div class="ms-icon">✅</div>
-      <div class="ms-title">Talebiniz Alındı!</div>
-      <div class="ms-sub">En kısa sürede sizinle iletişime geçeceğiz.<br>İsterseniz hemen arayabilirsiniz:</div>
-      <a href="tel:+905379118609" class="ms-phone">📞 +90 537 911 86 09</a>
-      <button class="ms-close" onclick="closeModal()">Tamam</button>
-    </div>
-
   </div>
 </div>
 
@@ -3621,10 +3233,9 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
     <button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')" aria-label="Kapat">✕</button>
     <div class="popup-icon">📅</div>
     <div class="popup-title">Randevu Almak İster misiniz?</div>
-    <div class="popup-sub">Dr. Çağrı Neyişci ile görüşmek için aşağıdaki yöntemlerden birini seçin.</div>
-    <button class="pbtn-main" onclick="document.getElementById('popup').classList.remove('show');openModal();">📋 Online Form ile Randevu</button>
-    <a href="tel:+905379118609" class="pbtn-tel">📞 +90 537 911 86 09 — Hemen Ara</a>
-    <a href="https://wa.me/905379118609" target="_blank" rel="noopener" class="pbtn-wa">💬 WhatsApp ile Randevu</a>
+    <div class="popup-sub">Dr. Çağrı Neyişci ile görüşmek için hemen randevu oluşturabilirsiniz.</div>
+    <button class="pbtn-main" onclick="document.getElementById('popup').classList.remove('show');openModal();">Randevu Al</button>
+    <button class="pbtn-wa" onclick="window.open('https://wa.me/90XXXXXXXXXX','_blank')">💬 WhatsApp ile Randevu</button>
     <button class="pbtn-later" onclick="document.getElementById('popup').classList.remove('show')">Şimdi değil</button>
   </div>
 </div>
@@ -3647,44 +3258,16 @@ footer{background:#0F2744;margin-top:44px;padding:36px clamp(16px,4vw,36px) 0;}
   });
 })();
 
-/* ---------- NAV scroll — ilk scroll logo ortaya, yukarı scroll geri ---------- */
+/* ---------- NAV scroll — saydam↔opak + gizle/göster ---------- */
 const navWrap = document.getElementById('navWrap');
 let lastY = 0;
-let ticking = false;
-
-function updateNav() {
-  const y = window.scrollY;
-
-  // 2px'den küçük titremeleri filtrele
-  if (Math.abs(y - lastY) < 2) { ticking = false; return; }
-
-  const goingDown = y > lastY;
-
-  if (goingDown && y > 10) {
-    // ↓ Aşağı scroll → logo ortaya, nav biraz belirginleş
-    navWrap.classList.add('logo-centered');
-    navWrap.classList.add('nav-scrolled');
-  } else if (!goingDown) {
-    // ↑ Yukarı scroll → anında eski haline dön (tam şeffaf, logo sola)
-    navWrap.classList.remove('logo-centered');
-    navWrap.classList.remove('nav-scrolled');
-  }
-
-  // En tepeye döndüyse kesinlikle sıfırla
-  if (y <= 5) {
-    navWrap.classList.remove('logo-centered');
-    navWrap.classList.remove('nav-scrolled');
-  }
-
-  lastY = y;
-  ticking = false;
-}
-
 window.addEventListener('scroll', () => {
-  if (!ticking) {
-    requestAnimationFrame(updateNav);
-    ticking = true;
-  }
+  const y = window.scrollY;
+  // Saydam / opak geçiş
+  navWrap.classList.toggle('nav-scrolled', y > 40);
+  // Aşağı inerken gizle, yukarı çıkarken göster
+  navWrap.classList.toggle('nav-hidden', y > lastY && y > 120);
+  lastY = y;
 }, {passive: true});
 
 /* ---------- Hamburger ---------- */
@@ -4011,18 +3594,6 @@ function toggleFaq(btn) {
   animate();
 })();
 
-/* ---------- Bento Filtre ---------- */
-function filterBento(cat, btn){
-  document.querySelectorAll('.bf').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  document.querySelectorAll('#bentoGrid .bc').forEach(card=>{
-    const cats = card.getAttribute('data-bcat') || '';
-    const hide = cat !== 'all' && !cats.includes(cat);
-    card.classList.toggle('bc-hidden', hide);
-  });
-}
-function filterCards(cat,btn){filterBento(cat,btn);}
-
 /* ---------- Dil Dropdown ---------- */
 function toggleLangMenu(){
   const dd = document.getElementById('langDropdown');
@@ -4064,22 +3635,9 @@ const LANGS = {
     about_pill3:'Minimal İnvaziv', about_pill3s:'Uzman Sertifikası',
     /* Uzmanlık */
     exp_label:'Uzmanlık Alanları', exp_title:'Tedavi Ettiğim Durumlar',
-    exp_sub:'Her hasta için kişiselleştirilmiş tanı ve minimal invaziv tedavi yaklaşımı',
-    exp_filter_all:'Tümü', exp_filter_diz:'Diz', exp_filter_omuz:'Omuz',
-    exp_filter_omurga:'Omurga', exp_filter_kalca:'Kalça', exp_filter_spor:'Spor',
-    bc_incele:'İncele →',
-    bc_cat_diz_protezi:'Diz · Protez', bc_diz_protezi:'Diz Protezi Ameliyatı', bc_diz_protezi_desc:'Kireçlenme ve ileri evre diz hasarında kalıcı çözüm. Total ve parsiyel protez seçenekleri.',
-    bc_cat_meniskus:'Diz · Artroskopi', bc_meniskus:'Menisküs Yırtığı', bc_meniskus_desc:'Ani dönme sonucu oluşan yırtıklarda artroskopik onarım. Spora erken dönüş.',
-    bc_cat_acl:'Diz · ACL', bc_acl:'Ön Çapraz Bağ (ACL)', bc_acl_desc:'Futbol, basketbol ve kayak sporcularında sık görülen ACL yırtığında rekonstrüksiyon.',
-    bc_cat_omuz:'Omuz · Artroskopi', bc_omuz:'Omuz Artroskopi', bc_omuz_desc:'Rotator manşet yırtığı, SLAP lezyonu ve omuz sıkışma sendromunun minimal invaziv tedavisi.',
-    bc_cat_kalca:'Kalça · Protez', bc_kalca:'Kalça Protezi', bc_kalca_desc:'Minimal invaziv teknikle kalça kireçlenmesi ve kırığında daha az kesik, hızlı iyileşme.',
-    bc_cat_bel:'Omurga · Mikrodiskektomi', bc_bel:'Bel Fıtığı Cerrahisi', bc_bel_desc:'Bel ve bacağa vuran ağrı, uyuşma ve güçsüzlükte minimal invaziv mikrodiskektomi.',
-    bc_cat_boyun:'Omurga · Servikal', bc_boyun:'Boyun Fıtığı', bc_boyun_desc:'Kola vuran ağrı ve uyuşmaya yol açan servikal disk hernisinde minimal invaziv cerrahi.',
-    bc_cat_rotator:'Omuz · Rotator Manşet', bc_rotator:'Rotator Manşet Yırtığı', bc_rotator_desc:'Kol kaldırmada güçlük ve gece ağrısına neden olan tam kat rotator manşet yırtığı tamiri.',
-    bc_cat_kalca_kirik:'Kalça · Travma', bc_kalca_kirik:'Kalça Kırığı Tedavisi', bc_kalca_kirik_desc:'Düşme sonucu femur boynu kırıklarında çivi veya protez uygulaması ile erken mobilizasyon.',
-    bc_cat_pcl:'Diz · PCL', bc_pcl:'Arka Çapraz Bağ (PCL)', bc_pcl_desc:'Trafik kazaları ve spor darbelerinde PCL yırtığı; konservatif veya cerrahi tedavi seçenekleri.',
-    bc_cat_cikik:'Omuz · Çıkık', bc_cikik:'Tekrarlayan Omuz Çıkığı', bc_cikik_desc:'Bankart tamiri ile omuz labrum yırtığı onarımı ve tekrarlayan çıkık önleme cerrahisi.',
-    bc_cat_stenoz:'Omurga · Stenoz', bc_stenoz:'Spinal Kanal Darlığı', bc_stenoz_desc:'Yürüyünce bacakta ağrı ve uyuşma yapan spinal stenozda laminektomi ve dekompresyon.',
+    exp_sub:'Semptomlarınıza göre filtreleyerek doğru tedavi bilgisine ulaşın',
+    exp_filter_all:'🔬 Tümü', exp_filter_diz:'🦴 Diz', exp_filter_omuz:'💪 Omuz',
+    exp_filter_omurga:'🏃 Omurga', exp_filter_kalca:'🏥 Kalça', exp_filter_spor:'⚡ Spor',
     /* Blog */
     blog_eyebrow:'Sağlık Blogu', blog_title:'Hastalıklar & Tedaviler Hakkında',
     blog_sub:"Dr. Neyişci'nin kaleme aldığı güncel ortopedi yazıları",
@@ -4121,21 +3679,8 @@ const LANGS = {
     about_pill3:'Minimally Invasive', about_pill3s:'Expert Certificate',
     exp_label:'Areas of Expertise', exp_title:'Conditions We Treat',
     exp_sub:'Filter by symptom to find the right treatment information',
-    exp_filter_all:'All', exp_filter_diz:'Knee', exp_filter_omuz:'Shoulder',
-    exp_filter_omurga:'Spine', exp_filter_kalca:'Hip', exp_filter_spor:'Sports',
-    bc_incele:'View →',
-    bc_cat_diz_protezi:'Knee · Prosthesis', bc_diz_protezi:'Knee Replacement', bc_diz_protezi_desc:'Permanent solution for arthritis and advanced knee damage. Total and partial prosthesis options.',
-    bc_cat_meniskus:'Knee · Arthroscopy', bc_meniskus:'Meniscus Tear', bc_meniskus_desc:'Arthroscopic repair for tears from sudden twisting movements. Early return to sport.',
-    bc_cat_acl:'Knee · ACL', bc_acl:'Anterior Cruciate Ligament (ACL)', bc_acl_desc:'ACL reconstruction for football, basketball and ski athletes.',
-    bc_cat_omuz:'Shoulder · Arthroscopy', bc_omuz:'Shoulder Arthroscopy', bc_omuz_desc:'Minimally invasive treatment for rotator cuff tears, SLAP lesions and impingement syndrome.',
-    bc_cat_kalca:'Hip · Prosthesis', bc_kalca:'Hip Replacement', bc_kalca_desc:'Less tissue damage, faster recovery with minimally invasive hip replacement technique.',
-    bc_cat_bel:'Spine · Microdiscectomy', bc_bel:'Lumbar Disc Surgery', bc_bel_desc:'Minimally invasive microdiscectomy for leg pain, numbness and weakness.',
-    bc_cat_boyun:'Spine · Cervical', bc_boyun:'Cervical Disc Herniation', bc_boyun_desc:'Minimally invasive surgery for arm pain and numbness from cervical disc herniation.',
-    bc_cat_rotator:'Shoulder · Rotator Cuff', bc_rotator:'Rotator Cuff Tear', bc_rotator_desc:'Full-thickness rotator cuff repair for arm weakness and night pain.',
-    bc_cat_kalca_kirik:'Hip · Trauma', bc_kalca_kirik:'Hip Fracture Treatment', bc_kalca_kirik_desc:'Nail or prosthesis for femoral neck fractures from falls, with early mobilisation.',
-    bc_cat_pcl:'Knee · PCL', bc_pcl:'Posterior Cruciate Ligament (PCL)', bc_pcl_desc:'PCL tear from traffic accidents and sports impacts; conservative or surgical treatment.',
-    bc_cat_cikik:'Shoulder · Dislocation', bc_cikik:'Recurrent Shoulder Dislocation', bc_cikik_desc:'Bankart repair for labrum tear and prevention of recurrent shoulder dislocation.',
-    bc_cat_stenoz:'Spine · Stenosis', bc_stenoz:'Spinal Stenosis', bc_stenoz_desc:'Laminectomy and decompression for leg pain and numbness while walking.',
+    exp_filter_all:'🔬 All', exp_filter_diz:'🦴 Knee', exp_filter_omuz:'💪 Shoulder',
+    exp_filter_omurga:'🏃 Spine', exp_filter_kalca:'🏥 Hip', exp_filter_spor:'⚡ Sports',
     blog_eyebrow:'Health Blog', blog_title:'About Conditions & Treatments',
     blog_sub:'Current orthopaedic articles by Dr. Neyişci',
     blog_more:'View All Articles →', blog_read:'Continue reading →',
@@ -4212,21 +3757,8 @@ const LANGS = {
     about_pill3:'Minimal-invasiv', about_pill3s:'Expertenzertifikat',
     exp_label:'Fachgebiete', exp_title:'Behandelte Erkrankungen',
     exp_sub:'Filtern Sie nach Symptomen um die richtigen Informationen zu finden',
-    exp_filter_all:'Alle', exp_filter_diz:'Knie', exp_filter_omuz:'Schulter',
-    exp_filter_omurga:'Wirbelsäule', exp_filter_kalca:'Hüfte', exp_filter_spor:'Sport',
-    bc_incele:'Ansehen →',
-    bc_cat_diz_protezi:'Knie · Prothese', bc_diz_protezi:'Knieendoprothetik', bc_diz_protezi_desc:'Dauerhafte Lösung bei schwerem Gelenkverschleiß. Total- und Teilknieprothese.',
-    bc_cat_meniskus:'Knie · Arthroskopie', bc_meniskus:'Meniskusriss', bc_meniskus_desc:'Arthroskopische Reparatur nach plötzlichen Drehbewegungen. Frühe Rückkehr zum Sport.',
-    bc_cat_acl:'Knie · VKB', bc_acl:'Vorderes Kreuzband (VKB)', bc_acl_desc:'VKB-Rekonstruktion für Fußball-, Basketball- und Skisportler.',
-    bc_cat_omuz:'Schulter · Arthroskopie', bc_omuz:'Schulterarthroskopie', bc_omuz_desc:'Minimal-invasive Behandlung von Rotatorenmanschette, SLAP-Läsion und Impingement.',
-    bc_cat_kalca:'Hüfte · Prothese', bc_kalca:'Hüftendoprothetik', bc_kalca_desc:'Minimal-invasive Technik für Hüftarthrose und Fraktur mit schneller Genesung.',
-    bc_cat_bel:'Wirbelsäule · Mikro', bc_bel:'Lumbale Bandscheiben-OP', bc_bel_desc:'Minimal-invasive Mikrodiskektomie bei Beinschmerzen, Taubheit und Schwäche.',
-    bc_cat_boyun:'Wirbelsäule · Zervikal', bc_boyun:'Zervikaler Bandscheibenvorfall', bc_boyun_desc:'Minimal-invasive Operation bei Armschmerzen und Taubheit durch zervikalen Prolaps.',
-    bc_cat_rotator:'Schulter · Rotatorenmanschette', bc_rotator:'Rotatorenmanschettenriss', bc_rotator_desc:'Naht der Rotatorenmanschette bei Armchwäche und Nachtschmerz.',
-    bc_cat_kalca_kirik:'Hüfte · Trauma', bc_kalca_kirik:'Hüftfraktur-Behandlung', bc_kalca_kirik_desc:'Nagel oder Prothese bei Schenkelhalsfrakturen nach Sturz mit früher Mobilisierung.',
-    bc_cat_pcl:'Knie · HKB', bc_pcl:'Hinteres Kreuzband (HKB)', bc_pcl_desc:'HKB-Riss bei Verkehrsunfällen und Sportverletzungen; konservativ oder operativ.',
-    bc_cat_cikik:'Schulter · Luxation', bc_cikik:'Rezidivierende Schulterluxation', bc_cikik_desc:'Bankart-Reparatur bei Labrumriss und Prävention rezidivierender Luxationen.',
-    bc_cat_stenoz:'Wirbelsäule · Stenose', bc_stenoz:'Spinalstenose', bc_stenoz_desc:'Laminektomie und Dekompression bei Beinschmerzen und Taubheit beim Gehen.',
+    exp_filter_all:'🔬 Alle', exp_filter_diz:'🦴 Knie', exp_filter_omuz:'💪 Schulter',
+    exp_filter_omurga:'🏃 Wirbelsäule', exp_filter_kalca:'🏥 Hüfte', exp_filter_spor:'⚡ Sport',
     blog_eyebrow:'Gesundheitsblog', blog_title:'Über Erkrankungen & Behandlungen',
     blog_sub:'Aktuelle Orthopädie-Artikel von Dr. Neyişci',
     blog_more:'Alle Artikel anzeigen →', blog_read:'Weiterlesen →',
@@ -4376,73 +3908,51 @@ function openModal() {
 function closeModal() {
   document.getElementById('randevuModal').classList.remove('show');
   document.body.style.overflow = '';
-  // Başarı ekranını sıfırla, formu geri getir
-  const modalBody    = document.querySelector('.modal-body');
-  const modalSuccess = document.getElementById('modalSuccess');
-  if (modalBody)    modalBody.style.display    = '';
-  if (modalSuccess) modalSuccess.style.display = 'none';
 }
 document.getElementById('randevuModal').addEventListener('click', e => {
   if (e.target === document.getElementById('randevuModal')) closeModal();
 });
 
+function submitForm() {
 async function submitForm() {
-  const WHATSAPP_NUMARASI = '905379118609'; // ← test numaranızı buraya yazın
-
-  const ad       = document.getElementById('ad').value.trim();
-  const tel      = document.getElementById('tel').value.trim();
+  const ad = document.getElementById('ad').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+  if (!ad || !tel) { alert('Lütfen ad soyad ve telefon bilgisini doldurun.'); return; }
+  if (!selectedDay) { alert('Lütfen bir tarih seçin.'); return; }
+  
   const uzmanlik = document.getElementById('uzmanlik_sec').value || 'Belirtilmedi';
-  const mesaj    = document.getElementById('mesaj').value.trim();
+  const tarih = selectedDay.toLocaleDateString('tr-TR', {day:'numeric',month:'long',year:'numeric'});
+  const mesaj = document.getElementById('mesaj').value.trim();
 
-  if (!ad || !tel) {
-    alert('Lütfen ad soyad ve telefon bilgisini doldurun.');
-    return;
+  // 1. ADIM: Veriyi Canlı Supabase Veritabanına Gönder (Admin Panelinde Görünsün)
+  if (typeof supabase !== 'undefined') {
+      await supabase.from('randevular').insert([
+          { ad_soyad: ad, telefon: tel, uzmanlik_alani: uzmanlik, tarih: tarih, not_metni: mesaj }
+      ]);
   }
-  if (!selectedDay) {
-    alert('Lütfen bir tarih seçin.');
-    return;
-  }
 
-  const tarihISO = selectedDay.toISOString().split('T')[0];
-  const tarihOK  = selectedDay.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+  // 2. ADIM: WhatsApp Yönlendirmesini Tetikle (Buradaki 90XXXXXXXXXX kısmına hocanın numarasını yazabilirsin kral)
+  const waMsg = encodeURIComponent(
+    `Randevu Talebi\nAd: ${ad}\nTelefon: ${tel}\nUzmanlık: ${uzmanlik}\nTarih: ${tarih}${mesaj ? '\nNot: ' + mesaj : ''}`
+  );
+  window.open('https://wa.me/90XXXXXXXXXX?text=' + waMsg, '_blank');
+  closeModal();
+}
 
-  const btn = document.querySelector('.form-submit');
-  if (btn) { btn.disabled = true; btn.textContent = 'Gönderiliyor…'; }
 
-  try {
-    // 1️⃣ Supabase'e kaydet
-    const { error: dbErr } = await _supabase
-      .from('randevular')
-      .insert([{
-        ad_soyad:       ad,
-        telefon:        tel,
-        uzmanlik_alani: uzmanlik,
-        tarih:          tarihISO,
-        not_metni:      mesaj,
-        durum:          'Bekliyor'
-      }]);
-    if (dbErr) console.error('DB hatası:', dbErr.message);
-  } catch (e) { console.error('Supabase:', e); }
-
-  // 2️⃣ WhatsApp bildirimi (arka planda — sayfa yönlendirmesi yok)
-  try {
-    const waMsg = encodeURIComponent(
-      `🏥 Yeni Randevu Talebi\n` +
-      `Ad: ${ad}\nTelefon: ${tel}\n` +
-      `Uzmanlık: ${uzmanlik}\nTarih: ${tarihOK}` +
-      (mesaj ? `\nNot: ${mesaj}` : '')
-    );
-    // target="_blank" → kullanıcıyı WA'ya yönlendirmez, arka planda açılır
-    window.open(`https://wa.me/${WHATSAPP_NUMARASI}?text=${waMsg}`, '_blank', 'noopener,noreferrer');
-  } catch (e) { console.error('WA:', e); }
-
-  // 3️⃣ Formu gizle, başarı ekranını göster
-  const modalBody = document.querySelector('.modal-body');
-  const modalSuccess = document.getElementById('modalSuccess');
-  if (modalBody)    modalBody.style.display = 'none';
-  if (modalSuccess) modalSuccess.style.display = 'flex';
-
-  if (btn) { btn.disabled = false; btn.textContent = 'Randevu Talebini Gönder'; }
+  // burada bulunan kodlar claude un yazıp verdiği. usttekiler ile gemini whatsapp iletisim icin gelistirdiği kod.
+ /* const ad = document.getElementById('ad').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+  if (!ad || !tel) { alert('Lütfen ad soyad ve telefon bilgisini doldurun.'); return; }
+  if (!selectedDay) { alert('Lütfen bir tarih seçin.'); return; }
+  const uzmanlik = document.getElementById('uzmanlik_sec').value || 'Belirtilmedi';
+  const tarih = selectedDay.toLocaleDateString('tr-TR', {day:'numeric',month:'long',year:'numeric'});
+  const mesaj = document.getElementById('mesaj').value.trim();
+  const waMsg = encodeURIComponent(
+    `Randevu Talebi\nAd: ${ad}\nTelefon: ${tel}\nUzmanlık: ${uzmanlik}\nTarih: ${tarih}${mesaj ? '\nNot: ' + mesaj : ''}`
+  );
+  window.open('https://wa.me/90XXXXXXXXXX?text=' + waMsg, '_blank');
+  closeModal();*/
 }
 
 /* ---------- Dot slider ---------- */
@@ -4462,19 +3972,6 @@ if (localStorage.getItem('kvkk') === '1') {
 
 /* ---------- 30 sn popup ---------- */
 setTimeout(() => document.getElementById('popup').classList.add('show'), 30000);
-</script>
-
-<!-- ── Supabase CDN ── -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-/* ─────────────────────────────────────────────
-   SUPABASE YAPILANDIRMASI
-   ───────────────────────────────────────────── */
-const SUPABASE_URL      = "https://eiuyluyysyfphggkshad.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdXlsdXl5c3lmcGhnZ2tzaGFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDU4NTUsImV4cCI6MjA5NTIyMTg1NX0.ehlSS8_uzkwnzcMFANz5YuUl37NTi9a5S_vSwz-n0Jc";
-const WHATSAPP_NUMARASI = "905379118609"; // ← numarayı buradan değiştirin
-
-const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 </script>
 </body>
 </html>

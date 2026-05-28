@@ -3,520 +3,1438 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Admin Paneli | Dr. Çağrı Neyişci</title>
-<meta name="robots" content="noindex,nofollow">
+<title>Admin Paneli | Dr. Çağrı Neyişci</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- Supabase CDN — head'de yükleniyor, script bloğundan önce hazır olması için -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+/* ═══ TOKENS ═══ */
+:root{
+  --navy:#08111e;
+  --navy2:#0d1e33;
+  --navy3:#132b4a;
+  --blue:#1A6FA8;
+  --teal:#38BDAA;
+  --sky:#6BB8E8;
+  --glass-bg:rgba(20,42,72,.65);
+  --glass-border:rgba(107,184,232,.12);
+  --glass-border-hi:rgba(107,184,232,.28);
+  --text:#e8f0f8;
+  --text-muted:rgba(232,240,248,.42);
+  --text-dim:rgba(232,240,248,.22);
+  --success:#2dd4bf;
+  --warning:#f59e0b;
+  --error:#f87171;
+  --sidebar-w:248px;
+}
+
+/* ═══ RESET ═══ */
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#F4F7FA;color:#0F2744;-webkit-font-smoothing:antialiased;}
+html{height:100%;font-size:14px;}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  height:100%;
+  overflow-x:hidden;
+}
 
-/* PREMIUM LOGIN (Glassmorphism) */
-.login-screen{position:fixed;inset:0;background:linear-gradient(135deg, #09192c 0%, #0F2744 100%);display:flex;align-items:center;justify-content:center;z-index:999;transition:all 0.4s ease;}
-.login-screen.hidden{opacity:0;pointer-events:none;}
-.login-box{background:rgba(255, 255, 255, 0.95);border-radius:24px;padding:40px;width:360px;box-shadow:0 30px 70px rgba(0,0,0,0.4);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);transform:scale(1);transition:transform 0.3s ease;}
+/* ═══ ARKA PLAN DOKU ═══ */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(26,111,168,.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(56,189,170,.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(10,22,48,.9) 0%, transparent 80%);
+  pointer-events:none;z-index:0;
+}
+
+/* ═══ LOGIN EKRANI ═══ */
+.login-screen{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#0a2040 100%);
+}
+.login-screen.hidden{display:none;}
+.login-box{
+  background:var(--glass-bg);
+  backdrop-filter:blur(24px);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  padding:40px;
+  width:360px;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+}
 .login-logo{text-align:center;margin-bottom:28px;}
-.login-logo-name{font-size:20px;font-weight:800;color:#0F2744;letter-spacing:-0.5px;}
-.login-logo-sub{font-size:11px;color:#1A6FA8;letter-spacing:3px;text-transform:uppercase;margin-top:4px;font-weight:600;}
-.login-title{font-size:14px;font-weight:600;color:#526070;margin-bottom:20px;text-align:center;}
-.login-field{margin-bottom:16px;}
-.login-label{font-size:11px;font-weight:700;color:#0F2744;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px;}
-.login-input{width:100%;padding:12px 16px;border:1.5px solid #E2EAF0;border-radius:10px;font-size:14px;outline:none;transition:all .2s ease;background:#F8FAFC;}
-.login-input:focus{border-color:#1A6FA8;background:#fff;box-shadow:0 0 0 4px rgba(26,111,168,0.1);}
-.login-btn{width:100%;padding:14px;border-radius:10px;background:#1A6FA8;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;margin-top:10px;transition:all 0.2s;box-shadow:0 4px 12px rgba(26,111,168,0.25);}
-.login-btn:hover{background:#145582;transform:translateY(-1px);}
-.login-hint{font-size:11px;color:#8FA3B1;text-align:center;margin-top:16px;}
+.login-logo-name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;}
+.login-logo-sub{font-size:10px;color:var(--sky);letter-spacing:2px;text-transform:uppercase;}
+.login-lock{font-size:36px;margin-bottom:14px;}
+.login-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center;}
+.login-sub{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:28px;}
+.login-field{margin-bottom:14px;}
+.login-label{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;display:block;letter-spacing:.04em;text-transform:uppercase;}
+.login-input{
+  width:100%;padding:11px 14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--glass-border);
+  border-radius:10px;color:#fff;font-size:14px;
+  outline:none;transition:border .2s,box-shadow .2s;
+}
+.login-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,111,168,.18);}
+.login-btn{
+  width:100%;padding:13px;border-radius:11px;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;
+  margin-top:6px;transition:opacity .2s,transform .2s;
+  box-shadow:0 4px 18px rgba(26,111,168,.4);
+}
+.login-btn:hover{opacity:.9;transform:translateY(-1px);}
+.login-hint{font-size:10px;color:var(--text-dim);text-align:center;margin-top:12px;}
+.login-error{display:none;font-size:12px;color:var(--error);text-align:center;margin-top:8px;}
+.login-error.show{display:block;}
 
-/* SHELL & SIDEBAR */
-.shell{display:flex;min-height:100vh;}
-.sidebar{width:240px;background:#0F2744;flex-shrink:0;display:flex;flex-direction:column;box-shadow:4px 0 20px rgba(9,25,44,0.15);position:relative;z-index:10;}
-.sb-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.sb-logo-name{font-size:15px;font-weight:800;color:#fff;letter-spacing:-0.3px;}
-.sb-logo-sub{font-size:10px;color:#6BB8E8;letter-spacing:2px;text-transform:uppercase;margin-top:3px;font-weight:600;}
-.sb-user{padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);}
-.sb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg, #1A6FA8, #0D4B75);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,0.2);}
-.sb-user-name{font-size:13px;color:#fff;font-weight:600;}
-.sb-user-role{font-size:11px;color:#6BB8E8;opacity:0.8;}
-.sb-nav{padding:16px 0;flex:1;overflow-y:auto;}
-.sb-section{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;padding:12px 20px 6px;font-weight:700;}
-.sb-item{display:flex;align-items:center;gap:10px;padding:11px 20px;font-size:13px;color:rgba(255,255,255,.65);cursor:pointer;transition:all .2s ease;border-left:4px solid transparent;}
-.sb-item:hover, .sb-item.active{background:rgba(255,255,255,.05);color:#fff;border-left-color:#1A6FA8;}
-.sb-item.active{background:rgba(255,255,255,.08);font-weight:600;}
-.sb-item-icon{font-size:16px;flex-shrink:0;}
-.sb-badge{margin-left:auto;background:#E53935;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;box-shadow:0 2px 6px rgba(229,57,53,0.3);}
-.sb-logout{padding:16px 20px;border-top:1px solid rgba(255,255,255,.04);}
-.sb-logout-btn{width:100%;padding:10px;border-radius:8px;background:rgba(255,255,255,.05);border:none;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;}
-.sb-logout-btn:hover{background:rgba(229,57,53,0.15);color:#FF8A80;}
+/* ═══ SHELL ═══ */
+.shell{display:flex;height:100vh;position:relative;z-index:1;}
 
-/* MAIN STRUCTURE */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.topbar{background:#fff;padding:0 32px;height:64px;border-bottom:1px solid #E2EAF0;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 4px rgba(15,39,68,0.02);}
-.topbar-title{font-size:18px;font-weight:800;color:#0F2744;letter-spacing:-0.3px;}
-.topbar-actions{display:flex;gap:12px;align-items:center;}
-.tb-btn{font-size:13px;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;transition:all 0.2s ease;display:inline-flex;align-items:center;gap:6px;}
-.tb-btn-primary{background:#1A6FA8;color:#fff;box-shadow:0 4px 10px rgba(26,111,168,0.2);}
-.tb-btn-primary:hover{background:#145582;transform:translateY(-1px);}
-.tb-btn-outline{background:#fff;color:#526070;border:1px solid #E2EAF0;}
-.tb-btn-outline:hover{background:#F8FAFC;border-color:#CBD5E1;}
-.content{padding:32px;overflow-y:auto;flex:1;}
+/* ═══ SİDEBAR ═══ */
+.sidebar{
+  width:var(--sidebar-w);
+  background:rgba(8,17,30,.85);
+  backdrop-filter:blur(20px);
+  border-right:1px solid var(--glass-border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;
+  z-index:200;
+  transition:transform .3s;
+}
+.sb-brand{
+  padding:22px 20px 18px;
+  border-bottom:1px solid var(--glass-border);
+}
+.sb-brand-logo{
+  width:40px;height:40px;border-radius:11px;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:10px;
+  box-shadow:0 4px 14px rgba(26,111,168,.35);
+}
+.sb-brand-name{font-size:14px;font-weight:700;color:#fff;}
+.sb-brand-sub{font-size:9px;color:var(--sky);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
 
-/* PREMIUM CARDS (KPI) */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
-.kpi-card{background:#fff;border-radius:16px;padding:20px 24px;border:1px solid #E2EAF0;box-shadow:0 4px 12px rgba(15,39,68,.03);transition:all 0.2s;}
-.kpi-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,39,68,.06);}
-.kpi-label{font-size:12px;color:#8FA3B1;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
-.kpi-val{font-size:28px;font-weight:800;color:#0F2744;line-height:1;}
-.kpi-sub{font-size:11px;margin-top:8px;display:flex;align-items:center;gap:4px;font-weight:500;}
-.kpi-up{color:#27AE60;}.kpi-down{color:#E53935;}
+.sb-user{
+  padding:14px 18px;
+  border-bottom:1px solid var(--glass-border);
+  display:flex;align-items:center;gap:10px;
+}
+.sb-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sb-user-name{font-size:12.5px;font-weight:600;color:#fff;}
+.sb-user-role{font-size:10px;color:var(--text-muted);}
+.sb-online{
+  margin-left:auto;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 0 2px rgba(45,212,191,.2);
+  flex-shrink:0;
+}
 
-/* PANELS & TABLES */
-.panel{background:#fff;border-radius:16px;border:1px solid #E2EAF0;box-shadow:0 4px 12px rgba(15,39,68,.03);overflow:hidden;margin-bottom:24px;}
-.panel-header{padding:18px 24px;border-bottom:1px solid #E2EAF0;display:flex;align-items:center;justify-content:space-between;background:#FAFBFD;}
-.panel-title{font-size:14px;font-weight:700;color:#0F2744;display:flex;align-items:center;gap:8px;}
-.panel-action{font-size:12px;color:#1A6FA8;cursor:pointer;font-weight:600;transition:color 0.15s;}
-.panel-action:hover{color:#145582;}
-table{width:100%;border-collapse:collapse;}
-th{padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#8FA3B1;text-transform:uppercase;letter-spacing:0.5px;background:#F8FAFC;border-bottom:1px solid #E2EAF0;}
-td{padding:14px 20px;font-size:13.5px;color:#0F2744;border-bottom:1px solid #F1F5F9;vertical-align:middle;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#F8FAFC;}
+.sb-nav{flex:1;padding:14px 0;overflow-y:auto;}
+.sb-section{
+  font-size:9px;font-weight:700;color:var(--text-dim);
+  letter-spacing:2px;text-transform:uppercase;
+  padding:10px 18px 5px;
+}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 18px;
+  font-size:12.5px;color:var(--text-muted);
+  cursor:pointer;border:none;background:none;
+  border-left:3px solid transparent;
+  width:100%;text-align:left;
+  transition:all .18s;
+  border-radius:0;
+}
+.sb-item:hover{color:var(--sky);background:rgba(107,184,232,.06);border-left-color:rgba(107,184,232,.3);}
+.sb-item.active{color:#fff;background:rgba(26,111,168,.15);border-left-color:var(--blue);}
+.sb-item-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+  transition:background .18s;
+}
+.sb-item.active .sb-item-icon{background:rgba(26,111,168,.25);}
+.sb-badge{
+  margin-left:auto;
+  background:var(--blue);color:#fff;
+  font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:10px;
+}
+.sb-badge.warn{background:var(--warning);}
 
-/* BADGES & BUTTONS */
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
-.badge-green{background:#E8FBF0;color:#27AE60;}
-.badge-yellow{background:#FFF8E1;color:#F59E0B;}
-.badge-blue{background:#E8F2FA;color:#1A6FA8;}
-.badge-red{background:#FFEBEE;color:#E53935;}
-.action-btns{display:flex;gap:6px;}
-.act-btn{font-size:12px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:600;transition:all 0.15s;}
-.act-btn-approve{background:#E8FBF0;color:#27AE60;}.act-btn-approve:hover{background:#D1F7DF;}
-.act-btn-reject{background:#FFEBEE;color:#E53935;}.act-btn-reject:hover{background:#FFCDD2;}
-.act-btn-view{background:#E8F2FA;color:#1A6FA8;}.act-btn-view:hover{background:#D0E5F5;}
-.act-btn-edit{background:#F1F5F9;color:#526070;}.act-btn-edit:hover{background:#E2E8F0;}
+.sb-footer{
+  padding:14px 18px;
+  border-top:1px solid var(--glass-border);
+}
+.sb-logout{
+  width:100%;padding:9px;border-radius:9px;
+  background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);
+  color:var(--error);font-size:12px;font-weight:600;cursor:pointer;
+  transition:background .2s;
+}
+.sb-logout:hover{background:rgba(248,113,113,.18);}
+.sb-version{font-size:10px;color:var(--text-dim);text-align:center;margin-top:8px;}
 
-/* PREMIUM FORMS */
-.form-panel{background:#fff;border-radius:16px;border:1px solid #E2EAF0;padding:24px;margin-bottom:24px;box-shadow:0 4px 12px rgba(15,39,68,.03);}
+/* ═══ MAIN ═══ */
+.main{
+  margin-left:var(--sidebar-w);
+  display:flex;flex-direction:column;
+  min-height:100vh;flex:1;
+}
+
+/* Topbar */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,17,30,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--glass-border);
+  padding:0 28px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.topbar-title{font-size:16px;font-weight:700;color:#fff;}
+.topbar-breadcrumb{font-size:11px;color:var(--text-muted);}
+
+.topbar-actions{display:flex;align-items:center;gap:8px;}
+.tb-btn{
+  padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;font-family:inherit;
+}
+.tb-primary{background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff;box-shadow:0 3px 10px rgba(26,111,168,.3);}
+.tb-primary:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(26,111,168,.4);}
+.tb-ghost{background:rgba(255,255,255,.06);color:var(--text-muted);border:1px solid var(--glass-border);}
+.tb-ghost:hover{background:rgba(255,255,255,.1);color:#fff;}
+
+/* Content alanı */
+.content{padding:28px;flex:1;}
+
+/* ═══ SAYFA SEKMELERİ ═══ */
+.page-section{display:none;}
+.page-section.active{display:block;}
+
+/* ═══ DASHBOARD KPI ═══ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.kpi-card{
+  background:var(--glass-bg);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;padding:18px 20px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.kpi-card:hover{border-color:var(--glass-border-hi);box-shadow:0 6px 20px rgba(0,0,0,.2);}
+.kpi-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.kpi-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(26,111,168,.2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.kpi-change{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;}
+.kpi-change.up{background:rgba(45,212,191,.1);color:var(--success);}
+.kpi-change.down{background:rgba(248,113,113,.1);color:var(--error);}
+.kpi-val{font-size:28px;font-weight:700;color:#fff;letter-spacing:-.02em;margin-bottom:3px;}
+.kpi-lbl{font-size:11px;color:var(--text-muted);}
+
+/* ═══ PANEL / KART ═══ */
+.panel{
+  background:var(--glass-bg);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;
+  margin-bottom:20px;
+}
+.panel-header{
+  padding:14px 20px;
+  border-bottom:1px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.02);
+}
+.panel-title{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;}
+.panel-title-icon{
+  width:26px;height:26px;border-radius:7px;
+  background:rgba(26,111,168,.2);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.panel-action{font-size:11px;color:var(--sky);cursor:pointer;font-weight:600;}
+.panel-action:hover{color:#fff;}
+
+/* ═══ TABLO ═══ */
+.admin-table{width:100%;border-collapse:collapse;}
+.admin-table th{
+  padding:10px 16px;text-align:left;
+  font-size:10px;font-weight:700;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.8px;
+  background:rgba(255,255,255,.02);
+  border-bottom:1px solid var(--glass-border);
+}
+.admin-table td{
+  padding:13px 16px;font-size:12.5px;color:var(--text);
+  border-bottom:1px solid rgba(107,184,232,.05);
+  vertical-align:middle;
+}
+.admin-table tr:last-child td{border-bottom:none;}
+.admin-table tr:hover td{background:rgba(255,255,255,.02);}
+
+/* Status badge */
+.status{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:600;}
+.status-pending{background:rgba(245,158,11,.12);color:var(--warning);border:1px solid rgba(245,158,11,.2);}
+.status-done{background:rgba(45,212,191,.1);color:var(--success);border:1px solid rgba(45,212,191,.15);}
+.status-cancelled{background:rgba(248,113,113,.1);color:var(--error);border:1px solid rgba(248,113,113,.15);}
+.status-new{background:rgba(26,111,168,.15);color:var(--sky);border:1px solid rgba(107,184,232,.2);}
+
+/* Action butonları */
+.act-btns{display:flex;gap:6px;}
+.act{
+  padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;
+  border:none;cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.act-approve{background:rgba(45,212,191,.12);color:var(--success);border:1px solid rgba(45,212,191,.2);}
+.act-approve:hover{background:rgba(45,212,191,.22);}
+.act-edit{background:rgba(107,184,232,.1);color:var(--sky);border:1px solid rgba(107,184,232,.18);}
+.act-edit:hover{background:rgba(107,184,232,.2);}
+.act-del{background:rgba(248,113,113,.08);color:var(--error);border:1px solid rgba(248,113,113,.15);}
+.act-del:hover{background:rgba(248,113,113,.18);}
+.act-done{background:rgba(45,212,191,.1);color:var(--teal);}
+
+/* ═══ FORM ELEMANLARI ═══ */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.form-group{display:flex;flex-direction:column;gap:6px;}
-.form-label{font-size:12px;font-weight:700;color:#475569;}
-.form-input, .form-select, .form-textarea{padding:10px 14px;border:1.5px solid #E2EAF0;border-radius:8px;font-size:13.5px;color:#0F2744;outline:none;font-family:inherit;transition:all .2s;background:#F8FAFC;}
-.form-input:focus, .form-select:focus, .form-textarea:focus{border-color:#1A6FA8;background:#fff;box-shadow:0 0 0 3px rgba(26,111,168,0.08);}
-.form-textarea{resize:vertical;min-height:90px;}
 .form-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase;}
+.form-label span{color:var(--error);margin-left:2px;}
+.form-input,.form-select,.form-textarea{
+  padding:10px 14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--glass-border);
+  border-radius:10px;color:#fff;font-size:13px;
+  outline:none;font-family:inherit;
+  transition:border .2s,box-shadow .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(26,111,168,.15);
+}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-dim);}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236BB8E8' stroke-width='2' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:40px;cursor:pointer;}
+.form-select option{background:#0d1e33;color:#fff;}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.form-hint{font-size:10.5px;color:var(--text-dim);}
+.form-section{margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--glass-border);}
+.form-section:last-child{border-bottom:none;margin-bottom:0;}
+.form-section-title{font-size:13px;font-weight:700;color:var(--sky);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
+.form-section-title::before{content:'';width:3px;height:1.1em;background:linear-gradient(var(--blue),var(--teal));border-radius:2px;}
 
-/* NOTECARDS */
-.note-card{background:#FFFDF5;border:1px solid #FFEFAF;border-radius:12px;padding:16px 18px;margin-bottom:12px;box-shadow:0 2px 6px rgba(245,158,11,0.02);}
-.note-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
-.note-patient{font-size:13px;font-weight:700;color:#0F2744;}
-.note-date{font-size:11px;color:#94A3B8;}
-.note-text{font-size:13px;color:#475569;line-height:1.6;}
-.note-author{font-size:11px;color:#D97706;margin-top:6px;font-weight:600;}
+/* Kaydet butonu */
+.save-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 28px;border-radius:11px;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  color:#fff;font-size:13.5px;font-weight:700;border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(26,111,168,.35);
+  transition:all .2s;
+}
+.save-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,111,168,.45);}
+.save-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;
+  border-top:1px solid var(--glass-border);
+  background:rgba(255,255,255,.02);
+}
+.save-note{font-size:11px;color:var(--text-muted);}
 
-/* TABS */
-.tabs{display:flex;gap:4px;border-bottom:2px solid #E2EAF0;margin-bottom:24px;}
-.tab{padding:12px 20px;font-size:13px;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:600;transition:all .15s;}
-.tab:hover{color:#1A6FA8;}
-.tab.active{color:#1A6FA8;border-bottom-color:#1A6FA8;}
+/* ═══ SSS LİSTESİ ═══ */
+.faq-admin-item{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--glass-border);
+  border-radius:12px;padding:14px 16px;
+  margin-bottom:10px;
+  transition:border-color .2s;
+}
+.faq-admin-item:hover{border-color:var(--glass-border-hi);}
+.faq-admin-q{font-size:13px;font-weight:600;color:#fff;margin-bottom:5px;}
+.faq-admin-a{font-size:12px;color:var(--text-muted);line-height:1.6;}
+.faq-admin-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.faq-order{font-size:10px;color:var(--text-dim);}
 
-.page-section{display:none;}.page-section.active{display:block;}
+/* Add form */
+.add-form-card{
+  background:rgba(26,111,168,.06);
+  border:1px solid rgba(107,184,232,.15);
+  border-radius:14px;padding:18px;
+  margin-bottom:16px;display:none;
+}
+.add-form-card.open{display:block;}
+
+/* Toggle expand/collapse */
+.toggle-add{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:8px;
+  background:rgba(26,111,168,.12);border:1px solid rgba(107,184,232,.2);
+  color:var(--sky);font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(107,184,232,.2);
+  transition:background .2s;
+}
+.toggle-add:hover{background:rgba(26,111,168,.22);}
+
+/* Randevu kartları (mobil uyumlu alternatif) */
+.randevu-cards{display:flex;flex-direction:column;gap:12px;}
+.randevu-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--glass-border);
+  border-radius:14px;padding:16px 18px;
+  display:grid;grid-template-columns:1fr 1fr 1fr auto;
+  gap:12px;align-items:center;
+  transition:border-color .2s;
+}
+.randevu-card:hover{border-color:var(--glass-border-hi);}
+.rc-name{font-size:13.5px;font-weight:700;color:#fff;}
+.rc-info{font-size:11.5px;color:var(--text-muted);line-height:1.5;margin-top:2px;}
+.rc-specialty{font-size:11.5px;color:var(--sky);font-weight:600;}
+.rc-date{font-size:12px;color:var(--text-muted);}
+.rc-note{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+
+/* Notification dot */
+.notif-dot{
+  display:inline-block;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--warning);margin-left:6px;
+}
+
+/* Responsive */
+@media(max-width:1024px){.kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .randevu-card{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .form-grid{grid-template-columns:1fr;}
+}
+/* Toast animasyonu */
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 </style>
+
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
+      <div class="login-lock">🔐</div>
       <div class="login-logo-name">Dr. Çağrı Neyişci</div>
-      <div class="login-logo-sub">Klinik Yönetimi</div>
+      <div class="login-logo-sub">Yönetim Paneli</div>
     </div>
-    <div class="login-title">🔐 Güvenli Yönetici Girişi</div>
+    <div class="login-title">Giriş Yap</div>
+    <div class="login-sub">Devam etmek için kimlik bilgilerinizi girin</div>
     <div class="login-field">
       <label class="login-label">Kullanıcı Adı</label>
-      <input class="login-input" type="text" id="loginUser" value="admin">
+      <input id="login-username" class="login-input" type="text" placeholder="admin" autocomplete="username">
     </div>
     <div class="login-field">
       <label class="login-label">Şifre</label>
-      <input class="login-input" type="password" id="loginPass" value="1234">
+      <input id="login-password" class="login-input" type="password" placeholder="••••••••" autocomplete="current-password">
     </div>
-    <button class="login-btn" onclick="doLogin()">Sisteme Giriş Yap</button>
+    <button class="login-btn" onclick="handleLogin(this)">Panele Giriş Yap</button>
+    <div class="login-error" id="loginError">Kullanıcı adı veya şifre hatalı</div>
     <div class="login-hint">Demo: admin / 1234</div>
   </div>
 </div>
 
+<!-- SHELL -->
 <div class="shell">
-  <div class="sidebar">
-    <div class="sb-logo">
-      <div class="sb-logo-name">Dr. Çağrı Neyişci</div>
-      <div class="sb-logo-sub">Yönetim Paneli</div>
+
+  <!-- SİDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-logo">⚕️</div>
+      <div class="sb-brand-name">Dr. Çağrı Neyişci</div>
+      <div class="sb-brand-sub">Admin Paneli v2.0</div>
     </div>
     <div class="sb-user">
-      <div class="sb-avatar">HN</div>
-      <div><div class="sb-user-name">Hemşire Nalan</div><div class="sb-user-role">Klinik Asistanı</div></div>
+      <div class="sb-avatar">AD</div>
+      <div>
+        <div class="sb-user-name">Admin</div>
+        <div class="sb-user-role">Sistem Yöneticisi</div>
+      </div>
+      <div class="sb-online" title="Çevrimiçi"></div>
     </div>
-    <div class="sb-nav">
-      <div class="sb-section">Genel</div>
-      <div class="sb-item active" onclick="showPage('dashboard',this)"><span class="sb-item-icon">📊</span> Dashboard</div>
-      <div class="sb-section">Hastalar</div>
-      <div class="sb-item" onclick="showPage('randevular',this)"><span class="sb-item-icon">📅</span> Randevular <span class="sb-badge" id="nav-badge-randevu">0</span></div>
-      <div class="sb-item" onclick="showPage('notlar',this)"><span class="sb-item-icon">📝</span> Hasta Notları</div>
+    <nav class="sb-nav">
+      <div class="sb-section">Dashboard</div>
+      <button class="sb-item active" onclick="showPage('dashboard',this)">
+        <div class="sb-item-icon">📊</div> Dashboard
+      </button>
       <div class="sb-section">İçerik</div>
-      <div class="sb-item" onclick="showPage('tedaviler',this)"><span class="sb-item-icon">🦴</span> Tedavi Sayfaları</div>
+      <button class="sb-item" onclick="showPage('genel',this)">
+        <div class="sb-item-icon">⚙️</div> Genel Ayarlar
+      </button>
+      <button class="sb-item" onclick="showPage('uzmanlik',this)">
+        <div class="sb-item-icon">🦴</div> Uzmanlık Alanları
+      </button>
+      <button class="sb-item" onclick="showPage('sss',this)">
+        <div class="sb-item-icon">❓</div> SSS Yönetimi
+      </button>
+      <div class="sb-section">Hastalar</div>
+      <button class="sb-item" onclick="showPage('randevular',this)">
+        <div class="sb-item-icon">📅</div> Gelen Randevular
+        <span class="sb-badge" id="pendingBadge">3</span>
+      </button>
+      <button class="sb-item" onclick="showPage('mesajlar',this)">
+        <div class="sb-item-icon">✉️</div> Mesajlar
+        <span class="sb-badge warn">2</span>
+      </button>
       <div class="sb-section">Sistem</div>
-      <div class="sb-item" onclick="showPage('ayarlar',this)"><span class="sb-item-icon">⚙️</span> Site Ayarları</div>
+      <button class="sb-item" onclick="window.open('index.html','_blank')">
+        <div class="sb-item-icon">🌐</div> Siteyi Görüntüle
+      </button>
+    </nav>
+    <div class="sb-footer">
+      <button class="sb-logout" onclick="doLogout()">🚪 Çıkış Yap</button>
+      <div class="sb-version">Panel v2.0 · KVKK Uyumlu</div>
     </div>
-    <div class="sb-logout"><button class="sb-logout-btn" onclick="doLogout()">🚪 Oturumu Kapat</button></div>
   </div>
 
+  <!-- MAIN -->
   <div class="main">
+
+    <!-- TOPBAR -->
     <div class="topbar">
-      <div class="topbar-title" id="pageTitle">Dashboard</div>
+      <div class="topbar-left">
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+      </div>
       <div class="topbar-actions">
-        <button class="tb-btn tb-btn-outline" onclick="window.open('../index.html','_blank')">🌐 Siteyi Önizle</button>
-        <button class="tb-btn tb-btn-primary" onclick="openNewRandevuForm()">+ Yeni Randevu Oluştur</button>
+        <button class="tb-btn tb-ghost" onclick="window.open('index.html','_blank')">🌐 Siteyi Gör</button>
+        <button class="tb-btn tb-primary" onclick="showPage('randevular',null)">+ Yeni Randevu</button>
       </div>
     </div>
-    
+
+    <!-- CONTENT -->
     <div class="content">
+
+      <!-- ═══ DASHBOARD ═══ -->
       <div class="page-section active" id="page-dashboard">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">Bekleyen Randevu</div><div class="kpi-val" id="kpi-waiting">0</div><div class="kpi-sub kpi-up">↑ Takip Ediliyor</div></div>
-          <div class="kpi-card"><div class="kpi-label">Toplam Randevu</div><div class="kpi-val" id="kpi-total">0</div><div class="kpi-sub kpi-up">↑ Güncel Veri</div></div>
-          <div class="kpi-card"><div class="kpi-label">Toplam Hasta Notu</div><div class="kpi-val" id="kpi-notes">0</div><div class="kpi-sub kpi-up">↑ Kayıtlı Medikal Not</div></div>
-          <div class="kpi-card"><div class="kpi-label">Site Deneyim Yılı</div><div class="kpi-val" id="kpi-experience">15+</div><div class="kpi-sub kpi-up">↑ Ayarlardan Değişir</div></div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-icon">📅</div>
+              <span class="kpi-change up">↑ Bu hafta +2</span>
+            </div>
+            <div class="kpi-val">3</div>
+            <div class="kpi-lbl">Bekleyen Randevu</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-icon">📊</div>
+              <span class="kpi-change up">↑ %12</span>
+            </div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-lbl">Bu Ay Randevu</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-icon">✉️</div>
+              <span class="kpi-change down">2 yeni</span>
+            </div>
+            <div class="kpi-val">2</div>
+            <div class="kpi-lbl">Okunmamış Mesaj</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <div class="kpi-icon">👁️</div>
+              <span class="kpi-change up">↑ %8</span>
+            </div>
+            <div class="kpi-val">1.4K</div>
+            <div class="kpi-lbl">Bu Hafta Ziyaretçi</div>
+          </div>
         </div>
 
         <div class="panel">
-          <div class="panel-header"><div class="panel-title">📅 Bekleyen Son İstekler</div><span class="panel-action" onclick="showPage('randevular',null)">Tümünü Yönet →</span></div>
-          <table id="dashboard-table">
-            <thead><tr><th>Hasta</th><th>Telefon</th><th>Uzmanlık Alanı</th><th>Tarih</th><th>Durum</th><th>İşlem</th></tr></thead>
-            <tbody></tbody>
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">📅</div> Bekleyen Randevular</div>
+            <span class="panel-action" onclick="showPage('randevular',null)">Tümünü Gör →</span>
+          </div>
+          <table class="admin-table">
+            <thead><tr><th>Hasta</th><th>Telefon</th><th>Uzmanlık</th><th>Tarih</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ahmet Kaya</strong></td><td>0532 xxx xx xx</td><td>Diz Protezi</td><td>25 Oca 2025</td><td><span class="status status-pending">⏳ Bekliyor</span></td><td><div class="act-btns"><button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button><button class="act act-edit">Detay</button></div></td></tr>
+              <tr><td><strong>Fatma Demir</strong></td><td>0545 xxx xx xx</td><td>Menisküs</td><td>26 Oca 2025</td><td><span class="status status-pending">⏳ Bekliyor</span></td><td><div class="act-btns"><button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button><button class="act act-edit">Detay</button></div></td></tr>
+              <tr><td><strong>Ali Yılmaz</strong></td><td>0505 xxx xx xx</td><td>ACL Tedavisi</td><td>28 Oca 2025</td><td><span class="status status-pending">⏳ Bekliyor</span></td><td><div class="act-btns"><button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button><button class="act act-edit">Detay</button></div></td></tr>
+            </tbody>
           </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">🌐</div> Hızlı Erişim</div>
+          </div>
+          <div style="padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+            <button class="tb-btn tb-ghost" onclick="showPage('genel',null)" style="width:100%;height:52px;">⚙️ Genel Ayarlar</button>
+            <button class="tb-btn tb-ghost" onclick="showPage('uzmanlik',null)" style="width:100%;height:52px;">🦴 Uzmanlık</button>
+            <button class="tb-btn tb-ghost" onclick="showPage('sss',null)" style="width:100%;height:52px;">❓ SSS</button>
+            <button class="tb-btn tb-ghost" onclick="showPage('randevular',null)" style="width:100%;height:52px;">📅 Randevular</button>
+          </div>
         </div>
       </div>
 
+      <!-- ═══ GENEL AYARLAR ═══ -->
+      <div class="page-section" id="page-genel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">⚙️</div> Genel Site Ayarları</div>
+          </div>
+          <div style="padding:24px;">
+
+            <div class="form-section">
+              <div class="form-section-title">SEO Bilgileri</div>
+              <div class="form-grid">
+                <div class="form-group form-full">
+                  <label class="form-label" for="meta_title">Meta Başlık <span>*</span></label>
+                  <input id="meta_title" name="meta_title" class="form-input" type="text" value="Dr. Çağrı Neyişci | Ortopedi ve Travmatoloji Uzmanı — Ankara" maxlength="70">
+                  <div class="form-hint">Maksimum 70 karakter önerilir</div>
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="meta_description">Meta Açıklama <span>*</span></label>
+                  <textarea id="meta_description" name="meta_description" class="form-textarea" style="min-height:70px;" maxlength="160">Ankara'da ortopedi ve travmatoloji uzmanı Dr. Çağrı Neyişci ile minimal invaziv diz, omuz, kalça ve omurga tedavisi. Randevu için ulaşın.</textarea>
+                  <div class="form-hint">Maksimum 160 karakter önerilir</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">İletişim Bilgileri</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="whatsapp_number">WhatsApp Numarası <span>*</span></label>
+                  <input id="whatsapp_number" name="whatsapp_number" class="form-input" type="tel" placeholder="90XXXXXXXXXX" value="90XXXXXXXXXX">
+                  <div class="form-hint">Ülke koduyla birlikte, boşluksuz</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="phone_number">Telefon Numarası</label>
+                  <input id="phone_number" name="phone_number" class="form-input" type="tel" placeholder="+90 000 000 00 00">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="email_address">E-posta Adresi</label>
+                  <input id="email_address" name="email_address" class="form-input" type="email" value="info@drcagrineyisci.com">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="clinic_address">Klinik Adresi</label>
+                  <input id="clinic_address" name="clinic_address" class="form-input" type="text" value="Oğuzlar, 1422. Sk., 06520 Çankaya / Ankara">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Çalışma Saatleri</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="hours_weekday">Pazartesi – Cuma</label>
+                  <input id="hours_weekday" name="hours_weekday" class="form-input" type="text" value="09:00 – 18:00">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="hours_saturday">Cumartesi</label>
+                  <input id="hours_saturday" name="hours_saturday" class="form-input" type="text" value="09:00 – 13:00">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Sosyal Medya Linkleri</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="social_instagram">Instagram URL</label>
+                  <input id="social_instagram" name="social_instagram" class="form-input" type="url" placeholder="https://instagram.com/kullaniciad">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="social_youtube">YouTube URL</label>
+                  <input id="social_youtube" name="social_youtube" class="form-input" type="url" placeholder="https://youtube.com/@kanal">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="social_linkedin">LinkedIn URL</label>
+                  <input id="social_linkedin" name="social_linkedin" class="form-input" type="url" placeholder="https://linkedin.com/in/kullaniciad">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="google_maps_embed">Google Maps Embed URL</label>
+                  <input id="google_maps_embed" name="google_maps_embed" class="form-input" type="url" placeholder="https://maps.google.com/maps?q=...">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="save-bar">
+            <div class="save-note">⚠️ Kayıt sonrası site dosyalarını güncellemeniz gerekebilir</div>
+            <button id="save-general-settings" class="save-btn" onclick="saveSuccess(this)">💾 Ayarları Kaydet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ UZMANLIK ALANLARI ═══ -->
+      <div class="page-section" id="page-uzmanlik">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">🦴</div> Uzmanlık Alanı Düzenle</div>
+          </div>
+          <div style="padding:24px;">
+
+            <div class="form-section">
+              <div class="form-section-title">Uzmanlık Seçimi</div>
+              <div class="form-group">
+                <label class="form-label" for="specialty_select">Düzenlenecek Sayfa <span>*</span></label>
+                <select id="specialty_select" name="specialty_select" class="form-select" onchange="loadSpecialty(this.value)">
+                  <option value="">— Uzmanlık Seçin —</option>
+                  <option value="diz-protezi">Diz Protezi Ameliyatı</option>
+                  <option value="meniskus">Menisküs Yırtığı</option>
+                  <option value="on-capraz-bag">Ön Çapraz Bağ (ACL)</option>
+                  <option value="omuz-artroskopi">Omuz Artroskopi</option>
+                  <option value="kalca-protezi">Kalça Protezi</option>
+                  <option value="omurga">Bel Fıtığı Cerrahisi</option>
+                  <option value="boyun-fitigi">Boyun Fıtığı</option>
+                  <option value="rotator-manset">Rotator Manşet Yırtığı</option>
+                  <option value="kalca-kirigi">Kalça Kırığı Tedavisi</option>
+                  <option value="pcl">Arka Çapraz Bağ (PCL)</option>
+                  <option value="omuz-cikigi">Tekrarlayan Omuz Çıkığı</option>
+                  <option value="spinal-stenoz">Spinal Kanal Darlığı</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Kart ve Hero Bilgileri</div>
+              <div class="form-grid">
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_page_title">Sayfa Başlığı (H1) <span>*</span></label>
+                  <input id="specialty_page_title" name="specialty_page_title" class="form-input" type="text" placeholder="Diz Protezi Ameliyatı">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_hero_mark">Hero Alt Başlık (Turkuaz kısım)</label>
+                  <input id="specialty_hero_mark" name="specialty_hero_mark" class="form-input" type="text" placeholder="Ağrısız ve Aktif Bir Yaşama Dönün">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_card_title">Bento Kart Başlığı</label>
+                  <input id="specialty_card_title" name="specialty_card_title" class="form-input" type="text" placeholder="Diz Protezi Ameliyatı">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_card_desc">Bento Kart Açıklaması</label>
+                  <input id="specialty_card_desc" name="specialty_card_desc" class="form-input" type="text" placeholder="Kısa açıklama (max 120 karakter)" maxlength="120">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="specialty_duration">Ameliyat Süresi</label>
+                  <input id="specialty_duration" name="specialty_duration" class="form-input" type="text" placeholder="60–90 dk">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="specialty_hospital">Hastane Süresi</label>
+                  <input id="specialty_hospital" name="specialty_hospital" class="form-input" type="text" placeholder="2–3 gün">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="specialty_recovery">İyileşme Süresi</label>
+                  <input id="specialty_recovery" name="specialty_recovery" class="form-input" type="text" placeholder="6–12 hafta">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="specialty_success">Başarı Oranı</label>
+                  <input id="specialty_success" name="specialty_success" class="form-input" type="text" placeholder="%95">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">SEO ve İçerik</div>
+              <div class="form-grid">
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_meta_title">SEO Başlığı</label>
+                  <input id="specialty_meta_title" name="specialty_meta_title" class="form-input" type="text" placeholder="Diz Protezi Ameliyatı: Belirtiler, Tedavi ve İyileşme">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_meta_desc">SEO Açıklaması</label>
+                  <textarea id="specialty_meta_desc" name="specialty_meta_desc" class="form-textarea" style="min-height:70px;" placeholder="Google'da görünecek açıklama metni (max 160 karakter)" maxlength="160"></textarea>
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_lead">Giriş Paragrafı (Lead)</label>
+                  <textarea id="specialty_lead" name="specialty_lead" class="form-textarea" style="min-height:80px;" placeholder="Hero bölümündeki kısa açıklama metni"></textarea>
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="specialty_content">Detay Sayfa İçeriği</label>
+                  <textarea id="specialty_content" name="specialty_content" class="form-textarea" style="min-height:200px;" placeholder="&#39;Nedir?&#39; bölümünün ilk paragrafı, belirtiler, nedenler vb. (HTML desteklenmez, düz metin)"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="save-bar">
+            <div class="save-note">ID: <code id="specialty_id_display" style="color:var(--sky);">—</code></div>
+            <button id="save-specialty" class="save-btn" onclick="saveSuccess(this)">💾 Uzmanlığı Kaydet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SSS YÖNETİMİ ═══ -->
+      <div class="page-section" id="page-sss">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">❓</div> SSS Yönetimi</div>
+            <button class="toggle-add" onclick="toggleAddFaq()">+ Yeni Soru Ekle</button>
+          </div>
+          <div style="padding:16px;">
+
+            <!-- Yeni Soru Formu -->
+            <div class="add-form-card" id="addFaqForm">
+              <div class="form-grid">
+                <div class="form-group form-full">
+                  <label class="form-label" for="faq_new_question">Soru Metni <span>*</span></label>
+                  <input id="faq_new_question" name="faq_new_question" class="form-input" type="text" placeholder="Ameliyat öncesinde ne yapmalıyım?">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="faq_new_answer">Cevap Metni <span>*</span></label>
+                  <textarea id="faq_new_answer" name="faq_new_answer" class="form-textarea" style="min-height:80px;" placeholder="Cevap metnini buraya yazın..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="faq_new_page">İlgili Sayfa</label>
+                  <select id="faq_new_page" name="faq_new_page" class="form-select">
+                    <option value="all">Tüm Sayfalar</option>
+                    <option value="diz-protezi">Diz Protezi</option>
+                    <option value="meniskus">Menisküs</option>
+                    <option value="omurga">Omurga</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="faq_new_order">Sıra Numarası</label>
+                  <input id="faq_new_order" name="faq_new_order" class="form-input" type="number" min="1" value="1">
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:12px;">
+                <button id="save-faq-new" class="save-btn" onclick="addFaqItem()" style="padding:9px 20px;font-size:12.5px;">💾 Soruyu Kaydet</button>
+                <button class="tb-btn tb-ghost" onclick="toggleAddFaq()">İptal</button>
+              </div>
+            </div>
+
+            <!-- Mevcut SSS Listesi -->
+            <div id="faqList">
+              <div class="faq-admin-item">
+                <div class="faq-admin-q">Ameliyat öncesinde ne gibi hazırlıklar yapmalıyım?</div>
+                <div class="faq-admin-a">Ameliyat öncesi kan tahlilleri, görüntüleme ve kardiyoloji değerlendirmeleri yapılır. Kan sulandırıcı ilaçlar en az 5 gün önceden kesilmelidir.</div>
+                <div class="faq-admin-foot"><span class="faq-order">Sayfa: Tümü · Sıra: 1</span><div class="act-btns"><button class="act act-edit" id="save-faq-1">✏️ Düzenle</button><button class="act act-del">🗑 Sil</button></div></div>
+              </div>
+              <div class="faq-admin-item">
+                <div class="faq-admin-q">Diz protezi sonrası ne zaman yürüyebilirim?</div>
+                <div class="faq-admin-a">Çoğu hastamız ameliyattan sonraki gün yürüyüş egzersizlerine başlar. Taburculuk genellikle 2–3. günde gerçekleşir.</div>
+                <div class="faq-admin-foot"><span class="faq-order">Sayfa: Diz Protezi · Sıra: 1</span><div class="act-btns"><button class="act act-edit" id="save-faq-2">✏️ Düzenle</button><button class="act act-del">🗑 Sil</button></div></div>
+              </div>
+              <div class="faq-admin-item">
+                <div class="faq-admin-q">Menisküs ameliyatı şart mı, alternatif tedavi var mı?</div>
+                <div class="faq-admin-a">Her vaka bireysel değerlendirilir. Hafif yırtıklarda fizik tedavi ve PRP uygulanabilir.</div>
+                <div class="faq-admin-foot"><span class="faq-order">Sayfa: Menisküs · Sıra: 1</span><div class="act-btns"><button class="act act-edit" id="save-faq-3">✏️ Düzenle</button><button class="act act-del">🗑 Sil</button></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ RANDEVULAR ═══ -->
       <div class="page-section" id="page-randevular">
-        <div class="tabs">
-          <div class="tab active" onclick="filterRandevuTab('Bekliyor', this)">⏳ Bekleyenler</div>
-          <div class="tab" onclick="filterRandevuTab('Onaylandı', this)">✅ Onaylananlar</div>
-          <div class="tab" onclick="filterRandevuTab('İptal Edildi', this)">❌ İptal Edilenler</div>
-        </div>
-
-        <div class="form-panel" id="newRandevuPanel" style="display:none; border-color: #1A6FA8;">
-          <div style="font-size:14px;font-weight:700;color:#0F2744;margin-bottom:14px;">📅 + Yeni Randevu İsteyi Ekle</div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Hasta Adı Soyadı</label><input class="form-input" id="newFormName" placeholder="Ahmet Kaya"></div>
-            <div class="form-group"><label class="form-label">Telefon Numarası</label><input class="form-input" id="newFormPhone" placeholder="0532..."></div>
-            <div class="form-group"><label class="form-label">Uzmanlık / Tedavi</label>
-              <select class="form-select" id="newFormBranch">
-                <option>Diz Protezi</option><option>Menisküs</option><option>ACL Tedavisi</option><option>Omuz Artroskopi</option>
-              </select>
-            </div>
-            <div class="form-group"><label class="form-label">Randevu Tarihi</label><input class="form-input" type="date" id="newFormDate"></div>
-            <div class="form-group form-full"><label class="form-label">Hasta Şikayeti / Ön Not</label><textarea class="form-textarea" id="newFormNote" placeholder="Şikayet detayları..."></textarea></div>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:14px;">
-            <button class="tb-btn tb-btn-primary" onclick="saveNewRandevu()">💾 Randevuyu Kaydet</button>
-            <button class="tb-btn tb-btn-outline" onclick="document.getElementById('newRandevuPanel').style.display='none'">Kapat</button>
-          </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="tb-btn tb-primary" onclick="filterRandevu('all',this)">Tümü (7)</button>
+          <button class="tb-btn tb-ghost" onclick="filterRandevu('bekliyor',this)">⏳ Bekliyor (3)</button>
+          <button class="tb-btn tb-ghost" onclick="filterRandevu('onaylandi',this)">✅ Onaylandı (3)</button>
+          <button class="tb-btn tb-ghost" onclick="filterRandevu('iptal',this)">❌ İptal (1)</button>
         </div>
 
         <div class="panel">
-          <table id="main-randevu-table">
-            <thead><tr><th>Hasta Adı</th><th>Telefon</th><th>Uzmanlık</th><th>Tarih</th><th>Açıklama</th><th>Durum</th><th>İşlem</th></tr></thead>
-            <tbody></tbody>
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">📅</div> Randevu Listesi</div>
+          </div>
+          <table class="admin-table" id="randevuTable">
+            <thead>
+              <tr>
+                <th>Ad Soyad</th><th>Telefon</th><th>E-posta</th>
+                <th>Uzmanlık</th><th>Tarih / Saat</th><th>Not</th>
+                <th>Durum</th><th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-status="bekliyor">
+                <td><strong>Ahmet Kaya</strong></td>
+                <td>0532 xxx</td><td>ahmet@...</td>
+                <td>Diz Protezi</td><td>25 Oca 2025<br><small style="color:var(--text-muted)">14:00</small></td>
+                <td>Sağ diz kireçlenmesi</td>
+                <td><span class="status status-pending">⏳ Bekliyor</span></td>
+                <td><div class="act-btns">
+                  <button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button>
+                  <button class="act act-edit">✏️ Not</button>
+                  <button class="act act-del">✗</button>
+                </div></td>
+              </tr>
+              <tr data-status="bekliyor">
+                <td><strong>Fatma Demir</strong></td>
+                <td>0545 xxx</td><td>fatma@...</td>
+                <td>Menisküs</td><td>26 Oca 2025<br><small style="color:var(--text-muted)">10:30</small></td>
+                <td>Sol diz, spor yaralanması</td>
+                <td><span class="status status-pending">⏳ Bekliyor</span></td>
+                <td><div class="act-btns">
+                  <button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button>
+                  <button class="act act-edit">✏️ Not</button>
+                  <button class="act act-del">✗</button>
+                </div></td>
+              </tr>
+              <tr data-status="bekliyor">
+                <td><strong>Ali Yılmaz</strong></td>
+                <td>0505 xxx</td><td>ali@...</td>
+                <td>ACL</td><td>28 Oca 2025<br><small style="color:var(--text-muted)">11:00</small></td>
+                <td>Futbol maçında yaralandı</td>
+                <td><span class="status status-pending">⏳ Bekliyor</span></td>
+                <td><div class="act-btns">
+                  <button class="act act-approve" onclick="approveRow(this)">✓ Onayla</button>
+                  <button class="act act-edit">✏️ Not</button>
+                  <button class="act act-del">✗</button>
+                </div></td>
+              </tr>
+              <tr data-status="onaylandi">
+                <td><strong>Zeynep Arslan</strong></td>
+                <td>0555 xxx</td><td>zeynep@...</td>
+                <td>Omuz</td><td>20 Oca 2025<br><small style="color:var(--text-muted)">09:00</small></td>
+                <td>—</td>
+                <td><span class="status status-done">✅ Onaylandı</span></td>
+                <td><div class="act-btns"><button class="act act-done">Tamamlandı</button></div></td>
+              </tr>
+              <tr data-status="onaylandi">
+                <td><strong>Mehmet Çelik</strong></td>
+                <td>0533 xxx</td><td>mehmet@...</td>
+                <td>Kalça Protezi</td><td>22 Oca 2025<br><small style="color:var(--text-muted)">15:30</small></td>
+                <td>Sol kalça ağrısı kronik</td>
+                <td><span class="status status-done">✅ Onaylandı</span></td>
+                <td><div class="act-btns"><button class="act act-done">Tamamlandı</button></div></td>
+              </tr>
+              <tr data-status="iptal">
+                <td><strong>Hasan Öz</strong></td>
+                <td>0551 xxx</td><td>hasan@...</td>
+                <td>Bel Fıtığı</td><td>15 Oca 2025<br><small style="color:var(--text-muted)">13:00</small></td>
+                <td>Seyahat nedeniyle iptal</td>
+                <td><span class="status status-cancelled">❌ İptal</span></td>
+                <td><div class="act-btns"><button class="act act-edit">Yeniden Planla</button></div></td>
+              </tr>
+            </tbody>
           </table>
         </div>
-
-        <div class="form-panel" id="noteForm" style="display:none;">
-          <div style="font-size:14px;font-weight:700;color:#0F2744;margin-bottom:14px;">📝 Seçili Hastaya Medikal Not Ekle & Güncelle</div>
-          <input type="hidden" id="noteFormIndex">
-          <div class="form-grid">
-            <div class="form-group form-full"><label class="form-label">Hekim/Asistan Notu</label><textarea class="form-textarea" id="noteFormText" placeholder="Ameliyat notları, kontrol durumları..."></textarea></div>
-            <div class="form-group"><label class="form-label">Durumu Güncelle</label>
-              <select class="form-select" id="noteFormStatus">
-                <option>Bekliyor</option><option>Onaylandı</option><option>İptal Edilenler</option>
-              </select>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:14px;">
-            <button class="tb-btn tb-btn-primary" onclick="savePatientNoteAndStatus()">💾 Bilgileri Güncelle</button>
-            <button class="tb-btn tb-btn-outline" onclick="document.getElementById('noteForm').style.display='none'">İptal</button>
-          </div>
-        </div>
       </div>
 
-      <div class="page-section" id="page-notlar">
+      <!-- ═══ MESAJLAR ═══ -->
+      <div class="page-section" id="page-mesajlar">
         <div class="panel">
-          <div class="panel-header"><div class="panel-title">📝 Kronolojik Hasta Medikal Notları</div></div>
-          <div style="padding:20px;" id="notes-container"></div>
-        </div>
-      </div>
-
-      <div class="page-section" id="page-tedaviler">
-        <div class="panel">
-          <div class="panel-header"><div class="panel-title">🦴 Klinik Tedavi Sayfaları Ayarları</div></div>
-          <table>
-            <thead><tr><th>Sayfa Adı</th><th>Ameliyat Süresi</th><th>Hastane Kalışı</th><th>İlk Yürüyüş</th><th>İşlem</th></tr></thead>
-            <tbody id="treatment-table-body"></tbody>
+          <div class="panel-header">
+            <div class="panel-title"><div class="panel-title-icon">✉️</div> Gelen Mesajlar</div>
+          </div>
+          <table class="admin-table">
+            <thead><tr><th>Ad Soyad</th><th>Telefon</th><th>Konu</th><th>Tarih</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ayşe Kılıç</strong></td><td>0542 xxx</td><td>Fiyat bilgisi istiyorum</td><td>20 Oca 2025</td><td><span class="status status-new">🔵 Yeni</span></td><td><div class="act-btns"><button class="act act-approve">Oku & Yanıtla</button></div></td></tr>
+              <tr><td><strong>Hasan Yıldız</strong></td><td>0533 xxx</td><td>Online konsültasyon hakkında</td><td>19 Oca 2025</td><td><span class="status status-new">🔵 Yeni</span></td><td><div class="act-btns"><button class="act act-approve">Oku & Yanıtla</button></div></td></tr>
+              <tr><td><strong>Reyhan Mor</strong></td><td>0551 xxx</td><td>Randevu değişikliği</td><td>18 Oca 2025</td><td><span class="status status-done">✅ Yanıtlandı</span></td><td><div class="act-btns"><button class="act act-edit">Detay</button></div></td></tr>
+            </tbody>
           </table>
         </div>
       </div>
 
-      <div class="page-section" id="page-ayarlar">
-        <div class="form-panel">
-          <div style="font-size:15px;font-weight:800;color:#0F2744;margin-bottom:20px;">⚙️ Genel Web Sitesi Ayarları</div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Doktor Adı Soyadı</label><input class="form-input" id="settings-docname"></div>
-            <div class="form-group"><label class="form-label">Uzmanlık Unvanı</label><input class="form-input" id="settings-title"></div>
-            <div class="form-group"><label class="form-label">WhatsApp İletişim Hattı</label><input class="form-input" id="settings-whatsapp"></div>
-            <div class="form-group"><label class="form-label">Klinik Telefon</label><input class="form-input" id="settings-phone"></div>
-            <div class="form-group"><label class="form-label">Ameliyat Sayısı Sayacı (KPI)</label><input class="form-input" id="settings-kpi1"></div>
-            <div class="form-group"><label class="form-label">Deneyim Yılı Sayacı (KPI)</label><input class="form-input" id="settings-kpi2"></div>
-          </div>
-          <div style="margin-top:24px;"><button class="tb-btn tb-btn-primary" onclick="saveGeneralSettings()">💾 Ayarları Veritabanına Kaydet</button></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
 
 <script>
-// INITIAL SEED DATA (Veritabanı boşsa yüklenecek varsayılan veriler)
-const defaultRandevular = [
-  {name: "Ahmet Kaya", phone: "0532 111 22 33", branch: "Diz Protezi", date: "2026-05-25", note: "Sağ dizde şiddetli kireçlenme mevcut.", status: "Bekliyor"},
-  {name: "Fatma Demir", phone: "0545 444 55 66", branch: "Menisküs", date: "2026-05-26", note: "Yırtık şüphesi, spor yaralanması.", status: "Bekliyor"},
-  {name: "Ali Yılmaz", phone: "0505 777 88 99", branch: "ACL Tedavisi", date: "2026-05-28", note: "Halı saha maçında dönme.", status: "Onaylandı"}
-];
+/* ══════════════════════════════════════════════════════════════
+   SUPABASE İSTEMCİSİ
+   CDN zaten head'de yüklendi — burada doğrudan başlatıyoruz.
+   Değişken adı: supabaseClient (window.supabase ile çakışmaz)
+══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL      = 'https://eiuyluyysyfphggkshad.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdXlsdXl5c3lmcGhnZ2tzaGFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDU4NTUsImV4cCI6MjA5NTIyMTg1NX0.ehlSS8_uzkwnzcMFANz5YuUl37NTi9a5S_vSwz-n0Jc';
 
-const defaultNotes = [
-  {patient: "Ahmet Kaya — Diz Protezi", date: "22 Mayıs 2026", text: "Ameliyat öncesi tetkikler tamamlandı. Anestezi onayı alındı.", author: "👩‍⚕️ Hemşire Nalan"},
-  {patient: "Ali Yılmaz — ACL Tedavisi", date: "19 Mayıs 2026", text: "Fizyoterapi hareketleri verildi, ödem kontrol altına alındı.", author: "👩‍⚕️ Hemşire Nalan"}
-];
+// window.supabase → CDN global nesnesi; supabaseClient → bizim istemcimiz
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const defaultSettings = {docName: "Dr. Çağrı Neyişci", title: "Ortopedi ve Travmatoloji Uzmanı", whatsapp: "+90 500 000 00 00", phone: "+90 312 000 00 00", kpi1: "2500+", kpi2: "15+ yıl"};
-
-const defaultTreatments = [
-  {slug: "diz", title: "Diz Protezi Ameliyatı", duration: "60 - 90 dk", stay: "2 - 3 gün", walk: "1. Gün Kontrollü Yürüyüş"}
-];
-
-// REPOSITORY / DATABASE MANAGERS
-let randevular = JSON.parse(localStorage.getItem('db_randevular')) || defaultRandevular;
-let notes = JSON.parse(localStorage.getItem('db_notes')) || defaultNotes;
-let settings = JSON.parse(localStorage.getItem('db_settings')) || defaultSettings;
-let treatments = JSON.parse(localStorage.getItem('db_treatments')) || defaultTreatments;
-
-function syncDB() {
-  localStorage.setItem('db_randevular', JSON.stringify(randevular));
-  localStorage.setItem('db_notes', JSON.stringify(notes));
-  localStorage.setItem('db_settings', JSON.stringify(settings));
-  localStorage.setItem('db_treatments', JSON.stringify(treatments));
-  renderAll();
+/* ══════════════════════════════════════════════════════════════
+   TOAST BİLDİRİMİ
+══════════════════════════════════════════════════════════════ */
+function toast(msg, type = 'success') {
+  const t = document.createElement('div');
+  t.style.cssText = `
+    position:fixed;bottom:24px;right:24px;z-index:9999;
+    padding:12px 22px;border-radius:10px;font-size:13px;font-weight:600;
+    color:#fff;animation:toastIn .3s ease;
+    box-shadow:0 6px 20px rgba(0,0,0,.3);
+    background:${type === 'success'
+      ? 'linear-gradient(135deg,#1A6FA8,#38BDAA)'
+      : 'linear-gradient(135deg,#e05252,#c0392b)'};`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
 }
 
-// SECURITY
-function doLogin(){
-  const u = document.getElementById('loginUser').value;
-  const p = document.getElementById('loginPass').value;
-  if(u === 'admin' && p === '1234'){
+/* ══════════════════════════════════════════════════════════════
+   GİRİŞ — handleLogin (Supabase Auth v2)
+   Butona tıklayınca çağrılır: onclick="handleLogin(this)"
+══════════════════════════════════════════════════════════════ */
+async function handleLogin(btn) {
+  const emailEl = document.getElementById('login-username');
+  const passEl  = document.getElementById('login-password');
+  const errEl   = document.getElementById('loginError');
+
+  const email    = emailEl.value.trim();
+  const password = passEl.value.trim();
+
+  if (!email || !password) {
+    errEl.textContent = 'Kullanıcı adı ve şifre zorunludur.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = '🔒 Doğrulanıyor...';
+  errEl.classList.remove('show');
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) throw error;
+
+    // Başarılı giriş
     document.getElementById('loginScreen').classList.add('hidden');
-  } else {
-    alert('Hatalı Giriş Bilgileri!');
+    loadDashboard();
+    toast('✅ Giriş başarılı!');
+  } catch (err) {
+    console.error('Giriş hatası:', err);
+    const msg = err.message === 'Invalid login credentials'
+      ? 'E-posta veya şifre hatalı.'
+      : err.message || 'Bilinmeyen hata.';
+    errEl.textContent = msg;
+    errEl.classList.add('show');
+    passEl.value = '';
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Panele Giriş Yap';
   }
 }
-function doLogout(){ document.getElementById('loginScreen').classList.remove('hidden'); }
 
-// ROUTING
-function showPage(id, el){
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
-  if(el) el.classList.add('active');
-  
-  const titles = {dashboard:'Dashboard', randevular:'Randevu Kontrol Merkezi', notlar:'Hasta Medikal Geçmişi', tedaviler:'Tedavi İçerik Yönetimi', ayarlar:'Sistem ve Klinik Ayarları'};
-  document.getElementById('pageTitle').textContent = titles[id] || id;
+/* Demo giriş (Supabase Auth kullanmak istemeyenler için yedek) */
+function doLogin() {
+  const u = document.getElementById('login-username').value.trim();
+  const p = document.getElementById('login-password').value.trim();
+  if (u === 'admin' && p === '1234') {
+    document.getElementById('loginScreen').classList.add('hidden');
+    loadDashboard();
+  } else {
+    const e = document.getElementById('loginError');
+    e.textContent = 'Kullanıcı adı veya şifre hatalı.';
+    e.classList.add('show');
+    document.getElementById('login-password').value = '';
+  }
 }
 
-// FORMATTERS
-function getBadgeClass(status) {
-  if(status === 'Onaylandı') return 'badge-green';
-  if(status === 'Bekliyor') return 'badge-yellow';
-  return 'badge-red';
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const btn = document.querySelector('.login-btn');
+    handleLogin(btn);
+  }
+});
+
+function doLogout() {
+  supabaseClient.auth.signOut().catch(() => {});
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('loginError').classList.remove('show');
 }
 
-// RENDER ENGINE
-function renderAll() {
-  // KPIs
-  const waitingCount = randevular.filter(r => r.status === 'Bekliyor').length;
-  document.getElementById('kpi-waiting').textContent = waitingCount;
-  document.getElementById('kpi-total').textContent = randevular.length;
-  document.getElementById('kpi-notes').textContent = notes.length;
-  document.getElementById('kpi-experience').textContent = settings.kpi2;
-  document.getElementById('nav-badge-randevu').textContent = waitingCount;
-
-  // Dashboard Table
-  const dashBody = document.querySelector('#dashboard-table tbody');
-  dashBody.innerHTML = '';
-  randevular.filter(r => r.status === 'Bekliyor').forEach((r, idx) => {
-    dashBody.innerHTML += `
-      <tr>
-        <td><b>${r.name}</b></td>
-        <td>${r.phone}</td>
-        <td>${r.branch}</td>
-        <td>${r.date}</td>
-        <td><span class="badge ${getBadgeClass(r.status)}">⏳ ${r.status}</span></td>
-        <td><div class="action-btns"><button class="act-btn act-btn-approve" onclick="quickApprove('${r.name}')">✓ Onayla</button></div></td>
-      </tr>`;
-  });
-
-  // Settings Load
-  document.getElementById('settings-docname').value = settings.docName;
-  document.getElementById('settings-title').value = settings.title;
-  document.getElementById('settings-whatsapp').value = settings.whatsapp;
-  document.getElementById('settings-phone').value = settings.phone;
-  document.getElementById('settings-kpi1').value = settings.kpi1;
-  document.getElementById('settings-kpi2').value = settings.kpi2;
-
-  // Patient Notes Load
-  const notesContainer = document.getElementById('notes-container');
-  notesContainer.innerHTML = '';
-  notes.forEach(n => {
-    notesContainer.innerHTML += `
-      <div class="note-card">
-        <div class="note-card-header"><div class="note-patient">${n.patient}</div><div class="note-date">${n.date}</div></div>
-        <div class="note-text">${n.text}</div>
-        <div class="note-author">${n.author}</div>
-      </div>`;
-  });
-
-  // Treatment Pages Load
-  const treatBody = document.getElementById('treatment-table-body');
-  treatBody.innerHTML = '';
-  treatments.forEach(t => {
-    treatBody.innerHTML += `
-      <tr>
-        <td><b>${t.title}</b></td>
-        <td>${t.duration}</td>
-        <td>${t.stay}</td>
-        <td>${t.walk}</td>
-        <td><button class="act-btn act-btn-edit" onclick="alert('Modül Aktif: Şablon dosyalarınızı doğrudan etkiler.')">Düzenle</button></td>
-      </tr>`;
-  });
-
-  // Load Main Appointments Table
-  filterRandevuTab('Bekliyor', document.querySelector('.tabs .tab'));
-}
-
-// APPOINTMENT BUSINESS LOGIC
-let currentFilter = 'Bekliyor';
-function filterRandevuTab(status, tabEl) {
-  currentFilter = status;
-  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-  if(tabEl) tabEl.classList.add('active');
-
-  const mainTableBody = document.querySelector('#main-randevu-table tbody');
-  mainTableBody.innerHTML = '';
-
-  randevular.forEach((r, idx) => {
-    let checkStatus = r.status;
-    if(status === 'İptal Edilenler' && r.status === 'İptal Edildi') checkStatus = 'İptal Edilenler';
-    
-    if(r.status === status || (status === 'İptal Edilenler' && r.status === 'İptal Edildi')) {
-      mainTableBody.innerHTML += `
-        <tr>
-          <td><b>${r.name}</b></td>
-          <td>${r.phone}</td>
-          <td>${r.branch}</td>
-          <td>${r.date}</td>
-          <td><small>${r.note}</small></td>
-          <td><span class="badge ${getBadgeClass(r.status)}">${r.status}</span></td>
-          <td>
-            <div class="action-btns">
-              ${r.status === 'Bekliyor' ? `<button class="act-btn act-btn-approve" onclick="changeStatus(${idx}, 'Onaylandı')">Onayla</button>` : ''}
-              ${r.status === 'Bekliyor' ? `<button class="act-btn act-btn-reject" onclick="changeStatus(${idx}, 'İptal Edildi')">İptal Et</button>` : ''}
-              <button class="act-btn act-btn-edit" onclick="openNoteForm(${idx})">📝 Not/İşlem</button>
-            </div>
-          </td>
-        </tr>`;
-    }
-  });
-}
-
-function changeStatus(index, newStatus) {
-  randevular[index].status = newStatus;
-  syncDB();
-}
-
-function quickApprove(name) {
-  const idx = randevular.findIndex(r => r.name === name);
-  if(idx !== -1) changeStatus(idx, 'Onaylandı');
-}
-
-function openNewRandevuForm() {
-  showPage('randevular', document.querySelectorAll('.sb-item')[1]);
-  document.getElementById('newRandevuPanel').style.display = 'block';
-  document.getElementById('newFormDate').valueAsDate = new Date();
-}
-
-function saveNewRandevu() {
-  const name = document.getElementById('newFormName').value;
-  const phone = document.getElementById('newFormPhone').value;
-  const branch = document.getElementById('newFormBranch').value;
-  const date = document.getElementById('newFormDate').value;
-  const note = document.getElementById('newFormNote').value;
-
-  if(!name || !phone) { alert('Lütfen hasta adı ve telefonunu doldurun.'); return; }
-
-  randevular.push({name, phone, branch, date, note, status: 'Bekliyor'});
-  syncDB();
-  document.getElementById('newRandevuPanel').style.display = 'none';
-  alert('Yeni randevu isteği başarıyla eklendi!');
-}
-
-function openNoteForm(index) {
-  document.getElementById('noteForm').style.display = 'block';
-  document.getElementById('noteFormIndex').value = index;
-  document.getElementById('noteFormText').value = randevular[index].note;
-  document.getElementById('noteFormStatus').value = randevular[index].status === 'İptal Edildi' ? 'İptal Edilenler' : randevular[index].status;
-  document.getElementById('noteForm').scrollIntoView({behavior:'smooth'});
-}
-
-function savePatientNoteAndStatus() {
-  const index = document.getElementById('noteFormIndex').value;
-  const text = document.getElementById('noteFormText').value;
-  let status = document.getElementById('noteFormStatus').value;
-  if(status === 'İptal Edilenler') status = 'İptal Edildi';
-
-  randevular[index].note = text;
-  randevular[index].status = status;
-
-  // Ayrıca geçmiş kartlarına da bir medikal kayıt atalım
-  const today = new Date().toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' });
-  notes.unshift({
-    patient: `${randevular[index].name} — ${randevular[index].branch}`,
-    date: today,
-    text: text || "Durum güncellemesi yapıldı.",
-    author: "👩‍⚕️ Hemşire Nalan"
-  });
-
-  syncDB();
-  document.getElementById('noteForm').style.display = 'none';
-  alert('Hasta bilgileri güncellendi ve klinik geçmişine işlendi.');
-}
-
-function saveGeneralSettings() {
-  settings.docName = document.getElementById('settings-docname').value;
-  settings.title = document.getElementById('settings-title').value;
-  settings.whatsapp = document.getElementById('settings-whatsapp').value;
-  settings.phone = document.getElementById('settings-phone').value;
-  settings.kpi1 = document.getElementById('settings-kpi1').value;
-  settings.kpi2 = document.getElementById('settings-kpi2').value;
-  syncDB();
-  alert('Sistem ve site ayarları başarıyla kaydedildi!');
-}
-
-// RUN ON LAUNCH
-window.onload = function() {
-  renderAll();
+/* ══════════════════════════════════════════════════════════════
+   SAYFA GEÇİŞİ
+══════════════════════════════════════════════════════════════ */
+const PAGE_TITLES = {
+  dashboard: 'Dashboard',
+  genel:     'Genel Ayarlar',
+  uzmanlik:  'Uzmanlık Alanları',
+  sss:       'SSS Yönetimi',
+  randevular:'Gelen Randevular',
+  mesajlar:  'Mesajlar',
 };
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) titleEl.textContent = PAGE_TITLES[id] || id;
+
+  if (id === 'dashboard')  loadDashboard();
+  if (id === 'genel')      loadGenelAyarlar();
+  if (id === 'randevular') loadRandevular();
+  if (id === 'sss')        loadSSSList();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DASHBOARD — KPI
+══════════════════════════════════════════════════════════════ */
+async function loadDashboard() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('randevular')
+      .select('id,durum')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+
+    const bekleyen = (data || []).filter(r => r.durum === 'Bekliyor').length;
+    const toplam   = (data || []).length;
+
+    const kpis = document.querySelectorAll('.kpi-val');
+    if (kpis[0]) kpis[0].textContent = bekleyen;
+    if (kpis[1]) kpis[1].textContent = toplam;
+
+    const badge = document.getElementById('pendingBadge');
+    if (badge) {
+      badge.textContent    = bekleyen > 0 ? bekleyen : '';
+      badge.style.display  = bekleyen > 0 ? '' : 'none';
+    }
+  } catch (e) {
+    console.error('Dashboard yükleme:', e.message);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GENEL AYARLAR
+══════════════════════════════════════════════════════════════ */
+async function loadGenelAyarlar() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('site_ayarlari')
+      .select('*')
+      .eq('id', 1)
+      .single();
+    if (error) return; // Tablo henüz boş olabilir
+
+    const fields = [
+      'meta_title','meta_description','whatsapp_number','phone_number',
+      'email_address','clinic_address','hours_weekday','hours_saturday',
+      'social_instagram','social_youtube','social_linkedin','google_maps_embed',
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f);
+      if (el && data[f] != null) el.value = data[f];
+    });
+  } catch (e) {
+    console.error('Genel ayarlar yükleme:', e.message);
+  }
+}
+
+document.getElementById('save-general-settings').addEventListener('click', async function () {
+  const btn = this;
+  btn.disabled    = true;
+  btn.textContent = 'Kaydediliyor…';
+
+  const payload = {
+    id:               1,
+    meta_title:       document.getElementById('meta_title')?.value        ?? '',
+    meta_description: document.getElementById('meta_description')?.value  ?? '',
+    whatsapp_number:  document.getElementById('whatsapp_number')?.value   ?? '',
+    phone_number:     document.getElementById('phone_number')?.value      ?? '',
+    email_address:    document.getElementById('email_address')?.value     ?? '',
+    clinic_address:   document.getElementById('clinic_address')?.value    ?? '',
+    hours_weekday:    document.getElementById('hours_weekday')?.value     ?? '',
+    hours_saturday:   document.getElementById('hours_saturday')?.value    ?? '',
+    social_instagram: document.getElementById('social_instagram')?.value  ?? '',
+    social_youtube:   document.getElementById('social_youtube')?.value    ?? '',
+    social_linkedin:  document.getElementById('social_linkedin')?.value   ?? '',
+    google_maps_embed:document.getElementById('google_maps_embed')?.value ?? '',
+    updated_at:       new Date().toISOString(),
+  };
+
+  try {
+    const { error } = await supabaseClient
+      .from('site_ayarlari')
+      .upsert(payload, { onConflict: 'id' });
+    if (error) throw error;
+    toast('✅ Genel ayarlar kaydedildi!');
+  } catch (e) {
+    toast('❌ Kayıt hatası: ' + e.message, 'error');
+    console.error(e);
+  }
+
+  btn.disabled    = false;
+  btn.textContent = '💾 Ayarları Kaydet';
+});
+
+/* ══════════════════════════════════════════════════════════════
+   UZMANLIK ALANLARI
+══════════════════════════════════════════════════════════════ */
+async function loadSpecialty(val) {
+  const display = document.getElementById('specialty_id_display');
+  if (display) display.textContent = val || '—';
+  if (!val) return;
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('uzmanlik_alanlari')
+      .select('*')
+      .eq('slug', val)
+      .single();
+    if (error || !data) return;
+
+    const fieldMap = {
+      specialty_page_title:  'page_title',
+      specialty_hero_mark:   'hero_mark',
+      specialty_card_title:  'card_title',
+      specialty_card_desc:   'card_desc',
+      specialty_duration:    'duration',
+      specialty_hospital:    'hospital',
+      specialty_recovery:    'recovery',
+      specialty_success:     'success_rate',
+      specialty_meta_title:  'meta_title',
+      specialty_meta_desc:   'meta_desc',
+      specialty_lead:        'lead',
+      specialty_content:     'content',
+    };
+    Object.entries(fieldMap).forEach(([elId, col]) => {
+      const el = document.getElementById(elId);
+      if (el && data[col] != null) el.value = data[col];
+    });
+  } catch (e) {
+    console.error('Uzmanlık yükleme:', e.message);
+  }
+}
+
+document.getElementById('save-specialty').addEventListener('click', async function () {
+  const slug = document.getElementById('specialty_select')?.value;
+  if (!slug) { toast('Lütfen bir uzmanlık seçin.', 'error'); return; }
+
+  const btn = this;
+  btn.disabled    = true;
+  btn.textContent = 'Kaydediliyor…';
+
+  const payload = {
+    slug,
+    page_title:   document.getElementById('specialty_page_title')?.value  ?? '',
+    hero_mark:    document.getElementById('specialty_hero_mark')?.value   ?? '',
+    card_title:   document.getElementById('specialty_card_title')?.value  ?? '',
+    card_desc:    document.getElementById('specialty_card_desc')?.value   ?? '',
+    duration:     document.getElementById('specialty_duration')?.value    ?? '',
+    hospital:     document.getElementById('specialty_hospital')?.value    ?? '',
+    recovery:     document.getElementById('specialty_recovery')?.value    ?? '',
+    success_rate: document.getElementById('specialty_success')?.value     ?? '',
+    meta_title:   document.getElementById('specialty_meta_title')?.value  ?? '',
+    meta_desc:    document.getElementById('specialty_meta_desc')?.value   ?? '',
+    lead:         document.getElementById('specialty_lead')?.value        ?? '',
+    content:      document.getElementById('specialty_content')?.value     ?? '',
+    updated_at:   new Date().toISOString(),
+  };
+
+  try {
+    const { error } = await supabaseClient
+      .from('uzmanlik_alanlari')
+      .upsert(payload, { onConflict: 'slug' });
+    if (error) throw error;
+    toast('✅ Uzmanlık alanı kaydedildi!');
+  } catch (e) {
+    toast('❌ Hata: ' + e.message, 'error');
+    console.error(e);
+  }
+
+  btn.disabled    = false;
+  btn.textContent = '💾 Uzmanlığı Kaydet';
+});
+
+/* ══════════════════════════════════════════════════════════════
+   SSS YÖNETİMİ
+══════════════════════════════════════════════════════════════ */
+async function loadSSSList() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('sss')
+      .select('*')
+      .order('sira', { ascending: true });
+    if (error) throw error;
+
+    const list = document.getElementById('faqList');
+    if (!list) return;
+    list.innerHTML = '';
+
+    (data || []).forEach(item => {
+      const div = document.createElement('div');
+      div.className    = 'faq-admin-item';
+      div.dataset.id   = item.id;
+      div.innerHTML = `
+        <div class="faq-admin-q">${item.soru}</div>
+        <div class="faq-admin-a">${item.cevap}</div>
+        <div class="faq-admin-foot">
+          <span class="faq-order">Sayfa: ${item.sayfa || 'Tümü'} · Sıra: ${item.sira || 1}</span>
+          <div class="act-btns">
+            <button class="act act-del" onclick="deleteFaq(${item.id}, this)">🗑 Sil</button>
+          </div>
+        </div>`;
+      list.appendChild(div);
+    });
+  } catch (e) {
+    console.error('SSS yükleme:', e.message);
+  }
+}
+
+function toggleAddFaq() {
+  document.getElementById('addFaqForm')?.classList.toggle('open');
+}
+
+async function addFaqItem() {
+  const soru  = document.getElementById('faq_new_question')?.value.trim();
+  const cevap = document.getElementById('faq_new_answer')?.value.trim();
+  const sayfa = document.getElementById('faq_new_page')?.value    || 'all';
+  const sira  = parseInt(document.getElementById('faq_new_order')?.value) || 1;
+
+  if (!soru || !cevap) { toast('Soru ve cevap zorunludur.', 'error'); return; }
+
+  try {
+    const { error } = await supabaseClient
+      .from('sss')
+      .insert([{ soru, cevap, sayfa, sira }]);
+    if (error) throw error;
+
+    toast('✅ Soru eklendi!');
+    document.getElementById('faq_new_question').value = '';
+    document.getElementById('faq_new_answer').value   = '';
+    toggleAddFaq();
+    loadSSSList();
+  } catch (e) {
+    toast('❌ ' + e.message, 'error');
+  }
+}
+
+async function deleteFaq(id) {
+  if (!confirm('Bu soruyu silmek istediğinizden emin misiniz?')) return;
+  try {
+    const { error } = await supabaseClient
+      .from('sss')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
+
+    document.querySelector(`.faq-admin-item[data-id="${id}"]`)?.remove();
+    toast('✅ Soru silindi!');
+  } catch (e) {
+    toast('❌ ' + e.message, 'error');
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RANDEVULAR
+══════════════════════════════════════════════════════════════ */
+async function loadRandevular() {
+  try {
+    const { data, error } = await supabaseClient
+      .from('randevular')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+
+    const tbody = document.querySelector('#randevuTable tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    (data || []).forEach(r => {
+      const durum       = r.durum || 'Bekliyor';
+      const statusClass = durum === 'Bekliyor'  ? 'status-pending'
+                        : durum === 'Onaylandı' ? 'status-done'
+                        : 'status-cancelled';
+      const statusIcon  = durum === 'Bekliyor'  ? '⏳'
+                        : durum === 'Onaylandı' ? '✅' : '❌';
+      const tarih = r.tarih
+        ? new Date(r.tarih).toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' })
+        : '—';
+
+      const tr = document.createElement('tr');
+      tr.dataset.status = durum === 'Bekliyor'  ? 'bekliyor'
+                        : durum === 'Onaylandı' ? 'onaylandi' : 'iptal';
+      tr.dataset.sbId   = r.id;
+
+      tr.innerHTML = `
+        <td><strong>${r.ad_soyad  || '—'}</strong></td>
+        <td>${r.telefon           || '—'}</td>
+        <td>${r.uzmanlik_alani    || '—'}</td>
+        <td>${tarih}</td>
+        <td>${r.not_metni         || '—'}</td>
+        <td><span class="status ${statusClass}">${statusIcon} ${durum}</span></td>
+        <td><div class="act-btns">
+          ${durum === 'Bekliyor'
+            ? `<button class="act act-approve"
+                 onclick="changeRandevuDurum(${r.id},'Onaylandı',this)">✓ Onayla</button>`
+            : ''}
+          <button class="act act-del"
+            onclick="changeRandevuDurum(${r.id},'İptal',this)">✗ İptal</button>
+        </div></td>`;
+      tbody.appendChild(tr);
+    });
+  } catch (e) {
+    console.error('Randevular yükleme:', e.message);
+  }
+}
+
+async function changeRandevuDurum(id, yeniDurum) {
+  try {
+    const { error } = await supabaseClient
+      .from('randevular')
+      .update({ durum: yeniDurum })
+      .eq('id', id);
+    if (error) throw error;
+
+    toast(`✅ Durum "${yeniDurum}" olarak güncellendi!`);
+    loadRandevular();
+    loadDashboard();
+  } catch (e) {
+    toast('❌ ' + e.message, 'error');
+  }
+}
+
+/* updateAptStatus — dışarıdan çağrılabilir kısayol */
+function updateAptStatus(id, status) {
+  return changeRandevuDurum(id, status);
+}
+
+/* approveRow — eski onclick bağlantıları için geriye dönük uyumluluk */
+function approveRow(btn) {
+  const row = btn.closest('tr');
+  const id  = parseInt(row?.dataset?.sbId);
+  if (id) changeRandevuDurum(id, 'Onaylandı');
+}
+
+/* ── Randevu filtre ── */
+function filterRandevu(status) {
+  document.querySelectorAll('#randevuTable tbody tr[data-status]').forEach(r => {
+    r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none';
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SAYFA YÜKLENDİĞİNDE — AUTH DURUMUNU KONTROL ET
+══════════════════════════════════════════════════════════════ */
+(async () => {
+  try {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+      // Aktif oturum varsa login ekranını gizle
+      document.getElementById('loginScreen')?.classList.add('hidden');
+      loadDashboard();
+    }
+  } catch (e) {
+    // Oturum yoksa login ekranı açık kalır
+  }
+})();
+
 </script>
 </body>
 </html>

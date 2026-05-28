@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Paneli | Dr. Çağrı Neyişci</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ═══ TOKENS ═══ */
+:root{
+  --navy:#08111e;
+  --navy2:#0d1e33;
+  --navy3:#132b4a;
+  --blue:#1A6FA8;
+  --teal:#38BDAA;
+  --sky:#6BB8E8;
+  --glass-bg:rgba(20,42,72,.65);
+  --glass-border:rgba(107,184,232,.12);
+  --glass-border-hi:rgba(107,184,232,.28);
+  --text:#e8f0f8;
+  --text-muted:rgba(232,240,248,.42);
+  --text-dim:rgba(232,240,248,.22);
+  --success:#2dd4bf;
+  --warning:#f59e0b;
+  --error:#f87171;
+  --sidebar-w:248px;
+}
+
+/* ═══ RESET ═══ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+body{background:var(--navy);color:var(--text);height:100%;overflow:hidden;display:flex;}
+
+/* ═══ LOGIN MODAL (GÜVENLİK KALKANI) ═══ */
+#loginModal {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+}
+.login-box {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border-hi);
+  padding: 40px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.login-input-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.login-input-group label {
+  color: var(--text-muted);
+  font-size: 13px;
+  display: block;
+  margin-bottom: 6px;
+}
+.login-input-group input {
+  width: 100%;
+  background: var(--navy2);
+  border: 1px solid var(--glass-border);
+  padding: 14px;
+  border-radius: 12px;
+  color: var(--text);
+  outline: none;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+.login-input-group input:focus {
+  border-color: var(--sky);
+}
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--blue), var(--teal));
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.login-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ═══ LAYOUT ═══ */
+.container{display:flex;width:100%;height:100%;position:relative;}
+
+/* ═══ SIDEBAR ═══ */
+aside{width:var(--sidebar-w);background:var(--navy2);border-right:1px solid var(--glass-border);display:flex;flex-direction:column;padding:24px 0;}
+.brand{padding:0 24px 24px;border-bottom:1px solid var(--glass-border);margin-bottom:24px;}
+.brand h1{font-size:18px;font-weight:600;letter-spacing:-.02em;background:linear-gradient(135deg,var(--text),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.brand p{font-size:12px;color:var(--text-muted);margin-top:4px;}
+.nav-menu{list-style:none;flex:1;}
+.nav-menu li{padding:12px 24px;color:var(--text-muted);cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;gap:12px;transition:all .2s;}
+.nav-menu li:hover{color:var(--text);background:rgba(107,184,232,.04);}
+.nav-menu li.active{color:var(--text);background:rgba(107,184,232,.08);border-left:3px solid var(--sky);padding-left:21px;}
+.logout-box{padding:0 24px;}
+.btn-logout{width:100%;background:transparent;border:1px solid rgba(248,113,113,.2);color:var(--error);padding:10px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-logout:hover{background:rgba(248,113,113,.08);border-color:var(--error);}
+
+/* ═══ MAIN CONTENT ═══ */
+main{flex:1;background:var(--navy);padding:40px;overflow-y:auto;position:relative;}
+section{display:none;max-width:880px;animation:fadeIn .3s ease-out;}
+section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+.sec-head{margin-bottom:32px;}
+.sec-head h2{font-size:24px;font-weight:600;letter-spacing:-.02em;}
+.sec-head p{font-size:14px;color:var(--text-muted);margin-top:4px;}
+
+/* ═══ FORMS & CARDS ═══ */
+.panel-card{background:var(--glass-bg);border:1px solid var(--glass-border);backdrop-filter:blur(12px);border-radius:20px;padding:32px;margin-bottom:24px;}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-bottom:24px;}
+.form-group.full{grid-column:span 2;}
+.form-group label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;font-weight:500;}
+.form-group input, .form-group textarea, .form-group select{width:100%;background:var(--navy2);border:1px solid var(--glass-border);border-radius:12px;color:var(--text);padding:14px;font-size:14px;outline:none;transition:all .2s;}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus{border-color:var(--glass-border-hi);background:var(--navy3);}
+.form-group textarea{height:120px;resize:vertical;}
+
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--teal));border:none;color:#fff;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{opacity:.95;transform:translateY(-1px);}
+
+/* ── BENTO SELECTOR ── */
+.specialty-selector{display:flex;align-items:center;gap:16px;background:rgba(107,184,232,.04);border:1px solid var(--glass-border);padding:16px 24px;border-radius:16px;margin-bottom:32px;}
+.specialty-selector select{background:var(--navy2);border:1px solid var(--glass-border);color:var(--text);padding:10px 16px;border-radius:10px;font-size:14px;outline:none;cursor:pointer;}
+
+/* ── SSS LIST ── */
+.faq-admin-list{display:flex;flex-direction:column;gap:16px;margin-top:24px;}
+.faq-admin-item{background:var(--navy2);border:1px solid var(--glass-border);border-radius:14px;padding:20px;}
+.faq-admin-q{font-weight:600;font-size:15px;margin-bottom:6px;color:var(--sky);}
+.faq-admin-a{font-size:14px;color:var(--text-muted);line-height:1.5;}
+.faq-admin-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid rgba(232,240,248,.04);font-size:12px;}
+.faq-order{color:var(--text-dim);}
+.act-btns{display:flex;gap:8px;}
+.act{background:transparent;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;transition:all .1s;}
+.act-edit{color:var(--sky);background:rgba(107,184,232,.06);}
+.act-edit:hover{background:rgba(107,184,232,.12);}
+.act-del{color:var(--error);background:rgba(248,113,113,.06);}
+.act-del:hover{background:rgba(248,113,113,.12);}
+
+.add-faq-form{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(0.4,0,0.2,1);margin-bottom:0;}
+.add-faq-form.open{max-height:400px;margin-bottom:24px;}
+
+/* ── TABLE ── */
+.apt-table-wrap{width:100%;overflow-x:auto;}
+.apt-table{width:100%;border-collapse:collapse;text-align:left;font-size:14px;}
+.apt-table th{padding:16px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--glass-border);font-size:13px;}
+.apt-table td{padding:18px 16px;border-bottom:1px solid rgba(232,240,248,.04);}
+.apt-table tr:hover td{background:rgba(107,184,232,.02);}
+.badge{display:inline-flex;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:500;}
+.badge-teal{background:rgba(56,189,170,.1);color:var(--teal);}
+.status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+.status-waiting{background:var(--warning);}
+</style>
+</head>
+<body>
+
+<div id="loginModal">
+  <div class="login-box">
+    <h2 style="color: var(--text); margin-bottom: 8px; font-weight: 600;">Yönetici Girişi</h2>
+    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Dr. Çağrı Neyişci Yönetim Paneli</p>
+    
+    <div class="login-input-group">
+      <label>E-Posta Adresi</label>
+      <input type="email" id="login_email" placeholder="doktor@eposta.com">
+    </div>
+    
+    <div class="login-input-group">
+      <label>Şifre</label>
+      <input type="password" id="login_password" placeholder="••••••••">
+    </div>
+    
+    <button class="login-btn" onclick="handleLogin(this)">Güvenli Giriş Yap</button>
+  </div>
+</div>
+
+<div class="container">
+  
+  <aside>
+    <div class="brand">
+      <h1>Dr. Çağrı Neyişci</h1>
+      <p>Yönetim Paneli v1.0</p>
+    </div>
+    <ul class="nav-menu">
+      <li class="active" onclick="showSection('general', this)">⚙️ Genel Ayarlar</li>
+      <li onclick="showSection('specialties', this)">🦴 Uzmanlık Alanları</li>
+      <li onclick="showSection('faq', this)">❓ SSS Yönetimi</li>
+      <li onclick="showSection('appointments', this)">📅 Gelen Randevular</li>
+    </ul>
+    <div class="logout-box">
+      <button class="btn-logout" onclick="handleLogout()">🔒 Güvenli Çıkış</button>
+    </div>
+  </aside>
+
+  <main>
+    
+    <section id="general" class="active">
+      <div class="sec-head">
+        <h2>Genel Ayarlar</h2>
+        <p>Sitenin arama motoru (SEO) başlıklarını ve temel iletişim bilgilerini dinamik güncelleyin.</p>
+      </div>
+      <div class="panel-card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Site Ana Başlığı (Meta Title)</label>
+            <input type="text" id="meta_title" value="Dr. Çağrı Neyişci | Ortopedi Uzman">
+          </div>
+          <div class="form-group">
+            <label>WhatsApp Randevu Hattı</label>
+            <input type="text" id="whatsapp_no" value="905XXXXXXXXX">
+          </div>
+          <div class="form-group full">
+            <label>Site Açıklaması (Meta Description)</label>
+            <textarea id="meta_description">Dr. Çağrı Neyişci — Ortopedi ve Travmatoloji Uzmanı. Minimal invaziv cerrahi çözümleri.</textarea>
+          </div>
+          <div class="form-group">
+            <label>Klinik İrtibat Telefonu</label>
+            <input type="text" id="telefon_no" value="905XXXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Klinik Adresi</label>
+            <input type="text" id="klinik_adres" placeholder="Klinik adresini girin">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveSettings(this)">⚡ Değişiklikleri Veritabanına Kaydet</button>
+      </div>
+    </section>
+
+    <section id="specialties">
+      <div class="sec-head">
+        <h2>Uzmanlık Alanları Yönetimi</h2>
+        <p>Bento Grid alanlarını ve ameliyat detay sayfalarındaki metrikleri gerçek zamanlı yönetin.</p>
+      </div>
+      
+      <div class="specialty-selector">
+        <label style="font-size:14px; font-weight:500;">Düzenlenecek Uzmanlık Alanı:</label>
+        <select id="specialty_select" onchange="loadSpecialty(this.value)">
+          <option value="">— Seçim Yapın —</option>
+          <option value="kalca-protezi">Kalça Protezi Ameliyatı</option>
+          <option value="diz-protezi">Diz Protezi Cerrahi</option>
+          <option value="omuz-artroskopisi">Omuz Artroskopisi</option>
+          <option value="on-capraz-bag">Ön Çapraz Bağ (ACL)</option>
+        </select>
+        <span style="font-size:12px; color:var(--text-dim)">ID: <span id="specialty_id_display">—</span></span>
+      </div>
+
+      <div class="panel-card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Sayfa / Ameliyat Başlığı</label>
+            <input type="text" id="specialty_page_title" placeholder="Örn: Kalça Protezi Ameliyatı">
+          </div>
+          <div class="form-group">
+            <label>Ameliyat Süresi</label>
+            <input type="text" id="op_time" placeholder="Örn: 60 - 90 Dakika">
+          </div>
+          <div class="form-group full">
+            <label>Bento Grid Kısa Açıklaması (Ana Sayfa Özeti)</label>
+            <textarea id="specialty_bento_desc" style="height:70px;" placeholder="Ana sayfadaki asimetrik bento kartın içinde görünecek 2 cümlelik özet..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Hastanede Kalış Süresi</label>
+            <input type="text" id="hosp_stay" placeholder="Örn: 2 - 3 Gün">
+          </div>
+          <div class="form-group">
+            <label>Tam İyileşme Süresi</label>
+            <input type="text" id="recovery_time" placeholder="Örn: 4 - 6 Hafta">
+          </div>
+        </div>
+        <button class="btn-primary">⚡ Uzmanlık Alanını Güncelle</button>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="sec-head">
+        <h2>Sıkça Sorulan Sorular (SSS)</h2>
+        <p>Hastalardan gelen popüler tıbbi soruları admin panelinden ekleyip çıkartın.</p>
+      </div>
+      
+      <button class="btn-primary" style="margin-bottom:24px;" onclick="toggleAddFaq()">➕ Yeni Soru Ekle</button>
+      
+      <div class="panel-card add-faq-form" id="addFaqForm">
+        <div class="form-grid" style="margin-bottom:16px;">
+          <div class="form-group full">
+            <label>Soru Metni</label>
+            <input type="text" id="faq_new_question" placeholder="Örn: Kalça protezi ameliyatı sonrası ne zaman yürüyebilirim?">
+          </div>
+          <div class="form-group full">
+            <label>Cevap Metni (Detaylı Açıklama)</label>
+            <textarea id="faq_new_answer" placeholder="Ameliyatın ertesi günü fizyoterapist eşliğinde kısmi yük vererek..."></textarea>
+          </div>
+        </div>
+        <button class="btn-primary" style="background:var(--success); color:var(--navy);" onclick="addFaqItem()">💾 Listeye Dahil Et</button>
+      </div>
+
+      <div class="panel-card">
+        <h3 style="font-size:16px; font-weight:600; margin-bottom:16px;">Canlı SSS Listesi</h3>
+        <div id="faqList" class="faq-admin-list">
+          </div>
+      </div>
+    </section>
+
+    <section id="appointments">
+      <div class="sec-head">
+        <h2>Gelen Randevu Talepleri</h2>
+        <p>Web sitesindeki takvim formundan düşen hastaların listesi gerçek zamanlı burada listelenir.</p>
+      </div>
+      <div class="panel-card">
+        <div class="apt-table-wrap">
+          <table class="apt-table">
+            <thead>
+              <tr>
+                <th>Hasta Adı Soyadı</th>
+                <th>Telefon Numarası</th>
+                <th>İlgili Uzmanlık</th>
+                <th>Talep Edilen Tarih</th>
+                <th>Durum</th>
+                <th>Aksiyonlar</th>
+              </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ============================================================
+   VERİTABANI BAĞLANTI AYARLARI
+   ============================================================ */
+// Kendi Supabase panelinden aldığın verileri tam buraya yapıştır kral!
+const SUPABASE_URL = "https://eiuyluyysyfphggkshad.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdXlsdXl5c3lmcGhnZ2tzaGFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2NDU4NTUsImV4cCI6MjA5NTIyMTg1NX0.ehlSS8_uzkwnzcMFANz5YuUl37NTi9a5S_vSwz-n0Jc";
+
+//const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Sayfa ilk yüklendiğinde doğrudan güvenlik kalkanını tetikliyoruz
+document.addEventListener("DOMContentLoaded", async () => {
+    await checkAuth(); 
+});
+
+/* ============================================================
+   1. GÜVENLİK VE KİMLİK DOĞRULAMA (AUTH MECHANISM)
+   ============================================================ */
+async function checkAuth() {
+    try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        const loginModal = document.getElementById('loginModal');
+        
+        if (!session || error) {
+            if (loginModal) loginModal.style.display = 'flex';
+        } else {
+            if (loginModal) loginModal.style.display = 'none';
+            // Oturum geçerliyse tüm canlı verileri arka planda yükle
+            loadGeneralSettings();
+            loadAppointments();
+        }
+    } catch (err) {
+        console.error("Auth kontrol hatası:", err);
+    }
+}
+
+// Giriş butonuna tıklanınca çalışan fonksiyon
+// Giriş butonuna tıklanınca çalışan fonksiyon
+// 🔥 YENİ SIFIR HATALI GİRİŞ MOTORU
+async function handleLogin(btn) {
+    const email = document.getElementById('login_email').value.trim();
+    const password = document.getElementById('login_password').value.trim();
+    
+    if(!email || !password) {
+        alert("Lütfen e-posta ve şifrenizi girin.");
+        return;
+    }
+    
+    const orig = btn.innerHTML;
+    btn.innerHTML = "🔒 Doğrulanıyor...";
+    btn.disabled = true;
+
+    try {
+        // Supabase v2 için en kararlı auth fonksiyonu
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            // Supabase'den dönen gerçek hatayı ekrana basıyoruz
+            console.error("Supabase Hata Detayı:", error);
+            alert("Giriş Başarısız!\nSistem Mesajı: " + error.message);
+            btn.innerHTML = orig;
+            btn.disabled = false;
+        } else {
+            btn.innerHTML = "🔓 Giriş Başarılı! Yönlendiriliyorsunuz...";
+            btn.style.background = "#2dd4bf";
+            setTimeout(() => {
+                window.location.reload(); 
+            }, 800);
+        }
+    } catch (err) {
+        console.error("Kod Blok Hatası:", err);
+        alert("Bağlantı hatası! Lütfen internetinizi veya Supabase URL bilginizi kontrol edin.");
+        btn.innerHTML = orig;
+        btn.disabled = false;
+    }
+}
+
+async function handleLogout() {
+    await supabase.auth.signOut();
+    window.location.reload();
+}
+
+/* ============================================================
+   2. SEKME GEÇİŞLERİ VE UI KODLARI
+   ============================================================ */
+function showSection(id, btn) {
+    document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-menu li').forEach(l => l.classList.remove('active'));
+    
+    const target = document.getElementById(id);
+    if(target) target.classList.add('active');
+    if(btn) btn.classList.add('active');
+}
+
+/* ── Genel Ayarları Kaydetme (Database Push) ── */
+async function saveSettings(btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = "⌛ Kaydediliyor...";
+    
+    const updates = {
+        meta_title: document.getElementById('meta_title').value,
+        meta_description: document.getElementById('meta_description').value,
+        whatsapp_no: document.getElementById('whatsapp_no').value,
+        telefon_no: document.getElementById('telefon_no').value,
+        klinik_adres: document.getElementById('klinik_adres').value,
+        updated_at: new Date()
+    };
+
+    const { error } = await supabase.from('site_ayarlari').update(updates).eq('id', 'genel');
+
+    if(error) {
+        alert("Hata: " + error.message);
+        btn.innerHTML = orig;
+    } else {
+        btn.innerHTML = "✅ Kaydedildi!";
+        btn.style.background = "#2dd4bf";
+        setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2200);
+    }
+}
+
+/* ── Uzmanlık Seçildiğinde Veritabanından Yükleme ── */
+async function loadSpecialty(val) {
+    document.getElementById('specialty_id_display').textContent = val || '—';
+    if(!val) return;
+    
+    const { data, error } = await supabase.from('uzmanlik_alanlari').select('*').eq('slug', val).single();
+    
+    if (data) {
+        document.getElementById('specialty_page_title').value = data.baslik || '';
+        document.getElementById('specialty_bento_desc').value = data.kisa_aciklama || '';
+        document.getElementById('op_time').value = data.ameliyat_suresi || '';
+        document.getElementById('hosp_stay').value = data.hastanede_kalis || '';
+        document.getElementById('recovery_time').value = data.iyilesme_suresi || '';
+    } else {
+        document.getElementById('specialty_page_title').value = val.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+        document.getElementById('specialty_bento_desc').value = '';
+    }
+}
+
+/* ── SSS Yapıları ── */
+function toggleAddFaq() {
+    const f = document.getElementById('addFaqForm');
+    f.classList.toggle('open');
+}
+
+function addFaqItem() {
+    const q = document.getElementById('faq_new_question').value.trim();
+    const a = document.getElementById('faq_new_answer').value.trim();
+    if(!q||!a) return alert('Soru ve cevap zorunludur');
+    
+    const li = document.createElement('div');
+    li.className = 'faq-admin-item';
+    li.innerHTML = `<div class="faq-admin-q">${q}</div><div class="faq-admin-a">${a}</div><div class="faq-admin-foot"><span class="faq-order">Yeni eklendi</span><div class="act-btns"><button class="act act-del" onclick="this.closest('.faq-admin-item').remove()">🗑 Sil</button></div></div>`;
+    document.getElementById('faqList').prepend(li);
+    document.getElementById('faq_new_question').value = '';
+    document.getElementById('faq_new_answer').value = '';
+    toggleAddFaq();
+}
+
+/* ============================================================
+   3. VERİTABANINDAN CANLI YÜKLEME SORGULARI (BACKEND FETCH)
+   ============================================================ */
+async function loadGeneralSettings() {
+    try {
+        const { data, error } = await supabase.from('site_ayarlari').select('*').eq('id', 'genel').single();
+        if (data) {
+            if(document.getElementById('meta_title')) document.getElementById('meta_title').value = data.meta_title || '';
+            if(document.getElementById('meta_description')) document.getElementById('meta_description').value = data.meta_description || '';
+            if(document.getElementById('whatsapp_no')) document.getElementById('whatsapp_no').value = data.whatsapp_no || '';
+            if(document.getElementById('telefon_no')) document.getElementById('telefon_no').value = data.telefon_no || '';
+            if(document.getElementById('klinik_adres')) document.getElementById('klinik_adres').value = data.klinik_adres || '';
+        }
+    } catch(e) { console.error(e); }
+}
+
+async function loadAppointments() {
+    try {
+        const { data, error } = await supabase.from('randevular').select('*').order('id', { ascending: false });
+        if(data && document.querySelector('.apt-table tbody')) {
+            const tableBody = document.querySelector('.apt-table tbody');
+            tableBody.innerHTML = '';
+            data.forEach(apt => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><strong>${apt.ad_soyad}</strong></td>
+                        <td><a href="tel:${apt.telefon}" style="color:var(--sky)">${apt.telefon}</a></td>
+                        <td><span class="badge badge-teal">${apt.uzmanlik_alani}</span></td>
+                        <td>${apt.tarih}</td>
+                        <td><span class="status-dot status-waiting"></span> ${apt.durum}</td>
+                        <td>
+                            <div class="act-btns">
+                                <button class="act act-edit" onclick="updateAptStatus(${apt.id}, 'Onaylandı')">✅ Onayla</button>
+                                <button class="act act-del" onclick="updateAptStatus(${apt.id}, 'Tamamlandı')">🏁 Bitir</button>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+        }
+    } catch(e) { console.error(e); }
+}
+
+async function updateAptStatus(id, status) {
+    await supabase.from('randevular').update({ durum: status }).eq('id', id);
+    loadAppointments();
+}
+</script>
+</body>
+</html>
